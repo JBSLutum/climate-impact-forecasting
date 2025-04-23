@@ -14,6 +14,7 @@ Day of the year the temperature induces growth start (Spear starts growing at 14
 "Day of the year for the 24th of june, traditonal season end",season end,season_end_doy,norm,175,,176
 optimal yield for area,standard yield,expected_yield,norm,8000,,12000
 optimal season length for area,standard season,expected_season_length,norm,60,,90
+days how long the first spear grow till first harvest,speargrowth,speargrowth,norm,6,,10
 risk for late frost occurrence during spear growth,late frost,late_frost_risk,tnorm_0_1,0.05,,0.25
 possible damage done by late frost events during spear growth,frost damage,late_frost_damage,tnorm_0_1,0.1,,0.3
 risk for rapid temperature fluctuations that harm spear during spear growth,temp fluctuations,temp_fluctuation_risk,tnorm_0_1,0.05,,0.15

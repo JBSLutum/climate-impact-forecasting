@@ -39,8 +39,8 @@ chill_requirement <- function(required_chill, actual_chill) {
   return(chillratio)
 }
 #Season Length####
-season_length <- function(growth_start_day, season_end_day) {
-  days <- season_end_day - growth_start_day + 1  # Inclusive the start day (+1)
+season_length <- function(growth_start_day,days_till_harvest,season_end_day) {
+  days <- season_end_day - (growth_start_day + days_till_harvest)  # Inclusive the start days for first spear growth
   days <- max(days, 0)  # Prevent negative values if start is after end
   return(days)
 }
@@ -115,6 +115,7 @@ actual_chill <- chill_portions
 growth_start_day <- growth_start_doy
 season_end_day <- season_end_doy
 standard_yield <- expected_yield
+days_till_harvest <- speargrowth
 standard_season_length <- expected_season_length
 late_frost_occ <- chance_event(late_frost_risk,
                                value_if = late_frost_damage,
@@ -147,6 +148,7 @@ chill <- chill_requirement(
 # part 3: Determine season length
 season <- season_length(
   growth_start_day,
+  days_till_harvest,
   season_end_day
 )
 
@@ -172,12 +174,39 @@ return(list(    actual_yield = yield[1],
 scenario_today<-read.csv("asparagus/asparagus_today.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 ####Simulation run: today####
 sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
-                        outputPath='asparagus/results',
              model_function = asparagus_sim,
              numberOfModelRuns = 10000,
              functionSyntax = "plainNames")
 saveRDS(sim_today, "asparagus/MC_results/MC_results_today.RDS")
 write.csv(sim_today, "asparagus/MC_results/MC_results_today.csv")
+
+scenario_245<-read.csv("asparagus/asparagus_245.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+####Simulation run: ssp245####
+sim_245<-mcSimulation(estimate = as.estimate(scenario_245),
+                        model_function = asparagus_sim,
+                        numberOfModelRuns = 10000,
+                        functionSyntax = "plainNames")
+saveRDS(sim_245, "asparagus/MC_results/MC_results_245.RDS")
+write.csv(sim_245, "asparagus/MC_results/MC_results_245.csv")
+
+scenario_370<-read.csv("asparagus/asparagus_370.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+####Simulation run: ssp370####
+sim_370<-mcSimulation(estimate = as.estimate(scenario_370),
+                      model_function = asparagus_sim,
+                      numberOfModelRuns = 10000,
+                      functionSyntax = "plainNames")
+saveRDS(sim_370, "asparagus/MC_results/MC_results_370.RDS")
+write.csv(sim_370, "asparagus/MC_results/MC_results_370.csv")
+
+scenario_585<-read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+####Simulation run: ssp585####
+sim_585<-mcSimulation(estimate = as.estimate(scenario_585),
+                      model_function = asparagus_sim,
+                      numberOfModelRuns = 10000,
+                      functionSyntax = "plainNames")
+saveRDS(sim_585, "asparagus/MC_results/MC_results_585.RDS")
+write.csv(sim_585, "asparagus/MC_results/MC_results_585.csv")
+
 '
 decisionSupport("asparagus/asparagus_today.csv",
                 outputPath='asparagus/results',
