@@ -1,5 +1,5 @@
 Description,label,variable,distribution,lower,median,upper
-Number of days in the crowd phase with optimal conditions for photosynthesis ,PAD,photosynthetic_active_days,norm,90,,130
+Number of days in the crowd phase with optimal conditions for photosynthesis ,PAD,photosynthetic_active_days,norm,90,,120
 Risk for drought stress in crowd phase,risk drought,water_stress_risk,tnorm_0_1,0.2,,0.5
 Possible damage done by drought,damage drought,water_stress_damage,tnorm_0_1,0.05,,0.25
 Risk for disease related stress in crowd phase,risk disease,disease_risk,tnorm_0_1,0.2,,0.4
@@ -10,10 +10,10 @@ Possible damage done by insects,damage insects,insect_damage,tnorm_0_1,0.05,,0.2
 Possible damage done by weather events,damage weather events,weather_damage,tnorm_0_1,0.05,,0.2
 Amount of chill needed by plant for optimal field emergence,chill need,chill_need,norm,750,,850
 Amount of chill received this winter,chill received,chill_portions,norm,500,,1350
-Day of the year the temperature induces growth start (Spear starts growing at 14 degree soil temp),growth start,growth_start_doy,norm,70,,100
+Day of the year the temperature induces growth start (Spear starts growing at 14 degree soil temp),growth start,growth_start_doy,norm,65,,90
 "Day of the year for the 24th of june, traditonal season end",season end,season_end_doy,norm,175,,176
 optimal yield for area,standard yield,expected_yield,norm,8000,,12000
-optimal season length for area,standard season,expected_season_length,norm,75,,105
+optimal season length for area,standard season,expected_season_length,norm,80,,90
 days how long the first spear grow till first harvest,speargrowth,speargrowth,norm,5,,9
 risk for late frost occurrence during spear growth,late frost,late_frost_risk,tnorm_0_1,0.15,,0.35
 possible damage done by late frost events during spear growth,frost damage,late_frost_damage,tnorm_0_1,0.1,,0.3

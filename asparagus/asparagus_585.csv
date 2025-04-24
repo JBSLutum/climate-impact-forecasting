@@ -10,16 +10,16 @@ Possible damage done by insects,damage insects,insect_damage,tnorm_0_1,0.05,,0.2
 Possible damage done by weather events,damage weather events,weather_damage,tnorm_0_1,0.05,,0.2
 Amount of chill needed by plant for optimal field emergence,chill need,chill_need,norm,750,,850
 Amount of chill received this winter,chill received,chill_portions,norm,450,,1300
-Day of the year the temperature induces growth start (Spear starts growing at 14 degree soil temp),growth start,growth_start_doy,norm,65,,95
+Day of the year the temperature induces growth start (Spear starts growing at 14 degree soil temp),growth start,growth_start_doy,norm,60,,85
 "Day of the year for the 24th of june, traditonal season end",season end,season_end_doy,norm,175,,176
 optimal yield for area,standard yield,expected_yield,norm,8000,,12000
-optimal season length for area,standard season,expected_season_length,norm,80,,110
+optimal season length for area,standard season,expected_season_length,norm,85,,100
 days how long the first spear grow till first harvest,speargrowth,speargrowth,norm,5,,8
 risk for late frost occurrence during spear growth,late frost,late_frost_risk,tnorm_0_1,0.2,,0.4
 possible damage done by late frost events during spear growth,frost damage,late_frost_damage,tnorm_0_1,0.1,,0.3
 risk for rapid temperature fluctuations that harm spear during spear growth,temp fluctuations,temp_fluctuation_risk,tnorm_0_1,0.2,,0.3
-possible damage done by rapid temp fluctuations,damage fluctuations,temp_fluctuation_damage,tnorm_0_1,0.05,,0.15
+possible damage done by rapid temp fluctuations,damage fluctuations,temp_fluctuation_damage,tnorm_0_1,0.1,,0.3
 risk for heavy rainfall events during harvest time that makes the harvest harder,extreme rain harvest,extreme_rainfall_risk,tnorm_0_1,0.2,,0.35
-Possible damage done by heavy rainfall events ,damage rain,extreme_rainfall_damage,tnorm_0_1,0.05,,0.1
+Possible damage done by heavy rainfall events ,damage rain,extreme_rainfall_damage,tnorm_0_1,0.1,,0.3
 risk for extreme heat events during harvest,extreme heat harvest,extreme_heat_risk,tnorm_0_1,0.2,,0.35
-Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.05,,0.3
+Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.1,,0.3
