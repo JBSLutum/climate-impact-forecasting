@@ -5,6 +5,7 @@ library(grid)
 library(patchwork)
 library(tidyverse)
 library(decisionSupport)
+library(dplyr)
 
 #Prepare formatting functions####
 options(scipen=100000)
@@ -145,6 +146,108 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   labs(caption = "*This variable has a negative value. A less negative i.e. higher value positively influences\nthe high-quality yield, as the fruit growth is inhibited less strongly.")
 
 dev.off()
+####pls+vip+plot total yield####
+#PLS regression to compute the Variable Importance in Projection (VIP) for total yield#
+pls_result_today_tyield <- plsr.mcSimulation(object = sim_results_today,
+                                           resultName = names(sim_results_today$y)[1], ncomp = 1)
+pls_result_245_tyield <- plsr.mcSimulation(object = sim_results_245,
+                                         resultName = names(sim_results_245$y)[1], ncomp = 1)
+pls_result_370_tyield <- plsr.mcSimulation(object = sim_results_370,
+                                         resultName = names(sim_results_370$y)[1], ncomp = 1)
+pls_result_585_tyield <- plsr.mcSimulation(object = sim_results_585,
+                                         resultName = names(sim_results_585$y)[1], ncomp = 1)
+
+
+#restructure PLS results
+pls_result_today_tyield_table<-VIP_table(pls_result_today_tyield, input_table = sim_today_input, threshold = 0)
+pls_result_245_tyield_table<-VIP_table(pls_result_245_tyield, input_table = sim_245_input, threshold = 0)
+pls_result_370_tyield_table<-VIP_table(pls_result_370_tyield, input_table = sim_370_input, threshold = 0)
+pls_result_585_tyield_table<-VIP_table(pls_result_585_tyield, input_table = sim_585_input, threshold = 0)
+
+
+
+#separate the variable descriptions
+variablen_VIP<-pls_result_today_tyield_table$Description
+
+#extract important values from the PLS results
+VIP_tyieldsim1<-pls_result_today_tyield_table$VIP
+Coef_tyieldsim1<-pls_result_today_tyield_table$Coefficient
+VIP_tyieldsim245<-pls_result_245_tyield_table$VIP
+Coef_tyieldsim245<-pls_result_245_tyield_table$Coefficient
+VIP_tyieldsim370<-pls_result_370_tyield_table$VIP
+Coef_tyieldsim370<-pls_result_370_tyield_table$Coefficient
+VIP_tyieldsim585<-pls_result_585_tyield_table$VIP
+Coef_tyieldsim585<-pls_result_585_tyield_table$Coefficient
+
+#create a data frame, with variable description, VIP and Coefficient 
+VIP_tyield_sim_all<-data.frame(variablen_VIP,
+                             VIP_tyieldsim1,
+                             VIP_tyieldsim245,
+                             VIP_tyieldsim370,
+                             VIP_tyieldsim585)
+Coef_tyield_sim_all<-data.frame(variablen_VIP,
+                              Coef_tyieldsim1,
+                              Coef_tyieldsim245,
+                              Coef_tyieldsim370,
+                              Coef_tyieldsim585)
+VIP_and_Coef_tyield<-data.frame(variablen_VIP,
+                              VIP_tyieldsim1,
+                              Coef_tyieldsim1,
+                              VIP_tyieldsim245,
+                              Coef_tyieldsim245,
+                              VIP_tyieldsim370,
+                              Coef_tyieldsim370,
+                              VIP_tyieldsim585,
+                              Coef_tyieldsim585)
+
+#set the threshold for important variables to a VIP > 1
+VIP_and_Coef_tyield_threshold<-subset(VIP_and_Coef_tyield, abs(VIP_and_Coef_tyield$VIP_tyieldsim1)>0.5|
+                                      abs(VIP_and_Coef_tyield$VIP_tyieldsim245)>0.5|
+                                      abs(VIP_and_Coef_tyield$VIP_tyieldsim370)>0.5|
+                                      abs(VIP_and_Coef_tyield$VIP_tyieldsim585)>0.5)
+
+#Restructure data frame
+VIP_and_Coef_tyield_threshold_longer<-VIP_and_Coef_tyield_threshold%>%
+  pivot_longer(cols = !variablen_VIP, names_to = c(".value","tyieldsim"), names_sep = "_")
+
+#add new column with the information if the coefficient is positive or negative
+VIP_and_Coef_tyield_threshold_longer$PosNeg<-ifelse(VIP_and_Coef_tyield_threshold_longer$Coef>0,"positive","negative")
+
+#add new column for VIP where all variables with a VIP <1 get the value "NA"
+VIP_and_Coef_tyield_threshold_longer$VIP_threshold_corr<-ifelse(VIP_and_Coef_tyield_threshold_longer$VIP>=0.5,VIP_and_Coef_tyield_threshold_longer$VIP, NA )
+
+#could read in images as labels for the plot
+labels <- c("today", "245", "370","585")
+
+#Plot the VIP results
+png("asparagus/Figures/VIP_tyield.png", pointsize=10, width=4500, height=6100, res=600)
+
+ggplot(VIP_and_Coef_tyield_threshold_longer, aes(tyieldsim, forcats::fct_rev(variablen_VIP), color = PosNeg, size = VIP_threshold_corr)) +
+  geom_point(shape = 16, stroke = 0) +
+  geom_hline(yintercept = seq(.5, 30.5, 1), linewidth = .2, color= "gray75") +
+  #scale_x_discrete() +
+  scale_radius(range = c(0.5, 9)) +
+  scale_color_manual(values = c("negative"="red", "positive"="blue"))  +
+  theme_minimal() +
+  theme(legend.position = "bottom", 
+        panel.grid.major = element_blank(),
+        legend.text = element_text(size = 8),
+        legend.title = element_text(size = 8),
+        axis.text = element_text(color = "black"),
+        axis.text.x = ggtext::element_markdown()) +
+  guides(size = guide_legend(override.aes = list(fill = NA, color = "black", stroke = .25), 
+                             label.position = "bottom",
+                             title.position = "top", 
+                             order = 1),
+         fill = guide_colorbar(ticks.colour = NA, order = 2)) +
+  labs(size = "Area = VIP", color = "Coefficient", x = NULL, y = NULL)+
+  scale_x_discrete(labels=labels, position = "top")+
+  geom_vline(xintercept = seq(0.5,5.5,1), linewidth=.2, color="gray75")+
+  theme(plot.caption = element_text(hjust = 0),
+        plot.caption.position =  "plot")+
+  labs(caption = "*This variable has a negative value. A less negative i.e. higher value positively influences\nthe total yield, as the fruit growth is inhibited less strongly.")
+
+dev.off()
 
 ####pls+vip+plot quality####
 #PLS regression to compute the Variable Importance in Projection (VIP) for quality#
@@ -272,3 +375,8 @@ results_yield_all_longer<- pivot_longer(results_yield_all, cols = c(total_yield,
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_boxplot()
+
+library(ggstance)
+ggplot(results_yield_all_longer, aes(x=value, fill=name))+
+  geom_boxploth(aes(x = value, y = 2.5), width = 5)+
+  facet_wrap(~scenario, ncol=1)

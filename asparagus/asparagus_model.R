@@ -47,9 +47,9 @@ season_length <- function(growth_start_day,days_till_harvest,season_end_day) {
 #Harvest Season####
 yield_estimate <- function(
     standard_yield,
-    growth_potential,       # 0-1
-    chill_ratio,            # 0-1
-    season_length,          # actual season length
+    gp,       #growth potential 0-1
+    chill,            # chill ratio 0-1
+    season_days,          # actual season length
     standard_season_length, # reference full-length season
     
     # Quality risks
@@ -59,9 +59,9 @@ yield_estimate <- function(
     extreme_heat_occ
 ) {
   # 1. Base yield under perfect conditions scaled by growth factors
-  season_factor <- season_length / standard_season_length
-  season_factor <- max(min(season_factor, 1), 0)
-  actual_yield <- standard_yield * growth_potential * chill_ratio * season_factor
+  season_factor <- season_days / standard_season_length
+  #season_factor <- max(min(season_factor, 1), 0)
+  actual_yield <- standard_yield * gp * chill * season_factor
   
   # 2. Quality risk evaluation
   total_quality_loss <- 0
@@ -147,7 +147,7 @@ chill <- chill_requirement(
 )
 
 # part 3: Determine season length
-season <- season_length(
+season_days <- season_length(
   growth_start_day,
   days_till_harvest,
   season_end_day
@@ -156,9 +156,9 @@ season <- season_length(
 # part 4: Estimate yield
 yield <- yield_estimate(
   standard_yield,
-  growth_potential = gp,
-  chill_ratio = chill,
-  season_length = season,
+  gp,
+  chill,
+  season_days,
   standard_season_length,
   
   late_frost_occ,
