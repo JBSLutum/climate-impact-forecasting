@@ -23,3 +23,5 @@ risk for heavy rainfall events during harvest time that makes the harvest harder
 Possible damage done by heavy rainfall events ,damage rain,extreme_rainfall_damage,tnorm_0_1,0.1,,0.3
 risk for extreme heat events during harvest,extreme heat harvest,extreme_heat_risk,tnorm_0_1,0.2,,0.35
 Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.1,,0.3
+Quality losses that reduce marketable yield,quality loss,quality_loss,const,0,,0
+Growth potential accumulated during vegetative phase,growth potential,growth_potential,const,0,,0
