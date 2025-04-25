@@ -60,7 +60,7 @@ yield_estimate <- function(
 ) {
   # 1. Base yield under perfect conditions scaled by growth factors
   season_factor <- season_days / standard_season_length
-  #season_factor <- max(min(season_factor, 1), 0)
+  season_factor <- max(min(season_factor, 1), 0)
   actual_yield <- standard_yield * gp * chill * season_factor
   
   # 2. Quality risk evaluation
