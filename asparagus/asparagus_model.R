@@ -2,6 +2,9 @@ library(decisionSupport)
 
 
 #Growth Potential####
+#This function calculates the growth potential the asparagus plant accumulates
+#during their vegetative crowd phase over the summer
+#time point 24th of June till November
 growth_potential <- function(pad, 
                              water_stress_occ, 
                              disease_occ, 
@@ -32,19 +35,35 @@ growth_potential <- function(pad,
   return(potential)
 }
 
-#Chill Requirment####
+#Chill Requirement####
+#This function checks if the chill requirement of the plant is met
+#Since the plant would grow even with no chill accumulated the output is a ratio
+#time point November till Spring
 chill_requirement <- function(required_chill, actual_chill) {
-  chillratio<-actual_chill/required_chill
-  chillratio <- max(min(chillratio, 1), 0)
+  if (required_chill > 0){
+    chillratio<-actual_chill/required_chill
+    chillratio <- max(min(chillratio, 1), 0)}
+  else {chillratio <- 1}
   return(chillratio)
 }
 #Season Length####
+#This function calculates the length of a season
+#as soon as growth conditions (soil temp > 14°) are met the spear starts growing
+#the season end in Germany is additionally the 24th of June
+#time point spring
 season_length <- function(growth_start_day,days_till_harvest,season_end_day) {
   days <- season_end_day - (growth_start_day + days_till_harvest)  # Inclusive the start days for first spear growth
   days <- max(days, 0)  # Prevent negative values if start is after end
   return(days)
 }
 #Harvest Season####
+#This function estimates the yield of asparagus over the season
+#the total yield that comes from the field is determined by:
+#accumulated growth potential, if the chill requirement is met, and the season length
+#the marketable yield is determined by the quality of the spears
+#weather influences the quality directly via frost, heat and rapid temperature fluctuations
+#and indirectly by prohibiting harvesting on time because of rain or heat
+#the fieldworker cant get on the field
 yield_estimate <- function(
     standard_yield,
     gp,       #growth potential 0-1
@@ -91,11 +110,11 @@ yield_estimate <- function(
 }
 
 
-
+#Simulation run####
 asparagus_sim<-function(){
   
-#Simulation run####
-#variable initiation
+
+#variable initiation----
 pad <- photosynthetic_active_days
 water_stress_occ <- chance_event(water_stress_risk,
                                       value_if = water_stress_damage,
@@ -130,7 +149,7 @@ extreme_rainfall_occ <- chance_event(extreme_rainfall_risk,
 extreme_heat_occ <- chance_event(extreme_heat_risk,
                                  value_if = extreme_heat_damage,
                                  value_if_not = 0)
-
+#call growth function----
 # part 1: Calculate growth potential
 gp <- growth_potential(
   pad,
@@ -139,20 +158,20 @@ gp <- growth_potential(
   insect_damage_occ,
   weather_damage_occ
 )
-
+#call chill function----
 # part 2: Calculate chill ratio
 chill <- chill_requirement(
   required_chill,
   actual_chill
 )
-
+#call season length function----
 # part 3: Determine season length
 season_days <- season_length(
   growth_start_day,
   days_till_harvest,
   season_end_day
 )
-
+#call yield estimation function----
 # part 4: Estimate yield
 yield <- yield_estimate(
   standard_yield,
@@ -166,9 +185,10 @@ yield <- yield_estimate(
   extreme_rainfall_occ,
   extreme_heat_occ
 )
-return(list(    actual_yield = yield[1],
-                marketable_yield = yield[2],
-                quality_loss = yield[3],
+#return output----
+return(list(    actual_yield = yield$actual_yield,
+                marketable_yield = yield$marketable_yield,
+                quality_loss = yield$quality_loss,
                 growth_pot=gp))
 }
 ####Input data####
