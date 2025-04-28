@@ -387,6 +387,7 @@ get_weather_indices <- function(weather,
   i_havest <- NA
   yday_speargrowth <- NA
   yday_harvest_star <- NA
+  accumulated_chill <- NA
   if(is.null(i_start) == FALSE){
     
     yday_speargrowth <- weather_sub$yday[i_start] 
@@ -395,6 +396,10 @@ get_weather_indices <- function(weather,
                                   i_start = i_start,
                                   T_crit = harvest_start_temp,
                                   day_min = harvest_start_consec)
+    
+    
+    #calculate accumulated chill until speargrowth start?
+    accumulated_chill <- get_chill(weather = weather_sub, lat = latitude, i_start = i_start)
     
   }
   
@@ -433,6 +438,16 @@ get_weather_indices <- function(weather,
     heatharvest_risk <- weather_harvest$heatrisk_harvest[nrow(weather_harvest)]
   }
 
+  #cap the risk indices, so that they are between 0.0 and 1.0
+  
+  drought_stress <- ifelse(drought_stress > 1, yes = 1, no = drought_stress)
+  insect_risk <- ifelse(insect_risk > 1, yes = 1, no = insect_risk)
+  disease_risk <- ifelse(disease_risk > 1, yes = 1, no = disease_risk)
+  risk_rain <- ifelse(risk_rain > 1, yes = 1, no = risk_rain)
+  frost_risk <- ifelse(frost_risk > 1, yes = 1, no = frost_risk)
+  diurnal_risk <- ifelse(diurnal_risk > 1, yes = 1, no = diurnal_risk)
+  rainharvest_risk <- ifelse(rainharvest_risk > 1, yes = 1, no = rainharvest_risk)
+  heatharvest_risk <- ifelse(heatharvest_risk > 1, yes = 1, no = heatharvest_risk)
   
   
   output_list <- list(drought_stress = drought_stress,
