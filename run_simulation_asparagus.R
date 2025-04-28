@@ -10,6 +10,19 @@ scenario_370<-read.csv("asparagus/asparagus_370.csv", colClasses = c("character"
 scenario_585<-read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 risk_df<-read.csv("weathergenerator/risk_df.csv")
 
+outputs<-c("water_stress_risk",
+           "insect_risk",
+           "disease_risk",
+           "pad",
+           "weather_damage_risk",
+           "growth_start_day",
+           "days_till_harvest",
+           "actual_chill",
+           "late_frost_risk",
+           "temp_fluctuation_risk",
+           "extreme_rainfall_risk",
+           "extreme_heat_risk")
+
 
 ####Simulation run: today####
 sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
@@ -18,22 +31,11 @@ sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
                         functionSyntax = "plainNames",
                         risk_df)
 
-outputs<-c(water_stress_risk,
-           insect_risk,
-           disease_risk,
-           pad,
-           weather_damage_risk,
-           growth_start_day,
-           days_till_harvest,
-           actual_chill,
-           late_frost_risk,
-           temp_fluctuation_risk,
-           extreme_rainfall_risk,
-           extreme_heat_risk)
-youtputs_to_xinputs(sim_today, outputs)
 
-saveRDS(sim_today, "asparagus/MC_results/MC_results_today.RDS")
-write.csv(sim_today, "asparagus/MC_results/MC_results_today.csv")
+sim_today_output<-youtputs_to_xinputs(sim_today, outputs)
+
+saveRDS(sim_today_output, "asparagus/MC_results/MC_results_today.RDS")
+write.csv(sim_today_output, "asparagus/MC_results/MC_results_today.csv")
 
 ####Simulation run: ssp245####
 sim_245<-mcSimulation(estimate = as.estimate(scenario_245),
@@ -42,11 +44,10 @@ sim_245<-mcSimulation(estimate = as.estimate(scenario_245),
                       functionSyntax = "plainNames",
                       risk_df)
 
-sim_245$x$quality_loss<-sim_245$y$quality_loss.quality_loss
-sim_245$x$growth_potential<-sim_245$y$growth_pot
+sim_245_output<-youtputs_to_xinputs(sim_245, outputs)
 
-saveRDS(sim_245, "asparagus/MC_results/MC_results_245.RDS")
-write.csv(sim_245, "asparagus/MC_results/MC_results_245.csv")
+saveRDS(sim_245_output, "asparagus/MC_results/MC_results_245.RDS")
+write.csv(sim_245_output, "asparagus/MC_results/MC_results_245.csv")
 
 ####Simulation run: ssp370####
 sim_370<-mcSimulation(estimate = as.estimate(scenario_370),
@@ -55,11 +56,10 @@ sim_370<-mcSimulation(estimate = as.estimate(scenario_370),
                       functionSyntax = "plainNames",
                       risk_df)
 
-sim_370$x$quality_loss<-sim_370$y$quality_loss.quality_loss
-sim_370$x$growth_potential<-sim_370$y$growth_pot
+sim_370_output<-youtputs_to_xinputs(sim_370, outputs)
 
-saveRDS(sim_370, "asparagus/MC_results/MC_results_370.RDS")
-write.csv(sim_370, "asparagus/MC_results/MC_results_370.csv")
+saveRDS(sim_370_output, "asparagus/MC_results/MC_results_370.RDS")
+write.csv(sim_370_output, "asparagus/MC_results/MC_results_370.csv")
 
 ####Simulation run: ssp585####
 sim_585<-mcSimulation(estimate = as.estimate(scenario_585),
@@ -68,8 +68,7 @@ sim_585<-mcSimulation(estimate = as.estimate(scenario_585),
                       functionSyntax = "plainNames",
                       risk_df)
 
-sim_585$x$quality_loss<-sim_585$y$quality_loss.quality_loss
-sim_585$x$growth_potential<-sim_585$y$growth_pot
+sim_585_output<-youtputs_to_xinputs(sim_585, outputs)
 
-saveRDS(sim_585, "asparagus/MC_results/MC_results_585.RDS")
-write.csv(sim_585, "asparagus/MC_results/MC_results_585.csv")
+saveRDS(sim_585_output, "asparagus/MC_results/MC_results_585.RDS")
+write.csv(sim_585_output, "asparagus/MC_results/MC_results_585.csv")

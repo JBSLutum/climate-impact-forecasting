@@ -1,6 +1,6 @@
 Description,label,variable,distribution,lower,median,upper
 Number of days in the crowd phase with optimal conditions for photosynthesis ,PAD,photosynthetic_active_days,norm,90,,120
-Number of days in the crowd phase the plant needs with optimal conditions for photosynthesis ,PAD,photosynthetic_active_days_needed,norm,95,,105
+Number of days in the crowd phase the plant needs with optimal conditions for photosynthesis ,PAD_need,photosynthetic_active_days_needed,norm,95,,105
 Risk for drought stress in crowd phase,risk drought,water_stress_risk,tnorm_0_1,0.2,,0.5
 Possible damage done by drought,damage drought,water_stress_damage,tnorm_0_1,0.05,,0.25
 Risk for disease related stress in crowd phase,risk disease,disease_risk,tnorm_0_1,0.2,,0.4
@@ -26,4 +26,4 @@ risk for extreme heat events during harvest,extreme heat harvest,extreme_heat_ri
 Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.05,,0.3
 Quality losses that reduce marketable yield,quality loss,quality_loss,const,0,,0
 Growth potential accumulated during vegetative phase,growth potential,growth_potential,const,0,,0
-Draw of weather generator season,weather season,id,unif,3101,,4500
+Draw of weather generator season,weather season,id,unif,3327,,4274

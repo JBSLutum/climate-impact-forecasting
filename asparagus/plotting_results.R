@@ -57,10 +57,10 @@ pls_result_585_yield <- plsr.mcSimulation(object = sim_results_585,
 
 
 #restructure PLS results
-pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_today_input, threshold = 0)
-pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_245_input, threshold = 0)
-pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_370_input, threshold = 0)
-pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_585_input, threshold = 0)
+pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_today_input, threshold = 0.1)
+pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_245_input, threshold = 0.1)
+pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_370_input, threshold = 0.1)
+pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_585_input, threshold = 0.2)
 
 
 
