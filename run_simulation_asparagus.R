@@ -17,7 +17,19 @@ sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
                         numberOfModelRuns = 10000,
                         functionSyntax = "plainNames",
                         risk_df)
-outputs<-c()
+
+outputs<-c(water_stress_risk,
+           insect_risk,
+           disease_risk,
+           pad,
+           weather_damage_risk,
+           growth_start_day,
+           days_till_harvest,
+           actual_chill,
+           late_frost_risk,
+           temp_fluctuation_risk,
+           extreme_rainfall_risk,
+           extreme_heat_risk)
 youtputs_to_xinputs(sim_today, outputs)
 
 saveRDS(sim_today, "asparagus/MC_results/MC_results_today.RDS")

@@ -3,9 +3,30 @@ source("asparagus/asparagus_model.R")
 #Simulation run####
 asparagus_sim<-function(risk_df=NULL){
   
+    #variable initiation----
   
-  #variable initiation----
-  pad <- photosynthetic_active_days
+  #weather variables
+  #calculated weather variables are drawn randomly from a dataframe with
+  #weather seasons from a weather generator, each scenario has at least 1400
+  #seasons [id]
+  
+  water_stress_risk <- risk_df$drought_stress[id]
+  insect_risk <- risk_df$insect_risk[id]
+  disease_risk <- risk_df$disease_risk[id]
+  pad <- risk_df$photosynhthesis_day[id]
+  weather_damage_risk <- risk_df$risk_rain[id]
+  growth_start_day <- risk_df$yday_speargrowth[id]
+  days_till_harvest <- risk_df$yday_harvest_star[id] - growth_start_day
+  actual_chill <- risk_df$accumulated_chill[id]
+  late_frost_risk <- risk_df$frost_risk[id]
+  temp_fluctuation_risk <- risk_df$diurnal_risk[id]
+  extreme_rainfall_risk <- risk_df$rainharvest_risk[id]
+  extreme_heat_risk <- risk_df$heatharvest_risk[id]
+  
+  #estimation input table
+  #pad <- photosynthetic_active_days
+  pad_need<-photosynthetic_active_days_needed
+  
   water_stress_occ <- chance_event(water_stress_risk,
                                    value_if = water_stress_damage,
                                    value_if_not = 0)
@@ -21,11 +42,11 @@ asparagus_sim<-function(risk_df=NULL){
                                      value_if = weather_damage,
                                      value_if_not = 0)
   required_chill <- chill_need
-  actual_chill <- chill_portions
-  growth_start_day <- growth_start_doy
+  #actual_chill <- chill_portions
+  #growth_start_day <- growth_start_doy
   season_end_day <- season_end_doy
   standard_yield <- expected_yield
-  days_till_harvest <- speargrowth
+  #days_till_harvest <- speargrowth
   standard_season_length <- expected_season_length
   late_frost_occ <- chance_event(late_frost_risk,
                                  value_if = late_frost_damage,
@@ -39,6 +60,22 @@ asparagus_sim<-function(risk_df=NULL){
   extreme_heat_occ <- chance_event(extreme_heat_risk,
                                    value_if = extreme_heat_damage,
                                    value_if_not = 0)
+  #weather variables####
+  
+  risk_df$drought_stress[id]
+  risk_df$insect_risk[id]
+  risk_df$disease_risk[id]
+  risk_df$photosynhthesis_day[id]
+  risk_df$risk_rain[id]
+  risk_df$yday_speargrowth[id]
+  risk_df$yday_harvest_star[id]
+  risk_df$accumulated_chill[id]
+  risk_df$frost_risk[id]
+  risk_df$diurnal_risk[id]
+  risk_df$rainharvest_risk[id]
+  risk_df$heatharvest_risk[id]
+  
+  
   #call growth function----
   # part 1: Calculate growth potential
   gp <- growth_potential(
@@ -79,5 +116,28 @@ asparagus_sim<-function(risk_df=NULL){
   return(list(    actual_yield = yield$actual_yield,
                   marketable_yield = yield$marketable_yield,
                   quality_loss = yield$quality_loss,
-                  growth_pot=gp))
+                  growth_pot=gp,
+                  water_stress_risk=water_stress_risk,
+                  insect_risk=insect_risk,
+                  disease_risk=disease_risk,
+                  pad=pad,
+                  weather_damage_risk=weather_damage_risk,
+                  growth_start_day=growth_start_day,
+                  days_till_harvest=days_till_harvest,
+                  actual_chill=actual_chill,
+                  late_frost_risk=late_frost_risk,
+                  temp_fluctuation_risk=temp_fluctuation_risk,
+                  extreme_rainfall_risk=extreme_rainfall_risk,
+                  extreme_heat_risk=extreme_heat_risk
+                  ))
 }
+
+
+####make_variables####
+'make_variables<-function(est,n=1)
+{ x<-random(rho=est, n=n)
+for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
+
+make_variables(estimate_read_csv("asparagus/asparagus_today.csv"))
+
+risk_df<-read.csv("weathergenerator/risk_df.csv")'

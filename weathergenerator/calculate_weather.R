@@ -116,8 +116,8 @@ risk_df %>%
   summarise(id_min = min(id),
             id_max = max(id))
 
-write.csv(risk_df, "weathergenerator/risk_df.csv")
-
+id <- 1495
+risk_df$disease_risk[id]
 
 
 
