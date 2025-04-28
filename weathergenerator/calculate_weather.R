@@ -27,6 +27,7 @@ future_weather <- purrr::map(1:length(flist), function(i){
 future_weather <- do.call('rbind', future_weather) 
 future_weather$id = paste(future_weather$ssp, future_weather$gcm, future_weather$scenario_year, sep = '--')
 
+
 #weed out incomplete seasons
 drop_list <- future_weather %>% 
   group_by(id, season) %>% 
@@ -103,7 +104,23 @@ risk_df <- data.frame(ssp,
            diurnal_risk,
            rainharvest_risk,
            heatharvest_risk
-) 
+) %>% 
+  mutate(id = 1:length(heatharvest_risk))
+
+risk_df %>% 
+  group_by(ssp) %>% 
+  summarise(n = n())
+
+risk_df %>% 
+  group_by(ssp) %>% 
+  summarise(id_min = min(id),
+            id_max = max(id))
+
+write.csv(risk_df, "weathergenerator/risk_df.csv")
+
+
+
+
 risk_df %>% 
   ggplot(aes(fill = ssp, x = drought_stress)) +
   geom_density(alpha = 0.3)

@@ -465,6 +465,3 @@ get_weather_indices <- function(weather,
   
   return(output_list)
 }
-
-
-
