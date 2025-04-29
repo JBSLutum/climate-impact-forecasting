@@ -33,6 +33,7 @@ sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
 
 
 sim_today_output<-youtputs_to_xinputs(sim_today, outputs)
+#sim_today_output<-sim_today
 
 
 saveRDS(sim_today_output, "asparagus/MC_results/MC_results_today.RDS")
@@ -46,6 +47,7 @@ sim_245<-mcSimulation(estimate = as.estimate(scenario_245),
                       risk_df)
 
 sim_245_output<-youtputs_to_xinputs(sim_245, outputs)
+#sim_245_output<-sim_245
 
 saveRDS(sim_245_output, "asparagus/MC_results/MC_results_245.RDS")
 write.csv(sim_245_output, "asparagus/MC_results/MC_results_245.csv")
@@ -58,6 +60,8 @@ sim_370<-mcSimulation(estimate = as.estimate(scenario_370),
                       risk_df)
 
 sim_370_output<-youtputs_to_xinputs(sim_370, outputs)
+#sim_370_output<-sim_370
+
 
 saveRDS(sim_370_output, "asparagus/MC_results/MC_results_370.RDS")
 write.csv(sim_370_output, "asparagus/MC_results/MC_results_370.csv")
@@ -70,6 +74,9 @@ sim_585<-mcSimulation(estimate = as.estimate(scenario_585),
                       risk_df)
 
 sim_585_output<-youtputs_to_xinputs(sim_585, outputs)
+#sim_585_output<-sim_585
+
 
 saveRDS(sim_585_output, "asparagus/MC_results/MC_results_585.RDS")
 write.csv(sim_585_output, "asparagus/MC_results/MC_results_585.csv")
+

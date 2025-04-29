@@ -43,6 +43,16 @@ sim_245_input<- read.csv("asparagus/asparagus_245.csv", colClasses = c("characte
 sim_370_input<- read.csv("asparagus/asparagus_370.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 sim_585_input<- read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 
+#delete rows with NA
+sim_results_today$y <- sim_results_today$y[complete.cases(sim_results_today$x), ]
+sim_results_today$x <- sim_results_today$x[complete.cases(sim_results_today$x), ]
+sim_results_245$y <- sim_results_245$y[complete.cases(sim_results_245$x), ]
+sim_results_245$x <- sim_results_245$x[complete.cases(sim_results_245$x), ]
+sim_results_370$y <- sim_results_370$y[complete.cases(sim_results_370$x), ]
+sim_results_370$x <- sim_results_370$x[complete.cases(sim_results_370$x), ]
+sim_results_585$y <- sim_results_585$y[complete.cases(sim_results_585$x), ]
+sim_results_585$x <- sim_results_585$x[complete.cases(sim_results_585$x), ]
+
 
 ####pls+vip+plot marketable yield####
 #PLS regression to compute the Variable Importance in Projection (VIP) for high-quality yield#
@@ -57,10 +67,10 @@ pls_result_585_yield <- plsr.mcSimulation(object = sim_results_585,
 
 
 #restructure PLS results
-pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_today_input, threshold = 0.16)
-pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_245_input, threshold = 0.2)
-pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_370_input, threshold = 0.146)
-pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_585_input, threshold = 0.4)
+pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_today_input, threshold = 0)
+pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_245_input, threshold = 0)
+pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_370_input, threshold = 0)
+pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_585_input, threshold = 0)
 
 
 
@@ -112,7 +122,7 @@ VIP_and_Coef_yield_threshold_longer<-VIP_and_Coef_yield_threshold%>%
 VIP_and_Coef_yield_threshold_longer$PosNeg<-ifelse(VIP_and_Coef_yield_threshold_longer$Coef>0,"positive","negative")
 
 #add new column for VIP where all variables with a VIP <1 get the value "NA"
-VIP_and_Coef_yield_threshold_longer$VIP_threshold_corr<-ifelse(VIP_and_Coef_yield_threshold_longer$VIP>=0.5,VIP_and_Coef_yield_threshold_longer$VIP, NA )
+VIP_and_Coef_yield_threshold_longer$VIP_threshold_corr<-ifelse(VIP_and_Coef_yield_threshold_longer$VIP>=1,VIP_and_Coef_yield_threshold_longer$VIP, NA )
 
 #could read in images as labels for the plot
 labels <- c("today", "245", "370","585")
@@ -124,7 +134,7 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   geom_point(shape = 16, stroke = 0) +
   geom_hline(yintercept = seq(.5, 30.5, 1), linewidth = .2, color= "gray75") +
   #scale_x_discrete() +
-  scale_radius(range = c(0.5, 9)) +
+  scale_radius(range = c(1, 9)) +
   scale_color_manual(values = c("negative"="red", "positive"="blue"))  +
   theme_minimal() +
   theme(legend.position = "bottom", 
