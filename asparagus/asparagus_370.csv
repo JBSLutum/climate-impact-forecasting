@@ -9,7 +9,7 @@ Risk for insect related stress in crowd phase,risk insects,insect_risk,tnorm_0_1
 Possible damage done by insects,damage insects,insect_damage,tnorm_0_1,0.05,,0.2
 "Risk for weather event related stress in crowd, e.g. heavy winds that breaks plant, heavy rain, hail",risk weather events,weather_damage_risk,tnorm_0_1,0.15,,0.3
 Possible damage done by weather events,damage weather events,weather_damage,tnorm_0_1,0.05,,0.2
-Amount of chill needed by plant for optimal field emergence,chill need,chill_need,norm,750,,850
+Amount of chill needed by plant for optimal field emergence,chill need,chill_need,norm,40,,60
 Amount of chill received this winter,chill received,chill_portions,norm,500,,1350
 Day of the year the temperature induces growth start (Spear starts growing at 14 degree soil temp),growth start,growth_start_doy,norm,65,,90
 "Day of the year for the 24th of june, traditonal season end",season end,season_end_doy,norm,175,,176

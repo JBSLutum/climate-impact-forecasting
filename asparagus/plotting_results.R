@@ -368,8 +368,8 @@ results_yield_all<-rbind(results_marktyield_today,results_marktyield_245,results
 #rename column
 names(results_yield_all)<-c("total_yield", "marketable_yield", "scenario")
 #easy ggplot
-ggplot(results_yield_all, aes(x=scenario, y=total_yield, fill=scenario))+
-  geom_boxplot()
+'ggplot(results_yield_all, aes(x=scenario, y=total_yield, fill=scenario))+
+  geom_boxplot()'
 #direktvergleich
 results_yield_all_longer<- pivot_longer(results_yield_all, cols = c(total_yield, marketable_yield))
 results_yield_all_longer$name<-factor(results_yield_all_longer$name, levels= c("total_yield","marketable_yield"))

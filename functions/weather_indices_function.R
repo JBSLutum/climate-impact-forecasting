@@ -278,7 +278,7 @@ get_weather_indices <- function(weather,
                                 droughtstress_risk_initial = 0.1,
                                 droughtstress_risk_follow = 0.05,
                                 diseaserisk_temp_lower = 15,
-                                diseaserisk_temp_upper = 25,
+                                diseaserisk_temp_upper = 20,
                                 diseaserisk_prec_min = 5,
                                 diseaserisk_day_consec = 5,
                                 diseaserisk_risk_initial = 0.1,
@@ -294,13 +294,13 @@ get_weather_indices <- function(weather,
                                 rainrisk_risk_strong = 0.1,
                                 rainrisk_risk_extreme = 0.3,
                                 rainrisk_risk_follow = 0.05,
-                                speargrowth_temp_crit = 14,
+                                speargrowth_temp_crit = 12,
                                 speargrowth_day_consec = 3,
-                                harvest_start_temp = 14,
+                                harvest_start_temp = 12,
                                 harvest_start_consec = 7,
                                 frostrisk_temp_crit = 0,
                                 frostrisk_risk_add = 0.1,
-                                riskdiurnal_delta_crit = 15,
+                                riskdiurnal_delta_crit = 20,
                                 riskdiurnal_risk_add = 0.1,
                                 rainharvest_Pcrit = 25,
                                 rainharvest_risk_add = 0.1,
@@ -376,8 +376,10 @@ get_weather_indices <- function(weather,
   #determine start of harvest
   #-------------------#
   
+  weather_sub_chill <- weather_adj %>% 
+    filter(yday_plot >= -60)
   weather_sub <- weather_adj %>% 
-    filter(yday_plot >= -60) 
+    filter(yday_plot >= 0)
   
   #index when speargrowth condition is fulfilled, 
   i_start <- get_speargrowth_start(T_soil = weather_sub$T_soil, 
@@ -399,7 +401,7 @@ get_weather_indices <- function(weather,
     
     
     #calculate accumulated chill until speargrowth start?
-    accumulated_chill <- get_chill(weather = weather_sub, lat = latitude, i_start = i_start)
+    accumulated_chill <- get_chill(weather = weather_sub_chill, lat = latitude, i_start = i_start)
     
   }
   
