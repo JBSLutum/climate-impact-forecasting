@@ -5,6 +5,7 @@ library(decisionSupport)
 
 ####Input data####
 scenario_today<-read.csv("asparagus/asparagus_today.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+scenario_126<-read.csv("asparagus/asparagus_126.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 scenario_245<-read.csv("asparagus/asparagus_245.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 scenario_370<-read.csv("asparagus/asparagus_370.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 scenario_585<-read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
@@ -38,6 +39,22 @@ sim_today_output<-youtputs_to_xinputs(sim_today, outputs)
 
 saveRDS(sim_today_output, "asparagus/MC_results/MC_results_today.RDS")
 write.csv(sim_today_output, "asparagus/MC_results/MC_results_today.csv")
+
+####Simulation run: ssp126####
+sim_126<-mcSimulation(estimate = as.estimate(scenario_126),
+                        model_function = asparagus_sim,
+                        numberOfModelRuns = 10000,
+                        functionSyntax = "plainNames",
+                        risk_df)
+
+
+sim_126_output<-youtputs_to_xinputs(sim_126, outputs)
+#sim_126_output<-sim_126
+
+
+saveRDS(sim_126_output, "asparagus/MC_results/MC_results_126.RDS")
+write.csv(sim_126_output, "asparagus/MC_results/MC_results_126.csv")
+
 
 ####Simulation run: ssp245####
 sim_245<-mcSimulation(estimate = as.estimate(scenario_245),

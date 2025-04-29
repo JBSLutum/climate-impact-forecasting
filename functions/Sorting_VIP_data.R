@@ -1,7 +1,7 @@
 #Function to reformat the pls-analysis results from the format "large mvr" to "data.frame"
 
-VIP_table<-function (plsrResults, input_table = NULL, cut_off_line = 0, 
-          threshold = 0, x_axis_name = "Variable Importance in Projection", 
+VIP_table<-function (plsrResults, input_table = NULL, cut_off_line = 1, 
+          threshold = 0.8, x_axis_name = "Variable Importance in Projection", 
           y_axis_name = NULL, legend_name = "Coefficient", legend_labels = c("Positive", 
                                                                              "Negative"), pos_color = "cadetblue", neg_color = "firebrick", 
           base_size = 11, ...) 

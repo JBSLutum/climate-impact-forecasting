@@ -11,7 +11,7 @@ asparagus_sim<-function(risk_df=NULL){
   #seasons [id]
   id <- abs(floor(id))
   if (id==0){id<-1}
-  if (id>6100){id<-6100}
+  if (id>6200){id<-6200}
   
   water_stress_risk <- risk_df$drought_stress[id]
   insect_risk <- risk_df$insect_risk[id]

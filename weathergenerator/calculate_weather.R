@@ -139,6 +139,7 @@ risk_df %>%
 id <- 1495
 risk_df$disease_risk[id]
 
+write.csv(risk_df,"weathergenerator/risk_df.csv")
 #risk_df<-read.csv("weathergenerator/risk_df.csv")
 
 

@@ -29,6 +29,7 @@ remove_x_only_title<-theme(axis.title.x = element_blank())
 
 #read saved Monte Carlo simulation results
 sim_results_today<-readRDS("asparagus/MC_results/MC_results_today.RDS")
+sim_results_126<-readRDS("asparagus/MC_results/MC_results_126.RDS")
 sim_results_245<-readRDS("asparagus/MC_results/MC_results_245.RDS")
 sim_results_370<-readRDS("asparagus/MC_results/MC_results_370.RDS")
 sim_results_585<-readRDS("asparagus/MC_results/MC_results_585.RDS")
@@ -39,25 +40,30 @@ source("functions/Sorting_VIP_data.R")
 
 #Read in model input data
 sim_today_input<- read.csv("asparagus/asparagus_today.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+sim_126_input<- read.csv("asparagus/asparagus_126.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 sim_245_input<- read.csv("asparagus/asparagus_245.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 sim_370_input<- read.csv("asparagus/asparagus_370.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 sim_585_input<- read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 
 #delete rows with NA
-sim_results_today$y <- sim_results_today$y[complete.cases(sim_results_today$x), ]
+'sim_results_today$y <- sim_results_today$y[complete.cases(sim_results_today$x), ]
 sim_results_today$x <- sim_results_today$x[complete.cases(sim_results_today$x), ]
+sim_results_126$y <- sim_results_126$y[complete.cases(sim_results_126$x), ]
+sim_results_126$x <- sim_results_126$x[complete.cases(sim_results_126$x), ]
 sim_results_245$y <- sim_results_245$y[complete.cases(sim_results_245$x), ]
 sim_results_245$x <- sim_results_245$x[complete.cases(sim_results_245$x), ]
 sim_results_370$y <- sim_results_370$y[complete.cases(sim_results_370$x), ]
 sim_results_370$x <- sim_results_370$x[complete.cases(sim_results_370$x), ]
 sim_results_585$y <- sim_results_585$y[complete.cases(sim_results_585$x), ]
-sim_results_585$x <- sim_results_585$x[complete.cases(sim_results_585$x), ]
+sim_results_585$x <- sim_results_585$x[complete.cases(sim_results_585$x), ]'
 
 
 ####pls+vip+plot marketable yield####
 #PLS regression to compute the Variable Importance in Projection (VIP) for high-quality yield#
 pls_result_today_yield <- plsr.mcSimulation(object = sim_results_today,
                                                   resultName = names(sim_results_today$y)[2], ncomp = 1)
+pls_result_126_yield <- plsr.mcSimulation(object = sim_results_126,
+                                          resultName = names(sim_results_126$y)[2], ncomp = 1)
 pls_result_245_yield <- plsr.mcSimulation(object = sim_results_245,
                                             resultName = names(sim_results_245$y)[2], ncomp = 1)
 pls_result_370_yield <- plsr.mcSimulation(object = sim_results_370,
@@ -68,6 +74,7 @@ pls_result_585_yield <- plsr.mcSimulation(object = sim_results_585,
 
 #restructure PLS results
 pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_today_input, threshold = 0)
+pls_result_126_yield_table<-VIP_table(pls_result_126_yield, input_table = sim_126_input, threshold = 0)
 pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_245_input, threshold = 0)
 pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_370_input, threshold = 0)
 pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_585_input, threshold = 0)
@@ -80,6 +87,8 @@ variablen_VIP<-pls_result_today_yield_table$Description
 #extract important values from the PLS results
 VIP_yieldsim1<-pls_result_today_yield_table$VIP
 Coef_yieldsim1<-pls_result_today_yield_table$Coefficient
+VIP_yieldsim126<-pls_result_126_yield_table$VIP
+Coef_yieldsim126<-pls_result_126_yield_table$Coefficient
 VIP_yieldsim245<-pls_result_245_yield_table$VIP
 Coef_yieldsim245<-pls_result_245_yield_table$Coefficient
 VIP_yieldsim370<-pls_result_370_yield_table$VIP
@@ -90,17 +99,21 @@ Coef_yieldsim585<-pls_result_585_yield_table$Coefficient
 #create a data frame, with variable description, VIP and Coefficient 
 VIP_yield_sim_all<-data.frame(variablen_VIP,
                               VIP_yieldsim1,
+                              VIP_yieldsim126,
                               VIP_yieldsim245,
                               VIP_yieldsim370,
                               VIP_yieldsim585)
 Coef_yield_sim_all<-data.frame(variablen_VIP,
                               Coef_yieldsim1,
+                              Coef_yieldsim126,
                               Coef_yieldsim245,
                               Coef_yieldsim370,
                               Coef_yieldsim585)
 VIP_and_Coef_yield<-data.frame(variablen_VIP,
                                VIP_yieldsim1,
                                Coef_yieldsim1,
+                               VIP_yieldsim126,
+                               Coef_yieldsim126,
                                VIP_yieldsim245,
                                Coef_yieldsim245,
                                VIP_yieldsim370,
@@ -109,10 +122,11 @@ VIP_and_Coef_yield<-data.frame(variablen_VIP,
                                Coef_yieldsim585)
 
 #set the threshold for important variables to a VIP > 1
-VIP_and_Coef_yield_threshold<-subset(VIP_and_Coef_yield, abs(VIP_and_Coef_yield$VIP_yieldsim1)>0.5|
-                                       abs(VIP_and_Coef_yield$VIP_yieldsim245)>0.5|
-                                       abs(VIP_and_Coef_yield$VIP_yieldsim370)>0.5|
-                                       abs(VIP_and_Coef_yield$VIP_yieldsim585)>0.5)
+VIP_and_Coef_yield_threshold<-subset(VIP_and_Coef_yield, abs(VIP_and_Coef_yield$VIP_yieldsim1)>1|
+                                       abs(VIP_and_Coef_yield$VIP_yieldsim126)>1|
+                                       abs(VIP_and_Coef_yield$VIP_yieldsim245)>1|
+                                       abs(VIP_and_Coef_yield$VIP_yieldsim370)>1|
+                                       abs(VIP_and_Coef_yield$VIP_yieldsim585)>1)
 
 #Restructure data frame
 VIP_and_Coef_yield_threshold_longer<-VIP_and_Coef_yield_threshold%>%
@@ -125,7 +139,7 @@ VIP_and_Coef_yield_threshold_longer$PosNeg<-ifelse(VIP_and_Coef_yield_threshold_
 VIP_and_Coef_yield_threshold_longer$VIP_threshold_corr<-ifelse(VIP_and_Coef_yield_threshold_longer$VIP>=1,VIP_and_Coef_yield_threshold_longer$VIP, NA )
 
 #could read in images as labels for the plot
-labels <- c("today", "245", "370","585")
+labels <- c("today","126", "245", "370","585")
 
 #Plot the VIP results
 png("asparagus/Figures/VIP_yield.png", pointsize=10, width=4500, height=6100, res=600)
@@ -365,16 +379,18 @@ dev.off()
 ####yield graphs####
 #loading yield data
 results_marktyield_today<-sim_results_today$y[c(1,2)]
+results_marktyield_126<-sim_results_126$y[c(1,2)]
 results_marktyield_245<-sim_results_245$y[c(1,2)]
 results_marktyield_370<-sim_results_370$y[c(1,2)]
 results_marktyield_585<-sim_results_585$y[c(1,2)]
 #adding row for scenario identification
-results_marktyield_today$scenario<-as.character("2025")
+results_marktyield_today$scenario<-as.character("2020")
+results_marktyield_126$scenario<-as.character("2075_126")
 results_marktyield_245$scenario<-as.character("2075_245")
 results_marktyield_370$scenario<-as.character("2075_370")
 results_marktyield_585$scenario<-as.character("2075_585")
 #all together
-results_yield_all<-rbind(results_marktyield_today,results_marktyield_245,results_marktyield_370,results_marktyield_585)
+results_yield_all<-rbind(results_marktyield_today,results_marktyield_126,results_marktyield_245,results_marktyield_370,results_marktyield_585)
 #rename column
 names(results_yield_all)<-c("total_yield", "marketable_yield", "scenario")
 #easy ggplot
@@ -384,9 +400,22 @@ names(results_yield_all)<-c("total_yield", "marketable_yield", "scenario")
 results_yield_all_longer<- pivot_longer(results_yield_all, cols = c(total_yield, marketable_yield))
 results_yield_all_longer$name<-factor(results_yield_all_longer$name, levels= c("total_yield","marketable_yield"))
 
+#mittelwerte
+summary_df <- results_yield_all_longer %>%
+  group_by(scenario, name) %>%
+  summarise(mean_value = mean(value, na.rm = TRUE), .groups = "drop") %>%
+  pivot_wider(names_from = name, values_from = mean_value) %>%
+  mutate(percent = (`marketable_yield` / `total_yield`) * 100) 
+
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
-  geom_boxplot()
+  geom_boxplot(position = position_dodge(width = 0.8)) +
+  geom_text(data = summary_df,
+            aes(x = scenario,
+                y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
+                label = paste0(round(percent), "%")),
+            inherit.aes = FALSE,
+            size = 4)
 
 library(ggstance)
 ggplot(results_yield_all_longer, aes(x=value, fill=name))+
