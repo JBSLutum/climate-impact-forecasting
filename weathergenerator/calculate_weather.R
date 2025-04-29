@@ -37,6 +37,26 @@ drop_list <- future_weather %>%
 future_weather <- future_weather %>% 
   filter(!(paste(id, season) %in% paste(drop_list$id, drop_list$season)))
 
+hist_weather <- read.csv('weathergenerator/weather_2020_koeln-bonn.csv') %>% 
+  mutate(scenario_year = 2020, 
+         ssp = 'historical',
+         gcm = 'historical',
+         yday = lubridate::yday(DATE),
+         season = ifelse(yday >= 175,
+                         yes = Year  +1,
+                         no = Year),
+         id = paste(ssp, gcm, scenario_year, sep = '--'))
+drop_list <- hist_weather %>% 
+  group_by(id, season) %>% 
+  summarise(n = n()) %>% 
+  filter(n < 365)
+hist_weather <- hist_weather %>% 
+  filter(!(paste(id, season) %in% paste(drop_list$id, drop_list$season)))
+
+#combine hist and future weather
+weather_combined <- future_weather %>% 
+  rbind(hist_weather)
+
 source('functions/weather_indices_function.R')
 
 weather_info <- read.csv('weathergenerator/weather/weather-station-info.csv')
@@ -48,10 +68,10 @@ get_weather_indices(weather = example_season,
                     latitude = lat)
 
 #add unique id to each seaoson
-future_weather$id_seaon <- paste(future_weather$id, future_weather$season, sep = '--')
+weather_combined$id_seaon <- paste(weather_combined$id, weather_combined$season, sep = '--')
 
 #split by each season
-test <- split(x = future_weather, f = future_weather$id_seaon) 
+test <- split(x = weather_combined, f = weather_combined$id_seaon) 
 
 # test_out <- purrr::map(test[1:10], function(x) get_weather_indices(x, lat),
 #                        .progress = TRUE)
