@@ -2,9 +2,9 @@
 library(chillR)
 library(LarsChill)
 
-weather <- read.csv('data/weather-koln-bonn.csv')
+weather <- read.csv('weathergenerator/weather/weather-koln-bonn.csv')
 colnames(weather)
-station_info <- read.csv('data/weather-station-info.csv')
+station_info <- read.csv('weathergenerator/weather/weather-station-info.csv')
 colnames(station_info) <- c('longitude', 'latitude', 'station_name', 'id')
 
 area <- c(52, 6, 50, 8)
@@ -59,8 +59,8 @@ adjusted_list <- chillR::temperature_scenario_baseline_adjustment(base,
                                                                   temperature_check_args=
                                                                     list( scenario_check_thresholds = c(-5, 15)))
 
-dir.create('data/future_weather')
-dir_name <- 'data/future_weather/'
+dir.create('weathergenerator/weather/future_weather')
+dir_name <- 'weathergenerator/weather/future_weather/'
 
 #remove / from station name
 names(adjusted_list) <- gsub(x = names(adjusted_list), pattern = '/', replacement = '_')
@@ -72,18 +72,42 @@ purrr::walk(1:length(adjusted_list), function(i){
   fname <- paste0(dir_name, 'future-weather.', names(adjusted_list)[i], '.csv')
   
   #check if files exist, if so, next
-  if(file.exists(fname)) return(NULL)
+  if(file.exists(fname)){
+
+  } else {
+    gen_weather <- LarsChill::temperature_generation_rmawgen_prec(weather = weather,
+                                                                  years = c(1980, 2023), 
+                                                                  sim_years = c(2000, 2100), 
+                                                                  temperature_scenario = adjusted_list[i])
+    
+    #round to remove digits
+    gen_weather[[1]]$Tmin <- round(gen_weather[[1]]$Tmin, digits = 2)
+    gen_weather[[1]]$Tmax <- round(gen_weather[[1]]$Tmax, digits = 2)
+    gen_weather[[1]]$Prec <- round(gen_weather[[1]]$Prec, digits = 2)
+    
+    write.csv(gen_weather[[1]], file = fname)
+  }
   
-  gen_weather <- LarsChill::temperature_generation_rmawgen_prec(weather = weather,
-                                                 years = c(1980, 2023), 
-                                                 sim_years = c(2000, 2100), 
-                                                 temperature_scenario = adjusted_list[i])
-  
-  #round to remove digits
-  gen_weather[[1]]$Tmin <- round(gen_weather[[1]]$Tmin, digits = 2)
-  gen_weather[[1]]$Tmax <- round(gen_weather[[1]]$Tmax, digits = 2)
-  gen_weather[[1]]$Prec <- round(gen_weather[[1]]$Prec, digits = 2)
-  
-  write.csv(gen_weather[[1]], file = fname)
+
   
 }, .progress = TRUE)
+
+#generate weather for 2020 conditions
+
+scen_2020 <- LarsChill::custom_temperature_scenario_from_records(weather = weather, 
+                                                                     year = 2020, 
+                                                                     variable = c('Tmin', 'Tmax', 'Prec'))
+
+gen_weather <- LarsChill::temperature_generation_rmawgen_prec(weather = weather,
+                                                              years = c(1980, 2023), 
+                                                              sim_years = c(2000, 2100), 
+                                                              temperature_scenario = scen_2020)
+
+#round to remove digits
+gen_weather[[1]]$Tmin <- round(gen_weather[[1]]$Tmin, digits = 2)
+gen_weather[[1]]$Tmax <- round(gen_weather[[1]]$Tmax, digits = 2)
+gen_weather[[1]]$Prec <- round(gen_weather[[1]]$Prec, digits = 2)
+
+write.csv(gen_weather[[1]], 
+          file = 'weathergenerator/weather_2020_koeln-bonn.csv', 
+          row.names = FALSE)
