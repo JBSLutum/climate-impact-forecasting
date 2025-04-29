@@ -13,11 +13,11 @@ risk_df<-read.csv("weathergenerator/risk_df.csv")
 outputs<-c("water_stress_risk",
            "insect_risk",
            "disease_risk",
-           "pad",
+           "photosynthetic_active_days",
            "weather_damage_risk",
-           "growth_start_day",
-           "days_till_harvest",
-           "actual_chill",
+           "growth_start_doy",
+           "speargrowth",
+           "chill_portions",
            "late_frost_risk",
            "temp_fluctuation_risk",
            "extreme_rainfall_risk",
@@ -33,6 +33,7 @@ sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
 
 
 sim_today_output<-youtputs_to_xinputs(sim_today, outputs)
+
 
 saveRDS(sim_today_output, "asparagus/MC_results/MC_results_today.RDS")
 write.csv(sim_today_output, "asparagus/MC_results/MC_results_today.csv")
