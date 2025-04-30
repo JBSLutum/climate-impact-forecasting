@@ -277,6 +277,7 @@ get_weather_indices <- function(weather,
                                 alpha_dry = 0.2,
                                 alpha_wet = 0.12,
                                 soil_temp_star = NULL,
+                                black_foil_yday=c(41:200),
                                 black_foil_tplus = 7,
                                 photosynday_temp_lower = 15,
                                 photosynday_temp_upper = 30,
@@ -322,6 +323,8 @@ get_weather_indices <- function(weather,
   yday_subtract <- 365
   if(leap_year) yday_subtract <- 366
   
+  foil_i <- which(weather$yday %in% black_foil_yday)
+  
   weather_adj <- weather %>% 
     mutate(yday_plot = ifelse(yday >= 175, yes = yday - yday_subtract, no = yday)) %>% 
     mutate(soil_wet = check_soil_wet(Prec = Prec, 
@@ -329,7 +332,14 @@ get_weather_indices <- function(weather,
                                      rain_lag = lag_days_soil_wet),
            Tmean = (Tmin + Tmax) / 2,
            alpha = ifelse(soil_wet, yes = alpha_wet, no = alpha_dry),
-           T_soil = get_Tsoil(Tmean,
+           T_soil = get_Tsoil(Tmean = Tmean,
+                              black_foil_i = foil_i,
+                              black_foil_tplus = black_foil_tplus,
+                              T_start =  soil_temp_star,
+                              alpha = alpha), 
+           Tsoil2 = get_Tsoil(Tmean = Tmean,
+                              black_foil_i = NULL,
+                              black_foil_tplus = black_foil_tplus,
                               T_start =  soil_temp_star,
                               alpha = alpha)) 
   
@@ -338,12 +348,12 @@ get_weather_indices <- function(weather,
   # #put foil in the first week of Jan
   # foil_i <- which(weather$yday %in% (1:7))
   # weather_adj <- weather_adj %>% 
-  #   mutate(T_soil_foil = get_Tsoil(Tmean,
+  #   mutate(T_soil = get_Tsoil(Tmean,
   #                             T_start =  soil_temp_star,
-  #                             black_foil_i = foil_i,
+  #                             black_foil_i=black_foil_i,
   #                             black_foil_tplus =black_foil_tplus,  
   #                             alpha = alpha))
-  # 
+  # # 
   # #check example when alpha is set higher
   # alpha_higher <- weather_adj$alpha
   # alpha_higher[foil_i] <- alpha_higher[foil_i] * (1+0.4)
@@ -454,7 +464,7 @@ get_weather_indices <- function(weather,
     yday_harvest_star <- weather_sub$yday[i_havest]
     
     weather_harvest <- weather_sub[i_havest:nrow(weather_sub),] %>% 
-      mutate(frost_risk = risk_late_frost(Tmean = Tmean,
+      mutate(frost_risk = risk_late_frost(Tmean = Tmin,
                                           T_crit = frostrisk_temp_crit,
                                           risk_add = frostrisk_risk_add),
              diurnal_risk = risk_amplitude(Tmin = Tmin, 
