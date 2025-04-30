@@ -9,5 +9,5 @@ This rep will consist of four main folders:
 * crop 2 (berries)
 * crop 3 (cabbage)
 
-##Conceptual Model Asparagus
-![Spargel Concept - Page 1](https://github.com/user-attachments/assets/9d71d56c-06b1-4177-95c0-b9f3565748fd)
+## Conceptual Model Asparagus
+<img src="https://github.com/user-attachments/assets/9d71d56c-06b1-4177-95c0-b9f3565748fd" width="50%"/>
