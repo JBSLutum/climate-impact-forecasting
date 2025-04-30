@@ -281,7 +281,7 @@ get_weather_indices <- function(weather,
                                 diseaserisk_temp_upper = 25,
                                 diseaserisk_prec_min = 5,
                                 diseaserisk_day_consec = 5,
-                                diseaserisk_risk_initial = 0.1,
+                                diseaserisk_risk_initial = 0.2,
                                 diseaserisk_risk_follow = 0.05,
                                 insectrisk_temp_lower = 20,
                                 insectrisk_temp_upper = 30,
@@ -304,8 +304,8 @@ get_weather_indices <- function(weather,
                                 riskdiurnal_risk_add = 0.1,
                                 rainharvest_Pcrit = 25,
                                 rainharvest_risk_add = 0.1,
-                                heatharvest_Tcrit_srong = 25,
-                                heatharvest_Tcrit_extreme = 30,
+                                heatharvest_Tcrit_srong = 30,
+                                heatharvest_Tcrit_extreme = 35,
                                 heatharvest_risk_add_strong = 0.05,
                                 heatharvest_risk_add_extreme = 0.1){
   
@@ -379,7 +379,7 @@ get_weather_indices <- function(weather,
   weather_sub_chill <- weather_adj %>% 
     filter(yday_plot >= -60)
   weather_sub <- weather_adj %>% 
-    filter(yday_plot >= 0)
+    filter(yday_plot >= 40)
   
   #index when speargrowth condition is fulfilled, 
   i_start <- get_speargrowth_start(T_soil = weather_sub$T_soil, 
