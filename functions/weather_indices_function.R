@@ -2,9 +2,15 @@
 
 
 #use function by Van Wijk & De Vries (1963)
-get_Tsoil <- function(Tmean, alpha, T_start = NULL){
+get_Tsoil <- function(Tmean, alpha, T_start = NULL,
+                      black_foil_i = NULL,
+                      black_foil_tplus = 7){
   if(is.null(T_start)) T_start <- Tmean[1]
   if(length(alpha) == 1) alpha <- rep(alpha, length(Tmean))
+  if(is.null(black_foil_i) == FALSE){
+    Tmean[black_foil_i] <- Tmean[black_foil_i] + black_foil_tplus
+  }
+  
   T_soil <- rep(T_start, length(Tmean))
   
   i <- 2
@@ -271,6 +277,7 @@ get_weather_indices <- function(weather,
                                 alpha_dry = 0.2,
                                 alpha_wet = 0.12,
                                 soil_temp_star = NULL,
+                                black_foil_tplus = 7,
                                 photosynday_temp_lower = 15,
                                 photosynday_temp_upper = 30,
                                 photosynday_prec_max = 10,
@@ -326,6 +333,35 @@ get_weather_indices <- function(weather,
                               T_start =  soil_temp_star,
                               alpha = alpha)) 
   
+  #example foil
+  
+  # #put foil in the first week of Jan
+  # foil_i <- which(weather$yday %in% (1:7))
+  # weather_adj <- weather_adj %>% 
+  #   mutate(T_soil_foil = get_Tsoil(Tmean,
+  #                             T_start =  soil_temp_star,
+  #                             black_foil_i = foil_i,
+  #                             black_foil_tplus =black_foil_tplus,  
+  #                             alpha = alpha))
+  # 
+  # #check example when alpha is set higher
+  # alpha_higher <- weather_adj$alpha
+  # alpha_higher[foil_i] <- alpha_higher[foil_i] * (1+0.4)
+  # 
+  # weather_adj <- weather_adj %>% 
+  #   mutate(alpha_mod = alpha_higher,
+  #          T_soil_foilv2 = get_Tsoil(Tmean,
+  #                                  T_start =  soil_temp_star,
+  #                                  black_foil_tplus =black_foil_tplus,  
+  #                                  alpha = alpha_mod))
+  # 
+  # ggplot(weather_adj, aes(x = yday)) +
+  #   geom_rect(aes(xmin = 1, xmax = 7, ymin = -Inf, ymax = Inf), alpha = 0.3, fill = 'steelblue') +
+  #   geom_line(aes(y = T_soil, col = 'T_soil')) +
+  #   geom_line(aes(y = T_soil_foil,  col = 'T_soil_foil')) +
+  #   geom_line(aes(y = T_soil_foilv2,  col = 'T_soil_foilv2')) +
+  #   xlim(c(0, 90))
+  # ggsave('example_warming.jpeg')
   
   #---------------#
   #risk vegetative period
@@ -467,3 +503,48 @@ get_weather_indices <- function(weather,
   
   return(output_list)
 }
+
+
+rain_cutoff = 1
+lag_days_soil_wet = 1
+alpha_dry = 0.2
+alpha_wet = 0.12
+soil_temp_star = NULL
+black_foil_tplus = 7
+photosynday_temp_lower = 15
+photosynday_temp_upper = 30
+photosynday_prec_max = 10
+droughtstress_consec_dry = 5
+droughtstress_risk_initial = 0.05
+droughtstress_risk_follow = 0.01
+diseaserisk_temp_lower = 15
+diseaserisk_temp_upper = 25
+diseaserisk_prec_min = 5
+diseaserisk_day_consec = 5
+diseaserisk_risk_initial = 0.2
+diseaserisk_risk_follow = 0.05
+insectrisk_temp_lower = 20
+insectrisk_temp_upper = 30
+insectrisk_prec_max = 5
+insectrisk_day_consec = 5
+insectrisk_risk_initial = 0.1
+insectrisk_risk_follow = 0.01
+rainrisk_prec_strong = 30
+rainrisk_prec_extreme = 60
+rainrisk_risk_strong = 0.1
+rainrisk_risk_extreme = 0.3
+rainrisk_risk_follow = 0.05
+speargrowth_temp_crit = 14
+speargrowth_day_consec = 1
+harvest_start_temp = 14
+harvest_start_consec = 7
+frostrisk_temp_crit = 0
+frostrisk_risk_add = 0.1
+riskdiurnal_delta_crit = 20
+riskdiurnal_risk_add = 0.1
+rainharvest_Pcrit = 25
+rainharvest_risk_add = 0.1
+heatharvest_Tcrit_srong = 30
+heatharvest_Tcrit_extreme = 35
+heatharvest_risk_add_strong = 0.05
+heatharvest_risk_add_extreme = 0.1
