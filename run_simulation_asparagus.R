@@ -90,6 +90,7 @@ sim_585<-mcSimulation(estimate = as.estimate(scenario_585),
                       functionSyntax = "plainNames",
                       risk_df)
 
+
 sim_585_output<-youtputs_to_xinputs(sim_585, outputs)
 #sim_585_output<-sim_585
 

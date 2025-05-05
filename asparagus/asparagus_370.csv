@@ -14,7 +14,7 @@ Amount of chill received this winter,chill received,chill_portions,norm,500,,135
 Day of the year the temperature induces growth start (Spear starts growing at 14 degree soil temp),growth start,growth_start_doy,norm,65,,90
 "Day of the year for the 24th of june, traditonal season end",season end,season_end_doy,norm,175,,176
 optimal yield for area,standard yield,expected_yield,norm,8000,,12000
-optimal season length for area,standard season,expected_season_length,norm,80,,90
+optimal season length for area,standard season,expected_season_length,norm,60,,80
 days how long the first spear grow till first harvest,speargrowth,speargrowth,norm,5,,9
 risk for late frost occurrence during spear growth,late frost,late_frost_risk,tnorm_0_1,0.15,,0.35
 possible damage done by late frost events during spear growth,frost damage,late_frost_damage,tnorm_0_1,0.1,,0.3

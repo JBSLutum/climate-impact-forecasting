@@ -143,40 +143,40 @@ write.csv(risk_df,"weathergenerator/risk_df.csv")
 #risk_df<-read.csv("weathergenerator/risk_df.csv")
 
 
-risk_df %>% 
-  ggplot(aes(fill = ssp, x = drought_stress)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  ggplot(aes(fill = ssp, x = insect_risk)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  ggplot(aes(fill = ssp, x = photosynhthesis_day)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  ggplot(aes(fill = ssp, x = disease_risk)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  ggplot(aes(fill = ssp, x = risk_rain)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  drop_na() %>% 
-  ggplot(aes(fill = ssp, x = yday_harvest_star)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  drop_na() %>% 
-  ggplot(aes(fill = ssp, x = yday_speargrowth)) +
-  geom_density(alpha = 0.3)
-
-risk_df %>% 
-  drop_na() %>% 
-  ggplot(aes(fill = ssp, x = accumulated_chill)) +
-  geom_density(alpha = 0.3)
+# risk_df %>% 
+#   ggplot(aes(fill = ssp, x = drought_stress)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   ggplot(aes(fill = ssp, x = insect_risk)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   ggplot(aes(fill = ssp, x = photosynhthesis_day)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   ggplot(aes(fill = ssp, x = disease_risk)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   ggplot(aes(fill = ssp, x = risk_rain)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   drop_na() %>% 
+#   ggplot(aes(fill = ssp, x = yday_harvest_star)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   drop_na() %>% 
+#   ggplot(aes(fill = ssp, x = yday_speargrowth)) +
+#   geom_density(alpha = 0.3)
+# 
+# risk_df %>% 
+#   drop_na() %>% 
+#   ggplot(aes(fill = ssp, x = accumulated_chill)) +
+#   geom_density(alpha = 0.3)
 
 
 #combined plot

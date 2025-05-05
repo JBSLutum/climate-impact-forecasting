@@ -417,14 +417,14 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
             inherit.aes = FALSE,
             size = 4)
 
-library(ggstance)
-ggplot(results_yield_all_longer, aes(x=value, fill=name))+
-  geom_boxploth(aes(x = value, y = 2.5), width = 5)+
-  facet_wrap(~scenario, ncol=1)
-
-ggplot(results_yield_all_longer, aes(x=value,fill=name))+
-  geom_histogram(position="identity", binwidth = 10000)+
-  scale_x_continuous(name=NULL)+
-  scale_y_continuous(name=NULL)+
-  guides(x = "none", y = "none")+
-  facet_wrap(~scenario, ncol=1)
+# library(ggstance)
+# ggplot(results_yield_all_longer, aes(x=value, fill=name))+
+#   geom_boxploth(aes(x = value, y = 2.5), width = 5)+
+#   facet_wrap(~scenario, ncol=1)
+# 
+# ggplot(results_yield_all_longer, aes(x=value,fill=name))+
+#   geom_histogram(position="identity", binwidth = 10000)+
+#   scale_x_continuous(name=NULL)+
+#   scale_y_continuous(name=NULL)+
+#   guides(x = "none", y = "none")+
+#   facet_wrap(~scenario, ncol=1)

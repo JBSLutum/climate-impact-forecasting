@@ -31,7 +31,7 @@ growth_potential <- function(pad,
 
   
   # Ensure potential stays within [0, 1]
-  potential <- max(min(potential, 1), 0)
+  potential <- max(min(potential, 1), 0.1)
   
   return(potential)
 }
@@ -43,7 +43,7 @@ growth_potential <- function(pad,
 chill_requirement <- function(required_chill, actual_chill) {
   if (required_chill > 0){
     chillratio<-actual_chill/required_chill
-    chillratio <- max(min(chillratio, 1), 0)}
+    chillratio <- max(min(chillratio, 1), 0.1)}
   else {chillratio <- 1}
   return(chillratio)
 }
@@ -97,7 +97,7 @@ yield_estimate <- function(
   
   
   # Cap loss to max 100%
-  total_quality_loss <- min(total_quality_loss, 1)
+  total_quality_loss <- min(total_quality_loss, 0.9)
   
   # 3. Marketable yield after quality loss
   marketable_yield <- actual_yield * (1 - total_quality_loss)
@@ -114,9 +114,9 @@ yield_estimate <- function(
 
 
 ####make_variables####
-'make_variables<-function(est,n=1)
-{ x<-random(rho=est, n=n)
-for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
-
-make_variables(estimate_read_csv("asparagus/asparagus_today.csv"))'
+# make_variables<-function(est,n=1)
+# { x<-random(rho=est, n=n)
+# for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
+# 
+# make_variables(estimate_read_csv("asparagus/asparagus_today.csv"))
 
