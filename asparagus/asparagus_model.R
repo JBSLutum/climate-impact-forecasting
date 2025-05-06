@@ -104,8 +104,8 @@ yield_estimate <- function(
   
   # 4. Return output
   return(list(
-    actual_yield = actual_yield,
-    marketable_yield = marketable_yield,
+    actual_yield = actual_yield/100,
+    marketable_yield = marketable_yield/100,
     quality_loss = total_quality_loss
   ))
 }

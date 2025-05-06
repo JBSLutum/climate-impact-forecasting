@@ -8,6 +8,7 @@ get_Tsoil <- function(Tmean, alpha, T_start = NULL,
   if(is.null(T_start)) T_start <- Tmean[1]
   if(length(alpha) == 1) alpha <- rep(alpha, length(Tmean))
   if(is.null(black_foil_i) == FALSE){
+    if(length(alpha) == 1) alpha <- rep(0.25, length(Tmean))
     Tmean[black_foil_i] <- Tmean[black_foil_i] + black_foil_tplus
   }
   
@@ -18,6 +19,7 @@ get_Tsoil <- function(Tmean, alpha, T_start = NULL,
     T_soil[i] = T_soil[i-1] + alpha[i] * (Tmean[i] - T_soil[i-1])
     i <- i+1
   }
+
   return(T_soil)
 }
 #could modify alpha to mimick effect of foils:
@@ -215,7 +217,7 @@ get_speargrowth_start <-function(T_soil, T_crit = 14, consecutive_days = 3){
 }
 
 #get first harvest day
-get_first_harvest <- function(T_soil, i_start, T_crit = 14, day_min = 7){
+get_first_harvest <- function(T_soil, i_start, T_crit = 11, day_min = 7){
   day_til_harvest <- day_min
   i <- i_start
   if(is.na(i_start)) return(NA)
@@ -425,7 +427,7 @@ get_weather_indices <- function(weather,
   weather_sub_chill <- weather_adj %>% 
     filter(yday_plot >= -60)
   weather_sub <- weather_adj %>% 
-    filter(yday_plot >= 40)
+    filter(yday_plot >= 0)
   
   #index when speargrowth condition is fulfilled, 
   i_start <- get_speargrowth_start(T_soil = weather_sub$T_soil, 
@@ -544,9 +546,9 @@ rainrisk_prec_extreme = 60
 rainrisk_risk_strong = 0.1
 rainrisk_risk_extreme = 0.3
 rainrisk_risk_follow = 0.05
-speargrowth_temp_crit = 11
+speargrowth_temp_crit = 12
 speargrowth_day_consec = 3
-harvest_start_temp = 11
+harvest_start_temp = 12
 harvest_start_consec = 7
 frostrisk_temp_crit = -4
 frostrisk_risk_add = 0.05
