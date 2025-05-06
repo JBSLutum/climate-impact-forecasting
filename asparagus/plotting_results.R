@@ -268,8 +268,8 @@ ggplot(VIP_and_Coef_tyield_threshold_longer, aes(tyieldsim, forcats::fct_rev(var
   scale_x_discrete(labels=labels, position = "top")+
   geom_vline(xintercept = seq(0.5,5.5,1), linewidth=.2, color="gray75")+
   theme(plot.caption = element_text(hjust = 0),
-        plot.caption.position =  "plot")+
-  labs(caption = "*This variable has a negative value. A less negative i.e. higher value positively influences\nthe total yield, as the fruit growth is inhibited less strongly.")
+        plot.caption.position =  "plot")
+  #labs(caption = "")
 
 dev.off()
 
