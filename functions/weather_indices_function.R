@@ -210,7 +210,11 @@ get_speargrowth_start <-function(T_soil, T_crit = 14, consecutive_days = 3){
   i_test <- which(test$values == 1 & test$lengths >= consecutive_days) %>% min()
   i_start <- NA
   if(is.infinite(i_test) == FALSE){
-    i_start <- sum(test$lengths[1:(i_test-1)]) + consecutive_days
+    if(i_test == 1){
+      i_start <- consecutive_days
+    } else {
+      i_start <- sum(test$lengths[1:(i_test-1)]) + consecutive_days
+    }
   }
   
   return(i_start)
@@ -379,6 +383,11 @@ get_weather_indices <- function(weather,
   #risk vegetative period
   #---------------#
   
+  # weather_vegetation %>% 
+  #   pivot_longer(cols = c('Tmin', 'Tmax', 'Tmean', 'T_soil')) %>% 
+  #   ggplot(aes(x =yday_plot, y = value, col = name)) +
+  #   geom_line()
+  
   weather_vegetation <- weather_adj %>% 
     filter(yday_plot < -60) %>% 
     mutate(photosynhthesis_day = get_photosynthesis_days(Tmean = Tmean,
@@ -427,7 +436,7 @@ get_weather_indices <- function(weather,
   weather_sub_chill <- weather_adj %>% 
     filter(yday_plot >= -60)
   weather_sub <- weather_adj %>% 
-    filter(yday_plot >= 0)
+    filter(yday_plot >= 40)
   
   #index when speargrowth condition is fulfilled, 
   i_start <- get_speargrowth_start(T_soil = weather_sub$T_soil, 
@@ -447,9 +456,12 @@ get_weather_indices <- function(weather,
                                   T_crit = harvest_start_temp,
                                   day_min = harvest_start_consec)
     
+    #i_start refers to the index of weather_sub
+    #adjust i_start for weather_sub:chill (because it determines when chill accumulation stops)
+    i_stop_chill <- i_start + (nrow(weather_sub_chill) - nrow(weather_sub))
     
     #calculate accumulated chill until speargrowth start?
-    accumulated_chill <- get_chill(weather = weather_sub_chill, lat = latitude, i_start = i_start)
+    accumulated_chill <- get_chill(weather = weather_sub_chill, lat = latitude, i_start = i_stop_chill)
     
   }
   
@@ -487,6 +499,12 @@ get_weather_indices <- function(weather,
     rainharvest_risk <- weather_harvest$rainrisk_harvest[nrow(weather_harvest)]
     heatharvest_risk <- weather_harvest$heatrisk_harvest[nrow(weather_harvest)]
   }
+  
+  # weather_harvest %>%
+  #   mutate(diurnal_risk = diurnal_risk * 15) %>% 
+  #   pivot_longer(cols = c('Tmin', 'Tmax', 'diurnal_risk')) %>%
+  #   ggplot(aes(x =yday_plot, y = value, col = name)) +
+  #   geom_line()
 
   #cap the risk indices, so that they are between 0.0 and 1.0
   
@@ -498,6 +516,9 @@ get_weather_indices <- function(weather,
   diurnal_risk <- ifelse(diurnal_risk > 1, yes = 1, no = diurnal_risk)
   rainharvest_risk <- ifelse(rainharvest_risk > 1, yes = 1, no = rainharvest_risk)
   heatharvest_risk <- ifelse(heatharvest_risk > 1, yes = 1, no = heatharvest_risk)
+  
+  #get mean soil temperature
+  Tsoil_mean <- weather_harvest$T_soil %>% mean()
   
   
   output_list <- list(drought_stress = drought_stress,
@@ -511,7 +532,8 @@ get_weather_indices <- function(weather,
                       frost_risk = frost_risk,
                       diurnal_risk = diurnal_risk,
                       rainharvest_risk = rainharvest_risk,
-                      heatharvest_risk = heatharvest_risk)
+                      heatharvest_risk = heatharvest_risk,
+                      Tsoil_mean = Tsoil_mean)
   
   return(output_list)
 }
@@ -523,6 +545,7 @@ alpha_dry = 0.2
 alpha_wet = 0.12
 soil_temp_star = NULL
 black_foil_tplus = 7
+black_foil_yday=c(41:200)
 photosynday_temp_lower = 15
 photosynday_temp_upper = 30
 photosynday_prec_max = 10

@@ -25,6 +25,7 @@ asparagus_sim<-function(risk_df=NULL){
   temp_fluctuation_risk <- risk_df$diurnal_risk[id]
   extreme_rainfall_risk <- risk_df$rainharvest_risk[id]
   extreme_heat_risk <- risk_df$heatharvest_risk[id]
+  Tsoil_mean<-risk_df$Tsoil_mean[id]
   
   #estimation input table
   #pad <- photosynthetic_active_days
@@ -110,6 +111,7 @@ asparagus_sim<-function(risk_df=NULL){
     chill,
     season_days,
     standard_season_length,
+    Tsoil_mean,
     
     late_frost_occ,
     temp_fluctuation_occ,
@@ -132,7 +134,8 @@ asparagus_sim<-function(risk_df=NULL){
                   late_frost_risk=late_frost_risk,
                   temp_fluctuation_risk=temp_fluctuation_risk,
                   extreme_rainfall_risk=extreme_rainfall_risk,
-                  extreme_heat_risk=extreme_heat_risk
+                  extreme_heat_risk=extreme_heat_risk,
+                  Tsoil_mean=Tsoil_mean
                   ))
 }
 

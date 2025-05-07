@@ -22,7 +22,8 @@ outputs<-c("water_stress_risk",
            "late_frost_risk",
            "temp_fluctuation_risk",
            "extreme_rainfall_risk",
-           "extreme_heat_risk")
+           "extreme_heat_risk",
+           "Tsoil_mean")
 
 
 ####Simulation run: today####

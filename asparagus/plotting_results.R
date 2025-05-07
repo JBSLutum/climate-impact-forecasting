@@ -166,8 +166,8 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   scale_x_discrete(labels=labels, position = "top")+
   geom_vline(xintercept = seq(0.5,5.5,1), linewidth=.2, color="gray75")+
   theme(plot.caption = element_text(hjust = 0),
-        plot.caption.position =  "plot")
-  #labs(caption = "")
+        plot.caption.position =  "plot")+
+  labs(caption = "*This variable has a negative value. A less negative i.e. higher value positively influences\nthe high-quality yield, as the fruit growth is inhibited less strongly.")
 
 dev.off()
 ####pls+vip+plot total yield####
@@ -415,15 +415,12 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
                 y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
                 label = paste0(round(percent), "%")),
             inherit.aes = FALSE,
-            size = 4)
+            size = 4)+
+  geom_hline(yintercept = 60, linetype="dashed", )+
+  annotate(geom="text", x =  Inf, y=40, label=c("60 dt/ha Yield 2020"), color="black", fontface="plain",hjust = 1,vjust=0, angle=0)
 
-# library(ggstance)
-# ggplot(results_yield_all_longer, aes(x=value, fill=name))+
-#   geom_boxploth(aes(x = value, y = 2.5), width = 5)+
-#   facet_wrap(~scenario, ncol=1)
-# 
 
-#devtools::install_github("psyteachr/introdataviz")
+devtools::install_github("psyteachr/introdataviz")
 library(introdataviz)
 ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
   geom_split_violin()+
@@ -436,6 +433,12 @@ ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
             inherit.aes = FALSE,
             size = 4)
 
+
+# library(ggstance)
+# ggplot(results_yield_all_longer, aes(x=value, fill=name))+
+#   geom_boxploth(aes(x = value, y = 2.5), width = 5)+
+#   facet_wrap(~scenario, ncol=1)
+# 
 ggplot(results_yield_all_longer, aes(x=value,fill=name))+
   geom_histogram(position="identity", binwidth = 1, alpha=.5)+
   scale_x_continuous(name=NULL)+

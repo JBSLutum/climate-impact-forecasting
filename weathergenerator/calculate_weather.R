@@ -77,8 +77,10 @@ test <- split(x = weather_combined, f = weather_combined$id_seaon)
 #                        .progress = TRUE)
 
 #apply function to each season
-test_out <- purrr::map(test, function(x) get_weather_indices(x, lat),
+test_out <- purrr::map(test, function(x) get_weather_indices(weather = x, latitude = lat),
                        .progress = TRUE)
+#weather <- test[[1967]]
+#x <- test[3438]
 
 #get ssp names
 ssp <- names(test) %>% 
@@ -110,6 +112,7 @@ frost_risk <- purrr::map_dbl(test_out, 'frost_risk')
 diurnal_risk <- purrr::map_dbl(test_out, 'diurnal_risk')
 rainharvest_risk <- purrr::map_dbl(test_out, 'rainharvest_risk')
 heatharvest_risk <- purrr::map_dbl(test_out, 'heatharvest_risk')
+Tsoil_mean <- purrr::map_dbl(test_out, 'Tsoil_mean')
 
 risk_df <- data.frame(ssp,
            drought_stress, 
@@ -123,9 +126,10 @@ risk_df <- data.frame(ssp,
            frost_risk,
            diurnal_risk,
            rainharvest_risk,
-           heatharvest_risk
+           heatharvest_risk,
+           Tsoil_mean
 ) %>% 
-  mutate(id = 1:length(heatharvest_risk))
+  mutate(id = 1:length(Tsoil_mean))
 
 risk_df %>% 
   group_by(ssp) %>% 
@@ -181,7 +185,7 @@ write.csv(risk_df,"weathergenerator/risk_df.csv")
 
 #combined plot
 risk_df %>% 
-  pivot_longer(cols = drought_stress:heatharvest_risk) %>% 
+  pivot_longer(cols = drought_stress:Tsoil_mean) %>% 
   drop_na() %>% 
   ggplot(aes(fill = ssp, x = value)) +
   geom_density(alpha = 0.3) +
