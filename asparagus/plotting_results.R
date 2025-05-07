@@ -384,11 +384,11 @@ results_marktyield_245<-sim_results_245$y[c(1,2)]
 results_marktyield_370<-sim_results_370$y[c(1,2)]
 results_marktyield_585<-sim_results_585$y[c(1,2)]
 #adding row for scenario identification
-results_marktyield_today$scenario<-as.character("2020")
-results_marktyield_126$scenario<-as.character("2075_126")
-results_marktyield_245$scenario<-as.character("2075_245")
-results_marktyield_370$scenario<-as.character("2075_370")
-results_marktyield_585$scenario<-as.character("2075_585")
+results_marktyield_today$scenario<-as.character("Year 2020")
+results_marktyield_126$scenario<-as.character("Year 2075\nSSP126")
+results_marktyield_245$scenario<-as.character("Year 2075\nSSP245")
+results_marktyield_370$scenario<-as.character("Year 2075\nSSP370")
+results_marktyield_585$scenario<-as.character("Year 2075\nSSP585")
 #all together
 results_yield_all<-rbind(results_marktyield_today,results_marktyield_126,results_marktyield_245,results_marktyield_370,results_marktyield_585)
 #rename column
@@ -416,22 +416,46 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
                 label = paste0(round(percent), "%")),
             inherit.aes = FALSE,
             size = 4)+
+  theme(legend.title = element_blank(),legend.position = "right")+
+  scale_x_discrete(name="Climate scenario")+
+  scale_y_continuous(name="Yield dt/ha")+
   geom_hline(yintercept = 60, linetype="dashed", )+
-  annotate(geom="text", x =  Inf, y=40, label=c("60 dt/ha Yield 2020"), color="black", fontface="plain",hjust = 1,vjust=0, angle=0)
+  annotate(geom="text", x =  -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
 
-
-devtools::install_github("psyteachr/introdataviz")
-library(introdataviz)
-ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
-  geom_split_violin()+
-  geom_boxplot(width=0.1)+
-  theme(legend.position = "none")+
+ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
+  geom_violin(position = position_dodge(width = 0.8)) +
+  geom_boxplot(width=0.1,position = position_dodge(width = 0.8))+
   geom_text(data = summary_df,
             aes(x = scenario,
                 y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
                 label = paste0(round(percent), "%")),
             inherit.aes = FALSE,
-            size = 4)
+            size = 4)+
+  theme(legend.title = element_blank(),legend.position = "right")+
+  scale_x_discrete(name="Climate scenario")+
+  scale_y_continuous(name="Yield dt/ha")+
+  geom_hline(yintercept = 60, linetype="dashed", )+
+  annotate(geom="text", x =  -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
+
+
+
+#devtools::install_github("psyteachr/introdataviz")
+library(introdataviz)
+ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
+  geom_split_violin(draw_quantiles=TRUE, trim=TRUE)+
+  geom_boxplot(width=0.5)+
+  theme(legend.title = element_blank(),legend.position = "top")+
+  scale_x_discrete(name="Climate scenario")+
+  scale_y_continuous(name="Yield dt/ha")+
+  geom_hline(yintercept = 60, linetype="dashed",size=1 )+
+  geom_text(data = summary_df,
+            aes(x = scenario,
+                y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
+                label = paste0(round(percent), "%")),
+            inherit.aes = FALSE,
+            size = 3)+
+  annotate(geom="text", x = -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+
 
 
 # library(ggstance)
@@ -441,9 +465,10 @@ ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
 # 
 ggplot(results_yield_all_longer, aes(x=value,fill=name))+
   geom_histogram(position="identity", binwidth = 1, alpha=.5)+
-  scale_x_continuous(name=NULL)+
-  scale_y_continuous(name=NULL)+
-  guides(x = "none", y = "none")+
+  theme(legend.title = element_blank(),legend.position = "right")+
+  scale_x_continuous(name="Yield dt/ha")+
+  scale_y_continuous(name="")+
+  geom_vline(xintercept = 60, linetype="dashed", )+
   facet_wrap(~scenario, ncol=1)
 
 ggplot(results_yield_all_longer, aes(x=value,fill=name))+
