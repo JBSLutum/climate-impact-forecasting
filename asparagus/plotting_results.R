@@ -166,8 +166,8 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   scale_x_discrete(labels=labels, position = "top")+
   geom_vline(xintercept = seq(0.5,5.5,1), linewidth=.2, color="gray75")+
   theme(plot.caption = element_text(hjust = 0),
-        plot.caption.position =  "plot")+
-  labs(caption = "*This variable has a negative value. A less negative i.e. higher value positively influences\nthe high-quality yield, as the fruit growth is inhibited less strongly.")
+        plot.caption.position =  "plot")
+  #labs(caption = "")
 
 dev.off()
 ####pls+vip+plot total yield####
@@ -422,12 +422,26 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
 #   geom_boxploth(aes(x = value, y = 2.5), width = 5)+
 #   facet_wrap(~scenario, ncol=1)
 # 
+
+#devtools::install_github("psyteachr/introdataviz")
+library(introdataviz)
+ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
+  geom_split_violin()+
+  geom_boxplot(width=0.1)+
+  theme(legend.position = "none")+
+  geom_text(data = summary_df,
+            aes(x = scenario,
+                y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
+                label = paste0(round(percent), "%")),
+            inherit.aes = FALSE,
+            size = 4)
+
 ggplot(results_yield_all_longer, aes(x=value,fill=name))+
-  geom_histogram(position="identity", binwidth = 100, alpha=.5)+
+  geom_histogram(position="identity", binwidth = 1, alpha=.5)+
   scale_x_continuous(name=NULL)+
   scale_y_continuous(name=NULL)+
   guides(x = "none", y = "none")+
-  facet_wrap(~scenario, nrow=1)
+  facet_wrap(~scenario, ncol=1)
 
 ggplot(results_yield_all_longer, aes(x=value,fill=name))+
   geom_density()+
