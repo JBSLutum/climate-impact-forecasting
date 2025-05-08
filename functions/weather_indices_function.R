@@ -3,24 +3,86 @@
 
 #use function by Van Wijk & De Vries (1963)
 get_Tsoil <- function(Tmean, alpha, T_start = NULL,
+                      foil_start = 'black',
+                      t_soil_opt = 20, 
+                      foil_thres = 0.1,
                       black_foil_i = NULL,
-                      black_foil_tplus = 7){
+                      foil_tplus = 7){
+  
+  #if there is no starting temperature defined, just take first observation as a starting point
   if(is.null(T_start)) T_start <- Tmean[1]
+  
+  #alpha controls how inert the soil is, low alpha means slow warm-up but also slow heat loss
+  #high alpha means quick heat up but also quick heat-loss
+  #if one alpha value is supplied, then it is set for the whole temperature time series
+  #otherwise the user can adjust alpha before the function call (for example modify alpha dependent if the soil is wet or dry)
   if(length(alpha) == 1) alpha <- rep(alpha, length(Tmean))
+  
+  #on days with black foil, the temperature (of the air...) is increased by a constant value to mimick higher temperatures under foil
   if(is.null(black_foil_i) == FALSE){
-    if(length(alpha) == 1) alpha <- rep(0.25, length(Tmean))
     Tmean[black_foil_i] <- Tmean[black_foil_i] + black_foil_tplus
   }
   
+  #create a vector with temperature data, this will gradually replaced by the actually calculated temperature
   T_soil <- rep(T_start, length(Tmean))
   
+  #foil indicates what kind of foil is currently on the dam
+  #three possible conditions: no foil, white or black foil
+  foil <- foil_start
+  
+  #t_soil_opt
+  #optimium temperature of the soil, that the farmers want to maintain
+  
+  #foil_thres
+  #tolerance of conditions outside the optimal temperature. if temperature below or above,
+  #then foil management is triggered
+  
+  #counts how often foil is changed
+  change_foil <- rep(0, length(Tmean))
+  foil_was_changed <- 0
+  foil_vec <- rep('black', length(Tmean))
+  
+  #iterate over all temperature entries. start at the second entry, as it always also includes the 
+  #soil temperature at the time step before and the air temperature of the current day
   i <- 2
   while(i <= length(Tmean)){
+    
+    foil_was_changed <- 0
+    
+    #if soil temperature is too low and white foil (or no foil is one), apply black foil
+    if (T_soil[i-1] < t_soil_opt*(1-foil_thres)&foil=="white"){
+      foil<-"black"
+      foil_was_changed <- 1
+      } else if (T_soil[i-1]>t_soil_opt*(1+foil_thres)&foil=="black"){
+      foil<-"white"
+      foil_was_changed <- 1
+      }
+    
+    #update change foil
+    change_foil[i] <- change_foil[i-1] +foil_was_changed
+    
+    #update foil status
+    foil_vec[i] <- foil
+    
+    if (foil=="black"){
+      foil_tplus<-abs(foil_tplus)
+      alpha[i]<-0.25
+    } else if (foil=="white"){
+      foil_tplus<- - abs(foil_tplus)
+      alpha[i]<-0.15
+    }
+    
+    
+    
+    
     T_soil[i] = T_soil[i-1] + alpha[i] * (Tmean[i] - T_soil[i-1])
     i <- i+1
   }
 
-  return(T_soil)
+  #return soil temperature
+  return(list('T_soil' = T_soil,
+              'change_foil' = change_foil,
+              'foil' = foil_vec))
 }
 #could modify alpha to mimick effect of foils:
 #black foil faster warming, so higher alpha
@@ -29,14 +91,25 @@ get_Tsoil <- function(Tmean, alpha, T_start = NULL,
 
 
 check_soil_wet <- function(Prec, rain_cutoff = 1, rain_lag = 1){
+  #create a vector, that stores the condition if soil is wet
   soil_wet <- rep(FALSE, length(Prec))
+  #create vector indicating if it rained
   rained <- Prec > rain_cutoff
+  #iterate over the rain vector:
+  #if it rained today or the day before (depending on the rain_lag value it can also be more days)
+  #--> soil is wet
+  #otherwise soil is dry
   i <- 1
   while(i <= length(Prec)){
+    #index of start for the wetness check
     j <- i - rain_lag
+    #indices to check from start to end of wetness check
     i_vec <- j:i
+    #exclude indices that are outside of the vector(so smaller than 1 or larger than length of vector)
     i_vec <- i_vec[i_vec > 0 & i_vec <= length(Prec)]
+    #if it rained on any of the days that were checked, then soil is wet
     if(any(rained[i_vec])) soil_wet[i] <- TRUE
+    #go to the next day
     i <- i+1
   }
   return(soil_wet)
@@ -285,6 +358,9 @@ get_weather_indices <- function(weather,
                                 soil_temp_star = NULL,
                                 black_foil_yday=c(41:200),
                                 black_foil_tplus = 7,
+                                t_soil_opt = 20,
+                                foil_thres = 0.1,
+                                foil_start = 'black',
                                 photosynday_temp_lower = 15,
                                 photosynday_temp_upper = 30,
                                 photosynday_prec_max = 15,
@@ -337,17 +413,29 @@ get_weather_indices <- function(weather,
                                      rain_cutoff = rain_cutoff, 
                                      rain_lag = lag_days_soil_wet),
            Tmean = (Tmin + Tmax) / 2,
-           alpha = ifelse(soil_wet, yes = alpha_wet, no = alpha_dry),
-           T_soil = get_Tsoil(Tmean = Tmean,
-                              black_foil_i = foil_i,
-                              black_foil_tplus = black_foil_tplus,
-                              T_start =  soil_temp_star,
-                              alpha = alpha), 
-           Tsoil2 = get_Tsoil(Tmean = Tmean,
-                              black_foil_i = NULL,
-                              black_foil_tplus = black_foil_tplus,
-                              T_start =  soil_temp_star,
-                              alpha = alpha)) 
+           alpha = ifelse(soil_wet, yes = alpha_wet, no = alpha_dry))
+  
+  soil_out <- get_Tsoil(Tmean = weather_adj$Tmean,
+                        black_foil_i = foil_i,
+                        foil_thres = foil_thres,
+                        foil_start = foil_start,
+                        t_soil_opt = t_soil_opt,
+                        foil_tplus =  black_foil_tplus,
+                        T_start =  soil_temp_star,
+                        alpha = weather_adj$alpha)
+  
+  weather_adj$T_soil <- soil_out$T_soil
+  weather_adj$change_foil <- soil_out$change_foil
+  weather_adj$foil <- soil_out$foil
+  
+  # weather_adj %>% 
+  #   ggplot(aes(x = yday_plot)) +
+  #   geom_line(aes(y = T_soil)) +
+  #   geom_ribbon(aes(ymin = t_soil_opt * (1-foil_thres),
+  #                   ymax = t_soil_opt * (1+foil_thres)),
+  #               alpha = 0.2) +
+  #   geom_tile(aes(y =30, fill = foil))
+
   
   #example foil
   
@@ -546,6 +634,9 @@ alpha_wet = 0.12
 soil_temp_star = NULL
 black_foil_tplus = 7
 black_foil_yday=c(41:200)
+t_soil_opt = 20
+foil_thres = 0.1
+foil_start = 'black'
 photosynday_temp_lower = 15
 photosynday_temp_upper = 30
 photosynday_prec_max = 10
