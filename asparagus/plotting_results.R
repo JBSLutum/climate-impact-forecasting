@@ -442,12 +442,12 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
 #devtools::install_github("psyteachr/introdataviz")
 library(introdataviz)
 ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
-  geom_split_violin(draw_quantiles=TRUE, trim=TRUE)+
+  geom_split_violin()+
   geom_boxplot(width=0.5)+
   theme(legend.title = element_blank(),legend.position = "top")+
   scale_x_discrete(name="Climate scenario")+
   scale_y_continuous(name="Yield dt/ha")+
-  geom_hline(yintercept = 60, linetype="dashed",size=1 )+
+  geom_hline(yintercept = 60, linetype="dashed",linewidth=1 )+
   geom_text(data = summary_df,
             aes(x = scenario,
                 y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
