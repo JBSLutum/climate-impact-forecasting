@@ -86,7 +86,8 @@ yield_estimate <- function(
   #Soil temperature influence, ideal is 20 degree, temperature over or under are
   #give reduction via Gaussian response function
   T_opt<-20
-  sigma<-2
+  sigma<-2.5
+  #Tsoil_mean<-15
   temp_factor<-exp(-((Tsoil_mean - T_opt)^2) / (2 * sigma^2))
   
   actual_yield <- standard_yield * gp * chill * season_factor *temp_factor

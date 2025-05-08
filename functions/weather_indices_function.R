@@ -19,9 +19,9 @@ get_Tsoil <- function(Tmean, alpha, T_start = NULL,
   if(length(alpha) == 1) alpha <- rep(alpha, length(Tmean))
   
   #on days with black foil, the temperature (of the air...) is increased by a constant value to mimick higher temperatures under foil
-  if(is.null(black_foil_i) == FALSE){
-    Tmean[black_foil_i] <- Tmean[black_foil_i] + foil_tplus
-  }
+  # if(is.null(black_foil_i) == FALSE){
+  #    Tmean[black_foil_i] <- Tmean[black_foil_i] + foil_tplus
+  # }
   
   #create a vector with temperature data, this will gradually replaced by the actually calculated temperature
   T_soil <- rep(T_start, length(Tmean))
@@ -355,7 +355,7 @@ get_weather_indices <- function(weather,
                                 lag_days_soil_wet = 1,
                                 alpha_dry = 0.2,
                                 alpha_wet = 0.12,
-                                soil_temp_star = NULL,
+                                soil_temp_star = 0.1,
                                 black_foil_yday=c(41:200),
                                 black_foil_tplus = 7,
                                 t_soil_opt = 20,
@@ -384,11 +384,11 @@ get_weather_indices <- function(weather,
                                 rainrisk_risk_strong = 0.1,
                                 rainrisk_risk_extreme = 0.3,
                                 rainrisk_risk_follow = 0.05,
-                                speargrowth_temp_crit = 12,
+                                speargrowth_temp_crit = 14,
                                 speargrowth_day_consec = 3,
-                                harvest_start_temp = 12,
+                                harvest_start_temp = 14,
                                 harvest_start_consec = 7,
-                                frostrisk_temp_crit = -2,
+                                frostrisk_temp_crit = -4,
                                 frostrisk_risk_add = 0.1,
                                 riskdiurnal_delta_crit = 20,
                                 riskdiurnal_risk_add = 0.1,
@@ -413,6 +413,7 @@ get_weather_indices <- function(weather,
                                      rain_cutoff = rain_cutoff, 
                                      rain_lag = lag_days_soil_wet),
            Tmean = (Tmin + Tmax) / 2,
+           #Tmean_foil = (0.3*Tmin + 0.7*Tmax),
            alpha = ifelse(soil_wet, yes = alpha_wet, no = alpha_dry))
   
   soil_out <- get_Tsoil(Tmean = weather_adj$Tmean,
@@ -631,7 +632,7 @@ rain_cutoff = 1
 lag_days_soil_wet = 1
 alpha_dry = 0.2
 alpha_wet = 0.12
-soil_temp_star = NULL
+soil_temp_star = 0.1
 black_foil_tplus = 7
 black_foil_yday=c(41:200)
 t_soil_opt = 20
@@ -660,9 +661,9 @@ rainrisk_prec_extreme = 60
 rainrisk_risk_strong = 0.1
 rainrisk_risk_extreme = 0.3
 rainrisk_risk_follow = 0.05
-speargrowth_temp_crit = 12
+speargrowth_temp_crit = 14
 speargrowth_day_consec = 3
-harvest_start_temp = 12
+harvest_start_temp = 14
 harvest_start_consec = 7
 frostrisk_temp_crit = -4
 frostrisk_risk_add = 0.05

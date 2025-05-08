@@ -27,3 +27,4 @@ Possible damage of extreme heat events during harvest,damage heat,extreme_heat_d
 Quality losses that reduce marketable yield,quality loss,quality_loss,const,0,,0
 Growth potential accumulated during vegetative phase,growth potential,growth_potential,const,0,,0
 Draw of weather generator season,weather season,id,unif,181,,1519
+Soiltemperature over harvest,mean soil temp,Tsoil_mean,norm,15,,25

@@ -419,8 +419,8 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   theme(legend.title = element_blank(),legend.position = "right")+
   scale_x_discrete(name="Climate scenario")+
   scale_y_continuous(name="Yield dt/ha")+
-  geom_hline(yintercept = 60, linetype="dashed", )+
-  annotate(geom="text", x =  -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
+  geom_hline(yintercept = 56.3, linetype="dashed", )+
+  annotate(geom="text", x =  -Inf, y=55, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_violin(position = position_dodge(width = 0.8)) +
