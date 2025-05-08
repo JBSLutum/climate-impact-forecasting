@@ -20,7 +20,7 @@ get_Tsoil <- function(Tmean, alpha, T_start = NULL,
   
   #on days with black foil, the temperature (of the air...) is increased by a constant value to mimick higher temperatures under foil
   if(is.null(black_foil_i) == FALSE){
-    Tmean[black_foil_i] <- Tmean[black_foil_i] + black_foil_tplus
+    Tmean[black_foil_i] <- Tmean[black_foil_i] + foil_tplus
   }
   
   #create a vector with temperature data, this will gradually replaced by the actually calculated temperature
@@ -75,7 +75,7 @@ get_Tsoil <- function(Tmean, alpha, T_start = NULL,
     
     
     
-    T_soil[i] = T_soil[i-1] + alpha[i] * (Tmean[i] - T_soil[i-1])
+    T_soil[i] = T_soil[i-1] + alpha[i] * (Tmean[i] + foil_tplus - T_soil[i-1])
     i <- i+1
   }
 
