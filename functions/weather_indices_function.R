@@ -428,13 +428,13 @@ get_weather_indices <- function(weather,
   weather_adj$change_foil <- soil_out$change_foil
   weather_adj$foil <- soil_out$foil
   
-  weather_adj %>% 
-    ggplot(aes(x = yday_plot)) +
-    geom_line(aes(y = T_soil)) +
-    geom_ribbon(aes(ymin = t_soil_opt * (1-foil_thres),
-                    ymax = t_soil_opt * (1+foil_thres)),
-                alpha = 0.2) +
-    geom_tile(aes(y =30, fill = foil))
+  # weather_adj %>% 
+  #   ggplot(aes(x = yday_plot)) +
+  #   geom_line(aes(y = T_soil)) +
+  #   geom_ribbon(aes(ymin = t_soil_opt * (1-foil_thres),
+  #                   ymax = t_soil_opt * (1+foil_thres)),
+  #               alpha = 0.2) +
+  #   geom_tile(aes(y =30, fill = foil))
 
   
   #example foil
