@@ -6,6 +6,7 @@ library(patchwork)
 library(tidyverse)
 library(decisionSupport)
 library(dplyr)
+library(ggh4x)
 
 #Prepare formatting functions####
 options(scipen=100000)
@@ -400,6 +401,11 @@ names(results_yield_all)<-c("total_yield", "marketable_yield", "scenario")
 results_yield_all_longer<- pivot_longer(results_yield_all, cols = c(total_yield, marketable_yield))
 results_yield_all_longer$name<-factor(results_yield_all_longer$name, levels= c("total_yield","marketable_yield"))
 
+results_yield_all_longer <- results_yield_all_longer %>%
+  mutate(period = ifelse(scenario == "Year 2020", "2020", "2075"))
+results_yield_all_longer$period<- as.factor(results_yield_all_longer$period)
+results_yield_all_longer$scenario<- as.factor(results_yield_all_longer$scenario)
+
 #mittelwerte
 summary_df <- results_yield_all_longer %>%
   group_by(scenario, name) %>%
@@ -410,30 +416,40 @@ summary_df <- results_yield_all_longer %>%
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_boxplot(position = position_dodge(width = 0.8)) +
+  facet_grid(~period,scales="free_x",space="free_x")+
   geom_text(data = summary_df,
             aes(x = scenario,
                 y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
                 label = paste0(round(percent), "%")),
             inherit.aes = FALSE,
             size = 4)+
-  theme(legend.title = element_blank(),legend.position = "right")+
+  theme(legend.title = element_blank(),
+        legend.position = "right",
+        strip.background = element_rect(fill = "lightgrey"),
+        strip.text = element_text(size = 12, face = "bold"))+
   scale_x_discrete(name="Climate scenario")+
   scale_y_continuous(name="Yield dt/ha")+
   geom_hline(yintercept = 56.3, linetype="dashed", )+
-  annotate(geom="text", x =  -Inf, y=55, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
+  annotate(geom="text", x =  -Inf, y=55, label=c("56.3 dt/ha\nYield 2020"), color="black", 
+           fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
+
+ggplot(results_yield_all_longer, aes(x = scenario, y = value, fill = name)) +
+  geom_boxplot(position = position_dodge(width = 0.8)) +
+  facet_grid(~ period, scales = "free_x", space = "free_x") +
+  theme(strip.background = element_blank())+
+  scale_x_discrete(name="Climate scenario")+
+  scale_y_continuous(name="Yield dt/ha")+
+  geom_hline(yintercept = 56.3, linetype="dashed", )
+  
+  
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_violin(position = position_dodge(width = 0.8)) +
   geom_boxplot(width=0.1,position = position_dodge(width = 0.8))+
-  geom_text(data = summary_df,
-            aes(x = scenario,
-                y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
-                label = paste0(round(percent), "%")),
-            inherit.aes = FALSE,
-            size = 4)+
   theme(legend.title = element_blank(),legend.position = "right")+
   scale_x_discrete(name="Climate scenario")+
   scale_y_continuous(name="Yield dt/ha")+
+  facet_grid(~ period, scales = "free_x", space = "free_x") +
   geom_hline(yintercept = 60, linetype="dashed", )+
   annotate(geom="text", x =  -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
 
@@ -448,12 +464,7 @@ ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
   scale_x_discrete(name="Climate scenario")+
   scale_y_continuous(name="Yield dt/ha")+
   geom_hline(yintercept = 60, linetype="dashed",linewidth=1 )+
-  geom_text(data = summary_df,
-            aes(x = scenario,
-                y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
-                label = paste0(round(percent), "%")),
-            inherit.aes = FALSE,
-            size = 3)+
+  facet_grid(~ period, scales = "free_x", space = "free_x")
   annotate(geom="text", x = -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
 
 
@@ -474,3 +485,5 @@ ggplot(results_yield_all_longer, aes(x=value,fill=name))+
 ggplot(results_yield_all_longer, aes(x=value,fill=name))+
   geom_density()+
   facet_wrap(~scenario, ncol=1)
+
+
