@@ -84,6 +84,8 @@ pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_58
 
 #separate the variable descriptions
 variablen_VIP<-pls_result_today_yield_table$Description
+variablen_VIP[1]<-"Number of days in the crowd phase with\n optimal conditions for photosynthesis"
+variablen_VIP[20]<-"risk for rapid temperature fluctuations\n that harm spear during spear growth"
 
 #extract important values from the PLS results
 VIP_yieldsim1<-pls_result_today_yield_table$VIP
@@ -140,24 +142,26 @@ VIP_and_Coef_yield_threshold_longer$PosNeg<-ifelse(VIP_and_Coef_yield_threshold_
 VIP_and_Coef_yield_threshold_longer$VIP_threshold_corr<-ifelse(VIP_and_Coef_yield_threshold_longer$VIP>=1,VIP_and_Coef_yield_threshold_longer$VIP, NA )
 
 #could read in images as labels for the plot
-labels <- c("today","126", "245", "370","585")
+labels <- c("Year 2020","Year 2075\nSSP1 2.6", "Year 2075\nSSP2 4.5", "Year 2075\nSSP3 7.0","Year 2075\nSSP5 8.5")
 
 #Plot the VIP results
-png("asparagus/Figures/VIP_yield.png", pointsize=10, width=4500, height=6100, res=600)
+png("asparagus/Figures/VIP_yield.png", pointsize=10, width=4500, height=4500, res=600)
 
 ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(variablen_VIP), color = PosNeg, size = VIP_threshold_corr)) +
   geom_point(shape = 16, stroke = 0) +
   geom_hline(yintercept = seq(.5, 30.5, 1), linewidth = .2, color= "gray75") +
   #scale_x_discrete() +
-  scale_radius(range = c(1, 9)) +
+  scale_radius(range = c(1, 9),
+               breaks = c(1,2,3), limits = c(1,3)) +
   scale_color_manual(values = c("negative"="red", "positive"="blue"))  +
   theme_minimal() +
-  theme(legend.position = "bottom", 
+  theme(legend.position = "bottom",
+        legend.direction = "horizontal",
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
         legend.title = element_text(size = 8),
         axis.text = element_text(color = "black"),
-        axis.text.x = ggtext::element_markdown()) +
+        axis.text.x = element_text(angle = 0, vjust = 1, hjust = 0.5)) +
   guides(size = guide_legend(override.aes = list(fill = NA, color = "black", stroke = .25), 
                              label.position = "bottom",
                              title.position = "top", 
@@ -167,8 +171,7 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   scale_x_discrete(labels=labels, position = "top")+
   geom_vline(xintercept = seq(0.5,5.5,1), linewidth=.2, color="gray75")+
   theme(plot.caption = element_text(hjust = 0),
-        plot.caption.position =  "plot")+
-  labs(caption = "*This variable has a negative value. A less negative i.e. higher value positively influences\nthe high-quality yield, as the fruit growth is inhibited less strongly.")
+        plot.caption.position =  "plot")
 
 dev.off()
 ####pls+vip+plot total yield####
@@ -443,6 +446,7 @@ ggplot(results_yield_all_longer, aes(x = scenario, y = value, fill = name)) +
   
   
 
+
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_violin(position = position_dodge(width = 0.8)) +
   geom_boxplot(width=0.1,position = position_dodge(width = 0.8))+
@@ -453,13 +457,13 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_hline(yintercept = 60, linetype="dashed", )+
   annotate(geom="text", x =  -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
 
-
-
 #devtools::install_github("psyteachr/introdataviz")
 library(introdataviz)
+png("asparagus/Figures/split_violin.png", pointsize=10, width=4500, height=3000, res=600)
+
 ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
   geom_split_violin()+
-  geom_boxplot(width=0.5)+
+  geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
   theme(legend.title = element_blank(),legend.position = "top")+
   scale_x_discrete(name="Climate scenario")+
   scale_y_continuous(name="Yield dt/ha")+
@@ -467,7 +471,7 @@ ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
   facet_grid(~ period, scales = "free_x", space = "free_x")
   annotate(geom="text", x = -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
 
-
+dev.off()
 
 # library(ggstance)
 # ggplot(results_yield_all_longer, aes(x=value, fill=name))+
@@ -487,3 +491,51 @@ ggplot(results_yield_all_longer, aes(x=value,fill=name))+
   facet_wrap(~scenario, ncol=1)
 
 
+p1<-results_yield_all_longer %>%
+  filter(period %in% "2020") %>%
+  ggplot( aes(y=value, x=scenario, fill=name))+
+  geom_split_violin()+
+  geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
+  geom_text(data = summary_df%>% filter(scenario == "Year 2020"),
+            aes(x = as.numeric(factor(scenario))-0.3,
+                y = 250,
+                label = paste0(round(percent), "%")),
+            inherit.aes = FALSE,
+            size = 4)+
+  labs(title = "Year 2020")+ 
+  scale_fill_manual(values = c("total_yield" = "#1f77b4", "marketable_yield" = "#ff7f0e"),
+                    labels = c("total_yield" = "Total\nYield", "marketable_yield" = "Marketable\nYield"))+
+  theme_minimal()+
+  theme(legend.title = element_blank(),legend.position = "bottom", axis.title.x = element_blank(), legend.margin = margin(t = -30),
+        plot.title = element_text(hjust = 0.5, size = 10))+
+  scale_y_continuous(name="Yield dt/ha")+
+  coord_cartesian(ylim = c(0, 250))+
+  geom_hline(yintercept = 56.3, linetype="dashed",linewidth=0.5 )+
+  annotate(geom="text", x = -Inf, y=50, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+
+p2<-results_yield_all_longer %>%
+  filter(period %in% "2075") %>%
+  ggplot( aes(y=value, x=scenario, fill=name))+
+  geom_split_violin()+
+  geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
+  geom_text(data = summary_df%>% filter(scenario != "Year 2020"),
+            aes(x = as.numeric(factor(scenario))-0.3,
+                y = 250,
+                label = paste0(round(percent), "%")),
+            inherit.aes = FALSE,
+            size = 4)+
+  labs(title = "Year 2075")+ 
+  theme_minimal()+
+  theme(legend.title = element_blank(),legend.position = "none", axis.title.y = element_blank(), axis.title.x=element_text(margin = margin(t = 10)),
+        plot.title = element_text(hjust = 0.5, size = 10), axis.text.y=element_blank(),
+        panel.border = element_part_rect(side = "l", color = "black", fill = NA, linewidth = 1),plot.margin = margin(1, 1, 1, 1))+
+  scale_x_discrete(name="Climate scenario")+
+  coord_cartesian(ylim = c(0, 250))+ 
+  geom_hline(yintercept = 56.3, linetype="dashed",linewidth=0.5 )
+  annotate(geom="text", x = -Inf, y=50, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+
+png("asparagus/Figures/split_violin_wrap.png", pointsize=10, width=4500, height=3000, res=600)
+
+(p1|p2)+plot_layout(widths = c(1,4))
+
+dev.off()
