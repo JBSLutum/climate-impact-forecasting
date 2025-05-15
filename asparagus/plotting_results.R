@@ -494,7 +494,7 @@ ggplot(results_yield_all_longer, aes(x=value,fill=name))+
 p1<-results_yield_all_longer %>%
   filter(period %in% "2020") %>%
   ggplot( aes(y=value, x=scenario, fill=name))+
-  geom_split_violin()+
+  geom_split_violin(scale="count")+
   geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
   geom_text(data = summary_df%>% filter(scenario == "Year 2020"),
             aes(x = as.numeric(factor(scenario))-0.3,
@@ -503,7 +503,7 @@ p1<-results_yield_all_longer %>%
             inherit.aes = FALSE,
             size = 4)+
   labs(title = "Year 2020")+ 
-  scale_fill_manual(values = c("total_yield" = "#1f77b4", "marketable_yield" = "#ff7f0e"),
+  scale_fill_manual(values = c("total_yield" = "lightblue", "marketable_yield" = "indianred"),
                     labels = c("total_yield" = "Total\nYield", "marketable_yield" = "Marketable\nYield"))+
   theme_minimal()+
   theme(legend.title = element_blank(),legend.position = "bottom", axis.title.x = element_blank(), legend.margin = margin(t = -30),
@@ -516,7 +516,7 @@ p1<-results_yield_all_longer %>%
 p2<-results_yield_all_longer %>%
   filter(period %in% "2075") %>%
   ggplot( aes(y=value, x=scenario, fill=name))+
-  geom_split_violin()+
+  geom_split_violin(scale="count", trim=TRUE)+
   geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
   geom_text(data = summary_df%>% filter(scenario != "Year 2020"),
             aes(x = as.numeric(factor(scenario))-0.3,
@@ -525,6 +525,8 @@ p2<-results_yield_all_longer %>%
             inherit.aes = FALSE,
             size = 4)+
   labs(title = "Year 2075")+ 
+  scale_fill_manual(values = c("total_yield" = "lightblue", "marketable_yield" = "indianred"),
+                    labels = c("total_yield" = "Total\nYield", "marketable_yield" = "Marketable\nYield"))+
   theme_minimal()+
   theme(legend.title = element_blank(),legend.position = "none", axis.title.y = element_blank(), axis.title.x=element_text(margin = margin(t = 10)),
         plot.title = element_text(hjust = 0.5, size = 10), axis.text.y=element_blank(),
