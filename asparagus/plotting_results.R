@@ -7,6 +7,7 @@ library(tidyverse)
 library(decisionSupport)
 library(dplyr)
 library(ggh4x)
+library(introdataviz)
 
 #Prepare formatting functions####
 options(scipen=100000)
@@ -84,8 +85,15 @@ pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_58
 
 #separate the variable descriptions
 variablen_VIP<-pls_result_today_yield_table$Description
-variablen_VIP[1]<-"Number of days in the crowd phase with\n optimal conditions for photosynthesis"
-variablen_VIP[20]<-"risk for rapid temperature fluctuations\n that harm spear during spear growth"
+variablen_VIP[1]<-"Number of days in the crowd phase with\noptimal conditions for photosynthesis"
+variablen_VIP[3]<-"Risk of drought stress during\nvegetative phase (24th of June – Winter)"
+variablen_VIP[15]<-"Yield under perfect conditions for this area"
+variablen_VIP[16]<-"Average season length for this area"
+variablen_VIP[20]<-"risk for rapid temperature fluctuations\nthat harm spear during spear growth"
+variablen_VIP[24]<-"Risk of damage from harvest delays\ndue to excessive heat (harvest start – 24th of June)"
+variablen_VIP[18]<-"Risk of late frost damage during\nharvest (harvest start – 24th of June)"
+variablen_VIP[20]<-"Risk of damage from altering temperatures during\nharvest (harvest start – 24th of June)"
+variablen_VIP[27]<-"Mean soil temperature during\nharvest (Speargrowth start till 24th of June)"
 
 #extract important values from the PLS results
 VIP_yieldsim1<-pls_result_today_yield_table$VIP
@@ -150,7 +158,6 @@ png("asparagus/Figures/VIP_yield.png", pointsize=10, width=4500, height=4500, re
 ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(variablen_VIP), color = PosNeg, size = VIP_threshold_corr)) +
   geom_point(shape = 16, stroke = 0) +
   geom_hline(yintercept = seq(.5, 30.5, 1), linewidth = .2, color= "gray75") +
-  #scale_x_discrete() +
   scale_radius(range = c(1, 9),
                breaks = c(1,2,3), limits = c(1,3)) +
   scale_color_manual(values = c("negative"="red", "positive"="blue"))  +
@@ -161,7 +168,8 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
         legend.text = element_text(size = 8),
         legend.title = element_text(size = 8),
         axis.text = element_text(color = "black"),
-        axis.text.x = element_text(angle = 0, vjust = 1, hjust = 0.5)) +
+        axis.text.x = element_text(angle = 0, vjust = 1, hjust = 0.5),
+        axis.text.y = element_text(hjust = 0)) +
   guides(size = guide_legend(override.aes = list(fill = NA, color = "black", stroke = .25), 
                              label.position = "bottom",
                              title.position = "top", 
@@ -534,7 +542,7 @@ p2<-results_yield_all_longer %>%
   scale_x_discrete(name="Climate scenario")+
   coord_cartesian(ylim = c(0, 250))+ 
   geom_hline(yintercept = 56.3, linetype="dashed",linewidth=0.5 )
-  annotate(geom="text", x = -Inf, y=50, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+  #annotate(geom="text", x = -Inf, y=50, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
 
 png("asparagus/Figures/split_violin_wrap.png", pointsize=10, width=4500, height=3000, res=600)
 

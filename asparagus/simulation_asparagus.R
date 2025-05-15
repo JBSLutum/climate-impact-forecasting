@@ -121,8 +121,6 @@ asparagus_sim<-function(risk_df=NULL){
   #return output----
   return(list(    actual_yield = yield$actual_yield,
                   marketable_yield = yield$marketable_yield,
-                  quality_loss = yield$quality_loss,
-                  growth_pot=gp,
                   water_stress_risk=water_stress_risk,
                   insect_risk=insect_risk,
                   disease_risk=disease_risk,
