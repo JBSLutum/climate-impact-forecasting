@@ -549,3 +549,40 @@ png("asparagus/Figures/split_violin_wrap.png", pointsize=10, width=4500, height=
 (p1|p2)+plot_layout(widths = c(1,4))
 
 dev.off()
+
+
+
+####temperature data####
+#loading yield data
+results_temp_today<-sim_results_today$x
+results_temp_126<-sim_results_126$x
+results_temp_245<-sim_results_245$x
+results_temp_370<-sim_results_370$x
+results_temp_585<-sim_results_585$x
+#adding row for scenario identification
+results_temp_today$scenario<-as.character("Year 2020")
+results_temp_126$scenario<-as.character("Year 2075\nSSP126")
+results_temp_245$scenario<-as.character("Year 2075\nSSP245")
+results_temp_370$scenario<-as.character("Year 2075\nSSP370")
+results_temp_585$scenario<-as.character("Year 2075\nSSP585")
+#all together
+results_temp_all<-rbind(results_temp_today,results_temp_126,results_temp_245,results_temp_370,results_temp_585)
+#rename column
+#names(results_temp_all)<-c()
+#easy ggplot
+'ggplot(results_yield_all, aes(x=scenario, y=total_yield, fill=scenario))+
+  geom_boxplot()'
+#direktvergleich
+results_yield_all_longer<- pivot_longer(results_yield_all, cols = c(total_yield, marketable_yield))
+results_yield_all_longer$name<-factor(results_yield_all_longer$name, levels= c("total_yield","marketable_yield"))
+
+results_yield_all_longer <- results_yield_all_longer %>%
+  mutate(period = ifelse(scenario == "Year 2020", "2020", "2075"))
+results_yield_all_longer$period<- as.factor(results_yield_all_longer$period)
+results_yield_all_longer$scenario<- as.factor(results_yield_all_longer$scenario)
+
+#mittelwerte
+summary_df_temp <- results_temp_all %>%
+  group_by(scenario) %>%
+  summarise(across(where(is.numeric), mean, na.rm = TRUE))
+
