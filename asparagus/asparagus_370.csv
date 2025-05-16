@@ -21,8 +21,8 @@ possible damage done by late frost events during spear growth,frost damage,late_
 risk for rapid temperature fluctuations that harm spear during spear growth,temp fluctuations,temp_fluctuation_risk,tnorm_0_1,0.15,,0.25
 possible damage done by rapid temp fluctuations,damage fluctuations,temp_fluctuation_damage,tnorm_0_1,0.05,,0.15
 risk for heavy rainfall events during harvest time that makes the harvest harder,extreme rain harvest,extreme_rainfall_risk,tnorm_0_1,0.15,,0.3
-Possible damage done by heavy rainfall events ,damage rain,extreme_rainfall_damage,tnorm_0_1,0.05,,0.1
+Possible damage done by heavy rainfall events ,damage rain,extreme_rainfall_damage,tnorm_0_1,0.1,,0.3
 risk for extreme heat events during harvest,extreme heat harvest,extreme_heat_risk,tnorm_0_1,0.15,,0.3
-Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.05,,0.3
+Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.1,,0.3
 Draw of weather generator season,weather season,id,unif,3431,,4369
 Soiltemperature over harvest,mean soil temp,Tsoil_mean,norm,15,,25
