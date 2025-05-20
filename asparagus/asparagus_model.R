@@ -81,12 +81,12 @@ yield_estimate <- function(
 ) {
   #  Base yield under perfect conditions scaled by growth factors
   season_factor <- season_days / standard_season_length
-  #season_factor <- max(min(season_factor, 1), 0)
+  season_factor <- max(min(season_factor, 1), 0.1)
  
   #Soil temperature influence, ideal is 20 degree, temperature over or under are
   #give reduction via Gaussian response function
   T_opt<-20
-  sigma<-2.5
+  sigma<-5
   #Tsoil_mean<-15
   temp_factor<-exp(-((Tsoil_mean - T_opt)^2) / (2 * sigma^2))
   
@@ -96,28 +96,29 @@ yield_estimate <- function(
   
   
   # Quality risk evaluation
-  total_quality_loss <- 0
+  total_quality_loss <- 1
   
+    total_quality_loss <- total_quality_loss * chill
   
-    total_quality_loss <- total_quality_loss + late_frost_occ
+    total_quality_loss <- total_quality_loss -late_frost_occ
   
-    total_quality_loss <- total_quality_loss + temp_fluctuation_occ
+    total_quality_loss <- total_quality_loss -temp_fluctuation_occ
   
-    total_quality_loss <- total_quality_loss + extreme_rainfall_occ
+    total_quality_loss <- total_quality_loss -extreme_rainfall_occ
   
-    total_quality_loss <- total_quality_loss + extreme_heat_occ
+    total_quality_loss <- total_quality_loss -extreme_heat_occ
   
   
   # Cap loss to max 100%
-  total_quality_loss <- min(total_quality_loss, 0.9)
+  total_quality_loss <- max(min(total_quality_loss, 1), 0.1)
   
   # Marketable yield after quality loss
-  marketable_yield <- actual_yield * (1 - total_quality_loss)
+  marketable_yield <- actual_yield * total_quality_loss
   
   # Return output
   return(list(
-    actual_yield = actual_yield/100,
-    marketable_yield = marketable_yield/100,
+    actual_yield = actual_yield/1000,
+    marketable_yield = marketable_yield/1000,
     quality_loss = total_quality_loss
   ))
 }

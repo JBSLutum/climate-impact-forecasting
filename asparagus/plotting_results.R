@@ -87,6 +87,9 @@ pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_58
 variablen_VIP<-pls_result_today_yield_table$Description
 variablen_VIP[1]<-"Number of days in the crowd phase with\noptimal conditions for photosynthesis"
 variablen_VIP[3]<-"Risk of drought stress during\nvegetative phase (24th of June – Winter)"
+variablen_VIP[9]<-"Risk for weather event related stress in crowd phase,\ne.g. heavy winds that breaks plant, heavy rain, hail"
+variablen_VIP[12]<-"Amount of chill portions over winter"
+variablen_VIP[13]<-"Day of the year the temperature induces growth start\n(Spear starts growing at 14 degree soil temp)"
 variablen_VIP[15]<-"Yield under perfect conditions for this area"
 variablen_VIP[16]<-"Average season length for this area"
 variablen_VIP[20]<-"risk for rapid temperature fluctuations\nthat harm spear during spear growth"
@@ -389,6 +392,11 @@ ggplot(VIP_and_Coef_qual_threshold_longer, aes(qualsim, forcats::fct_rev(variabl
 dev.off()
 
 ####yield graphs####
+sim_results_today<-readRDS("asparagus/MC_results/MC_results_today.RDS")
+sim_results_126<-readRDS("asparagus/MC_results/MC_results_126.RDS")
+sim_results_245<-readRDS("asparagus/MC_results/MC_results_245.RDS")
+sim_results_370<-readRDS("asparagus/MC_results/MC_results_370.RDS")
+sim_results_585<-readRDS("asparagus/MC_results/MC_results_585.RDS")
 #loading yield data
 results_marktyield_today<-sim_results_today$y[c(1,2)]
 results_marktyield_126<-sim_results_126$y[c(1,2)]
@@ -397,10 +405,10 @@ results_marktyield_370<-sim_results_370$y[c(1,2)]
 results_marktyield_585<-sim_results_585$y[c(1,2)]
 #adding row for scenario identification
 results_marktyield_today$scenario<-as.character("Year 2020")
-results_marktyield_126$scenario<-as.character("Year 2075\nSSP126")
-results_marktyield_245$scenario<-as.character("Year 2075\nSSP245")
-results_marktyield_370$scenario<-as.character("Year 2075\nSSP370")
-results_marktyield_585$scenario<-as.character("Year 2075\nSSP585")
+results_marktyield_126$scenario<-as.character("Year 2075\nSSP1 2.6")
+results_marktyield_245$scenario<-as.character("Year 2075\nSSP2 4.5")
+results_marktyield_370$scenario<-as.character("Year 2075\nSSP3 7.0")
+results_marktyield_585$scenario<-as.character("Year 2075\nSSP5 8.5")
 #all together
 results_yield_all<-rbind(results_marktyield_today,results_marktyield_126,results_marktyield_245,results_marktyield_370,results_marktyield_585)
 #rename column
@@ -427,7 +435,6 @@ summary_df <- results_yield_all_longer %>%
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_boxplot(position = position_dodge(width = 0.8)) +
-  facet_grid(~period,scales="free_x",space="free_x")+
   geom_text(data = summary_df,
             aes(x = scenario,
                 y = max(results_yield_all_longer$value, na.rm = TRUE) + 1,
@@ -439,9 +446,9 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
         strip.background = element_rect(fill = "lightgrey"),
         strip.text = element_text(size = 12, face = "bold"))+
   scale_x_discrete(name="Climate scenario")+
-  scale_y_continuous(name="Yield dt/ha")+
-  geom_hline(yintercept = 56.3, linetype="dashed", )+
-  annotate(geom="text", x =  -Inf, y=55, label=c("56.3 dt/ha\nYield 2020"), color="black", 
+  scale_y_continuous(name="Yield t/ha")+
+  geom_hline(yintercept = 5.63, linetype="dashed", )+
+  annotate(geom="text", x =  -Inf, y=4, label=c("5.63 t/ha\nYield 2020"), color="black", 
            fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
 
 ggplot(results_yield_all_longer, aes(x = scenario, y = value, fill = name)) +
@@ -460,10 +467,10 @@ ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
   geom_boxplot(width=0.1,position = position_dodge(width = 0.8))+
   theme(legend.title = element_blank(),legend.position = "right")+
   scale_x_discrete(name="Climate scenario")+
-  scale_y_continuous(name="Yield dt/ha")+
+  scale_y_continuous(name="Yield t/ha")+
   facet_grid(~ period, scales = "free_x", space = "free_x") +
   geom_hline(yintercept = 60, linetype="dashed", )+
-  annotate(geom="text", x =  -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
+  annotate(geom="text", x =  -Inf, y=55, label=c("6.0 t/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0,size=3)
 
 #devtools::install_github("psyteachr/introdataviz")
 library(introdataviz)
@@ -474,10 +481,10 @@ ggplot(results_yield_all_longer, aes(y=value, x=scenario, fill=name))+
   geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
   theme(legend.title = element_blank(),legend.position = "top")+
   scale_x_discrete(name="Climate scenario")+
-  scale_y_continuous(name="Yield dt/ha")+
+  scale_y_continuous(name="Yield t/ha")+
   geom_hline(yintercept = 60, linetype="dashed",linewidth=1 )+
   facet_grid(~ period, scales = "free_x", space = "free_x")
-  annotate(geom="text", x = -Inf, y=55, label=c("60 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+  annotate(geom="text", x = -Inf, y=55, label=c("6.0 t/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
 
 dev.off()
 
@@ -506,20 +513,25 @@ p1<-results_yield_all_longer %>%
   geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
   geom_text(data = summary_df%>% filter(scenario == "Year 2020"),
             aes(x = as.numeric(factor(scenario))-0.3,
-                y = 250,
+                y = 15,
                 label = paste0(round(percent), "%")),
             inherit.aes = FALSE,
             size = 4)+
+  geom_text(aes(x = as.numeric(factor(scenario))+0.3,
+                y = 15,
+                label = paste0("mareketable\nyield in %")),
+            inherit.aes = FALSE,
+            size = 3)+
   labs(title = "Year 2020")+ 
   scale_fill_manual(values = c("total_yield" = "lightblue", "marketable_yield" = "indianred"),
                     labels = c("total_yield" = "Total\nYield", "marketable_yield" = "Marketable\nYield"))+
   theme_minimal()+
   theme(legend.title = element_blank(),legend.position = "bottom", axis.title.x = element_blank(), legend.margin = margin(t = -30),
         plot.title = element_text(hjust = 0.5, size = 10))+
-  scale_y_continuous(name="Yield dt/ha")+
-  coord_cartesian(ylim = c(0, 250))+
-  geom_hline(yintercept = 56.3, linetype="dashed",linewidth=0.5 )+
-  annotate(geom="text", x = -Inf, y=50, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+  scale_y_continuous(name="Yield t/ha")+
+  coord_cartesian(ylim = c(0, 15))+
+  geom_hline(yintercept = 5.63, linetype="dashed",linewidth=0.5 )+
+  annotate(geom="text", x = -Inf, y=4, label=c("5.63 t/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
 
 p2<-results_yield_all_longer %>%
   filter(period %in% "2075") %>%
@@ -528,7 +540,7 @@ p2<-results_yield_all_longer %>%
   geom_boxplot(width=0.5,position = position_dodge(width = 0.5))+
   geom_text(data = summary_df%>% filter(scenario != "Year 2020"),
             aes(x = as.numeric(factor(scenario))-0.3,
-                y = 250,
+                y = 15,
                 label = paste0(round(percent), "%")),
             inherit.aes = FALSE,
             size = 4)+
@@ -540,9 +552,9 @@ p2<-results_yield_all_longer %>%
         plot.title = element_text(hjust = 0.5, size = 10), axis.text.y=element_blank(),
         panel.border = element_part_rect(side = "l", color = "black", fill = NA, linewidth = 1),plot.margin = margin(1, 1, 1, 1))+
   scale_x_discrete(name="Climate scenario")+
-  coord_cartesian(ylim = c(0, 250))+ 
-  geom_hline(yintercept = 56.3, linetype="dashed",linewidth=0.5 )
-  #annotate(geom="text", x = -Inf, y=50, label=c("56.3 dt/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
+  coord_cartesian(ylim = c(0, 15))+ 
+  geom_hline(yintercept = 5.63, linetype="dashed",linewidth=0.5 )
+  #annotate(geom="text", x = -Inf, y=5, label=c("5.63 t/ha\nYield 2020"), color="black", fontface="plain",hjust = 0,vjust=1, angle=0, size =3)
 
 png("asparagus/Figures/split_violin_wrap.png", pointsize=10, width=4500, height=3000, res=600)
 

@@ -185,6 +185,7 @@ write.csv(risk_df,"weathergenerator/risk_df.csv")
 
 #combined plot
 risk_df %>% 
+  select(-id)%>% 
   pivot_longer(cols = drought_stress:Tsoil_mean) %>% 
   drop_na() %>% 
   ggplot(aes(fill = ssp, x = value)) +
@@ -192,6 +193,19 @@ risk_df %>%
   facet_wrap(~name, scales = 'free') +
   theme_bw(base_size = 15)
 ggsave('combined_indices.jpeg', height = 15, width = 20, units = 'cm', device = 'jpeg')
+
+risk_df %>% 
+  select(-id, -yday_speargrowth)%>%
+  pivot_longer(cols = c(-ssp,-X)) %>%
+  drop_na() %>% 
+  ggplot(aes(fill = ssp, y = value, x=ssp)) +
+  geom_boxplot(alpha = 0.3) +
+  facet_wrap(~name, scales = 'free') +
+  theme_bw(base_size = 15)+
+  theme(axis.title.x = element_blank(),axis.text.x=element_blank(), legend.position = "bottom")
+ggsave('asparagus/Figures/combined_indices.jpeg', height = 15, width = 20, units = 'cm', device = 'jpeg')
+
+
 
 #speargrowth start is always the same, weird
 #sometimes very little chill, because speargrowth start is sometimes very early

@@ -416,7 +416,10 @@ get_weather_indices <- function(weather,
            #Tmean_foil = (0.3*Tmin + 0.7*Tmax),
            alpha = ifelse(soil_wet, yes = alpha_wet, no = alpha_dry))
   
-  soil_out <- get_Tsoil(Tmean = weather_adj$Tmean,
+  weather_adj <- weather_adj %>%
+    mutate(Tmean_foil = ifelse(yday_plot < 40, 0, Tmean))
+  
+  soil_out <- get_Tsoil(Tmean = weather_adj$Tmean_foil,
                         black_foil_i = foil_i,
                         foil_thres = foil_thres,
                         foil_start = foil_start,
@@ -428,6 +431,8 @@ get_weather_indices <- function(weather,
   weather_adj$T_soil <- soil_out$T_soil
   weather_adj$change_foil <- soil_out$change_foil
   weather_adj$foil <- soil_out$foil
+  
+
   
   # weather_adj %>% 
   #   ggplot(aes(x = yday_plot)) +

@@ -139,10 +139,10 @@ asparagus_sim<-function(risk_df=NULL){
 
 
 ####make_variables####
-'make_variables<-function(est,n=1)
+make_variables<-function(est,n=1)
 { x<-random(rho=est, n=n)
 for(i in colnames(x)) assign(i, as.numeric(x[1,i]),envir=.GlobalEnv)}
 
 make_variables(estimate_read_csv("asparagus/asparagus_today.csv"))
 
-risk_df<-read.csv("weathergenerator/risk_df.csv")'
+risk_df<-read.csv("weathergenerator/risk_df.csv")
