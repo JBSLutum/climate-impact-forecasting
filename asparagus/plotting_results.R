@@ -428,9 +428,12 @@ results_yield_all_longer$scenario<- as.factor(results_yield_all_longer$scenario)
 #mittelwerte
 summary_df <- results_yield_all_longer %>%
   group_by(scenario, name) %>%
-  summarise(mean_value = mean(value, na.rm = TRUE), .groups = "drop") %>%
-  pivot_wider(names_from = name, values_from = mean_value) %>%
-  mutate(percent = (`marketable_yield` / `total_yield`) * 100) 
+  summarise(mean_value = mean(value, na.rm = TRUE),
+            q25 = quantile(value, 0.25, na.rm = TRUE),
+            q75 = quantile(value, 0.75, na.rm = TRUE),.groups = "drop") %>%
+  pivot_wider(names_from = name, values_from = c(mean_value, q25, q75)) %>%
+  mutate(percent = (mean_value_marketable_yield / mean_value_total_yield) * 100,
+         IQR_marketable_yield = q75_marketable_yield - q25_marketable_yield)
 
 
 ggplot(results_yield_all_longer, aes(x=scenario, y=value, fill=name))+
