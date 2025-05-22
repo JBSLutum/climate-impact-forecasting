@@ -85,16 +85,17 @@ pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_58
 
 #separate the variable descriptions
 variablen_VIP<-pls_result_today_yield_table$Description
-variablen_VIP[1]<-"Number of days in the crowd phase with\noptimal conditions for photosynthesis"
+variablen_VIP[1]<-"Number of days in the vegetative phase with\noptimal conditions for photosynthesis"
 variablen_VIP[3]<-"Risk of drought stress during\nvegetative phase (24th of June – Winter)"
-variablen_VIP[9]<-"Risk for weather event related stress in crowd phase,\ne.g. heavy winds that breaks plant, heavy rain, hail"
+variablen_VIP[7]<-"Risk of insect related stress during\nvegetative phase (24th of June – Winter)"
+variablen_VIP[9]<-"Risk of weather event related stress in vegetative phase,\ne.g. heavy winds that breaks plant, heavy rain, hail"
 variablen_VIP[12]<-"Amount of chill portions over winter"
 variablen_VIP[13]<-"Day of the year the temperature induces growth start\n(Spear starts growing at 14 degree soil temp)"
-variablen_VIP[15]<-"Yield under perfect conditions for this area"
+variablen_VIP[15]<-"Mean Yield under perfect conditions for this area"
 variablen_VIP[16]<-"Average season length for this area"
-variablen_VIP[20]<-"risk for rapid temperature fluctuations\nthat harm spear during spear growth"
+variablen_VIP[20]<-"risk of rapid temperature fluctuations\nthat harm spear during spear growth"
 variablen_VIP[24]<-"Risk of damage from harvest delays\ndue to excessive heat (harvest start – 24th of June)"
-variablen_VIP[18]<-"Risk of late frost damage during\nharvest (harvest start – 24th of June)"
+variablen_VIP[18]<-"Risk of damage from late frost during\nharvest (harvest start – 24th of June)"
 variablen_VIP[20]<-"Risk of damage from altering temperatures during\nharvest (harvest start – 24th of June)"
 variablen_VIP[27]<-"Mean soil temperature during\nharvest (Speargrowth start till 24th of June)"
 
@@ -162,7 +163,7 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   geom_point(shape = 16, stroke = 0) +
   geom_hline(yintercept = seq(.5, 30.5, 1), linewidth = .2, color= "gray75") +
   scale_radius(range = c(1, 9),
-               breaks = c(1,2,3), limits = c(1,3)) +
+               breaks = c(1,2,3), limits = c(1,4)) +
   scale_color_manual(values = c("negative"="red", "positive"="blue"))  +
   theme_minimal() +
   theme(legend.position = "bottom",
