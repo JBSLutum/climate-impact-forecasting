@@ -258,9 +258,18 @@ write.csv(example_season, file = 'example_season.csv', row.names = FALSE)
 # ggsave('example_temperature.jpeg', height = 10, width = 15,
 #        unit = 'cm', device = 'jpeg')
 
+library(grid)
+drop(weather_plot)
+weather_combined$Tmean<-weather_combined$Tmax - weather_combined$Tmin
+weather_plot <- weather_combined %>% filter(ssp != "historical") %>% 
+   group_by(yday, gcm, ssp, id) %>%
+   summarise(Mean_Tmax = median(Tmax, na.rm = TRUE), .groups = "drop")
 
-
-
+ggplot(weather_plot, aes(y=Mean_Tmax, x=yday, col=gcm))+
+  geom_line(linewidth=0.5, alpha=0.5)+
+  facet_wrap(~ssp, ncol=2, nrow=2)+
+  theme_minimal()+
+  theme(legend.position = "none")
 
 
 
