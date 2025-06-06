@@ -96,7 +96,7 @@ variablen_VIP[16]<-"Average season length for this area"
 variablen_VIP[20]<-"risk of rapid temperature fluctuations\nthat harm spear during spear growth"
 variablen_VIP[24]<-"Risk of damage from harvest delays\ndue to excessive heat (harvest start – 24th of June)"
 variablen_VIP[18]<-"Risk of damage from late frost during\nharvest (harvest start – 24th of June)"
-variablen_VIP[20]<-"Risk of damage from altering temperatures during\nharvest (harvest start – 24th of June)"
+variablen_VIP[20]<-"Risk of damage from alternating temperatures during\nharvest (harvest start – 24th of June)"
 variablen_VIP[27]<-"Mean soil temperature during\nharvest (Speargrowth start till 24th of June)"
 
 #extract important values from the PLS results
