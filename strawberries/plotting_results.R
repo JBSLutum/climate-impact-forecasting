@@ -163,7 +163,7 @@ ggplot(VIP_and_Coef_yield_threshold_longer, aes(yieldsim, forcats::fct_rev(varia
   geom_point(shape = 16, stroke = 0) +
   geom_hline(yintercept = seq(.5, 30.5, 1), linewidth = .2, color= "gray75") +
   scale_radius(range = c(1, 9),
-               breaks = c(1,2,3), limits = c(0,4)) +
+               breaks = c(1,2,3), limits = c(1,4)) +
   scale_color_manual(values = c("negative"="red", "positive"="blue"))  +
   theme_minimal() +
   theme(legend.position = "bottom",
