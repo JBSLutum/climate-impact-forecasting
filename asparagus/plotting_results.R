@@ -523,7 +523,7 @@ p1<-results_yield_all_longer %>%
             size = 4)+
   geom_text(aes(x = as.numeric(factor(scenario))+0.3,
                 y = 15,
-                label = paste0("mareketable\nyield in %")),
+                label = paste0("marketable\nyield in %")),
             inherit.aes = FALSE,
             size = 3)+
   labs(title = "Year 2020")+ 

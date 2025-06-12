@@ -1,11 +1,13 @@
 source("strawberries/simulation_strawb.R")
 source("functions/various_functions.R")
+source("functions/scenario_mc2.R")
 
 library(decisionSupport)
 
 ####Input data####
 scenario<-read.csv("scenarios.csv",fileEncoding = "UTF-8-BOM")
 strawb_data<-read.csv("strawberries/strawberrie_data.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+base_estimate<-read.csv("strawberries/strawberrie_data.csv")
 
 risk_df<-read.csv("weathergenerator/risk_df.csv")
 
@@ -25,7 +27,7 @@ outputs<-c("water_stress_risk",
 
 
 ####Simulation run: today####
-sim_strawberries<-scenario_mc(base_estimate = strawb_data,
+sim_strawberries<-scenario_mc2(base_estimate = strawb_data,
                               scenarios = scenario,
                               model_function = strawb_sim,
                               numberOfModelRuns = 10000,

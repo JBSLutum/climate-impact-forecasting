@@ -144,7 +144,7 @@ id <- 1495
 risk_df$disease_risk[id]
 
 write.csv(risk_df,"weathergenerator/risk_df.csv")
-#risk_df<-read.csv("weathergenerator/risk_df.csv")
+risk_df<-read.csv("weathergenerator/risk_df.csv")
 
 
 # risk_df %>% 
@@ -205,6 +205,33 @@ risk_df %>%
   theme(axis.title.x = element_blank(),axis.text.x=element_blank(), legend.position = "bottom")
 ggsave('asparagus/Figures/combined_indices.jpeg', height = 15, width = 20, units = 'cm', device = 'jpeg')
 
+risk_df %>% 
+  select(ssp, X,photosynhthesis_day, yday_harvest_star, Tsoil_mean)%>%
+  pivot_longer(cols = c(-ssp,-X)) %>%
+  drop_na() %>% 
+  ggplot(aes(fill = ssp, y = value, x=ssp)) +
+  geom_boxplot(alpha = 0.3) +
+  facet_wrap(~name, scales = 'free', labeller = labeller(name=
+                                                           c("photosynhthesis_day"="Anzahl\nPhotosynthese Tage", 
+                                                             "yday_harvest_star"= "Tage des Jahres\nErntestart",
+                                                             "Tsoil_mean"="Mittlere\nBodentemperatur"))) +
+  theme_bw(base_size = 15)+
+  theme(axis.title.x = element_blank(),axis.text.x=element_blank(), legend.position = "bottom")
+ggsave('asparagus/Figures/weather_grow.jpeg', height = 15, width = 20, units = 'cm', device = 'jpeg')
+
+risk_df %>% 
+  select(ssp, X,frost_risk,heatharvest_risk, insect_risk)%>%
+  pivot_longer(cols = c(-ssp,-X)) %>%
+  drop_na() %>% 
+  ggplot(aes(fill = ssp, y = value, x=ssp)) +
+  geom_boxplot(alpha = 0.3) +
+  facet_wrap(~name, scales = 'free', labeller = labeller(name=
+                                                           c("frost_risk"="Risiko für\nSpätfrost", 
+                                                             "heatharvest_risk"= "Risiko für\nErnteverzögerung\ndurch Hitze",
+                                                             "insect_risk"="Risiko für\nInsektenbefall"))) +
+  theme_bw(base_size = 15)+
+  theme(axis.title.x = element_blank(),axis.text.x=element_blank(), legend.position = "bottom")
+ggsave('asparagus/Figures/weather_risks.jpeg', height = 15, width = 20, units = 'cm', device = 'jpeg')
 
 
 #speargrowth start is always the same, weird
