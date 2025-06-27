@@ -1,6 +1,6 @@
 #calculate stuff for jb
 library(chillR)
-library(tidyverse)
+c
 
 flist <- list.files('weathergenerator/weather/future_weather/', full.names = TRUE)
 
