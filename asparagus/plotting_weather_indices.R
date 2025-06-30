@@ -8,8 +8,8 @@ risk_df<-read.csv("weathergenerator/risk_df.csv")
 r1<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = drought_stress)) +
   geom_boxplot()+
-  ggtitle("Risk for\ndrought stress")+
-  theme_minimal()+
+  ggtitle("Risk for\ndrought stress (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -24,8 +24,8 @@ r1<-risk_df %>%
 r2<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = insect_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\ninsect stress")+
-  theme_minimal()+
+  ggtitle("Risk for\ninsect stress (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -40,8 +40,8 @@ r2<-risk_df %>%
 r3<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = disease_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\ndisease stress")+
-  theme_minimal()+
+  ggtitle("Risk for\ndisease stress (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -56,8 +56,8 @@ r3<-risk_df %>%
 r4<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = risk_rain)) +
   geom_boxplot()+
-  ggtitle("Risk for\nweather event stress")+
-  theme_minimal()+
+  ggtitle("Risk for weather\nevent stress (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -72,8 +72,8 @@ r4<-risk_df %>%
 r5<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = rainharvest_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\nrain harvest delays")+
-  theme_minimal()+
+  ggtitle("Risk for rain\nharvest delays (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -88,8 +88,8 @@ r5<-risk_df %>%
 r6<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = heatharvest_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\nheat harvest delays")+
-  theme_minimal()+
+  ggtitle("Risk for heat\nharvest delays (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -104,8 +104,8 @@ r6<-risk_df %>%
 r7<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = frost_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\nlate frost")+
-  theme_minimal()+
+  ggtitle("Risk for\nlate frost (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -120,8 +120,8 @@ r7<-risk_df %>%
 r8<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = diurnal_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\ntemperature changes")+
-  theme_minimal()+
+  ggtitle("Risk for temperature\nchanges (%/100)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -136,8 +136,8 @@ r8<-risk_df %>%
 g1<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = photosynhthesis_day)) +
   geom_boxplot()+
-  ggtitle("Number of\nphotosynthesis days")+
-  theme_minimal()+
+  ggtitle("Number of\nphotosynthesis days ")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -152,7 +152,7 @@ g2<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = yday_harvest_star)) +
   geom_boxplot()+
   ggtitle("Day of the year\nof harvest start")+
-  theme_minimal()+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -166,8 +166,8 @@ g2<-risk_df %>%
 g3<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = accumulated_chill)) +
   geom_boxplot()+
-  ggtitle("Accumulated chill\nover winter")+
-  theme_minimal()+
+  ggtitle("Accumulated chill\nover winter (CP)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
@@ -181,8 +181,8 @@ g3<-risk_df %>%
 g4<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = Tsoil_mean)) +
   geom_boxplot()+
-  ggtitle("Mean soil temperature\nduring harvest time")+
-  theme_minimal()+
+  ggtitle("Mean soil temperature\nduring harvest time (°C)")+
+  theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
         legend.text = element_text(size = 8),
