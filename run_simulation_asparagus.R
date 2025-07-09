@@ -3,6 +3,8 @@ source("functions/various_functions.R")
 
 library(decisionSupport)
 
+set.seed(1847)
+
 ####Input data####
 scenario_today<-read.csv("asparagus/asparagus_today.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 scenario_126<-read.csv("asparagus/asparagus_126.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
