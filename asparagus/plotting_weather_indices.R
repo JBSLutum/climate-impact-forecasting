@@ -8,7 +8,7 @@ risk_df<-read.csv("weathergenerator/risk_df.csv")
 r1<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = drought_stress)) +
   geom_boxplot()+
-  ggtitle("Risk for\ndrought stress (%/100)")+
+  ggtitle("Risk of\ndrought stress (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -19,12 +19,12 @@ r1<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5, size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r2<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = insect_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\ninsect stress (%/100)")+
+  ggtitle("Risk of\ninsect stress (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -35,12 +35,12 @@ r2<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r3<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = disease_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\ndisease stress (%/100)")+
+  ggtitle("Risk of\ndisease stress (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -51,12 +51,12 @@ r3<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r4<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = risk_rain)) +
   geom_boxplot()+
-  ggtitle("Risk for weather\nevent stress (%/100)")+
+  ggtitle("Risk of weather\nevent stress (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -67,12 +67,12 @@ r4<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r5<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = rainharvest_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for rain\nharvest delays (%/100)")+
+  ggtitle("Risk of rain\nharvest delays (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -83,12 +83,12 @@ r5<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r6<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = heatharvest_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for heat\nharvest delays (%/100)")+
+  ggtitle("Risk of heat\nharvest delays (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -99,12 +99,12 @@ r6<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r7<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = frost_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for\nlate frost (%/100)")+
+  ggtitle("Risk of\nlate frost (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -115,12 +115,12 @@ r7<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 r8<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = diurnal_risk)) +
   geom_boxplot()+
-  ggtitle("Risk for temperature\nchanges (%/100)")+
+  ggtitle("Risk of temperature\nchanges (%/100)")+
   theme_bw()+
   theme(legend.position = "none", 
         panel.grid.major = element_blank(),
@@ -131,7 +131,7 @@ r8<-risk_df %>%
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
   scale_y_continuous(limits = c(0, 1.0))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 g1<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = photosynhthesis_day)) +
@@ -146,7 +146,7 @@ g1<-risk_df %>%
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 g2<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = yday_harvest_star)) +
@@ -161,7 +161,7 @@ g2<-risk_df %>%
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 g3<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = accumulated_chill)) +
@@ -176,7 +176,7 @@ g3<-risk_df %>%
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 g4<-risk_df %>%
   ggplot(aes(fill = ssp, x = ssp , y = Tsoil_mean)) +
@@ -191,7 +191,7 @@ g4<-risk_df %>%
         axis.title.x = element_blank(),
         axis.title.y = element_blank(),
         plot.title = element_text(hjust = 0.5,size = 10))+
-  labs(fill="Szenarios")
+  labs(fill="Scenarios")
 
 # Extrahiere NUR die Legende
 
