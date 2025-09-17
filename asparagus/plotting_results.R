@@ -29,6 +29,7 @@ remove_y <- theme(
 remove_y_only_title<-theme(axis.title.y = element_blank())
 remove_x_only_title<-theme(axis.title.x = element_blank())
 
+####data####
 #read saved Monte Carlo simulation results
 sim_results_today<-readRDS("asparagus/MC_results/MC_results_today.RDS")
 sim_results_126<-readRDS("asparagus/MC_results/MC_results_126.RDS")
@@ -46,6 +47,8 @@ sim_126_input<- read.csv("asparagus/asparagus_126.csv", colClasses = c("characte
 sim_245_input<- read.csv("asparagus/asparagus_245.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 sim_370_input<- read.csv("asparagus/asparagus_370.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 sim_585_input<- read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+
+sim_input<- read.csv("asparagus/asparagus_input_all.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 
 #delete rows with NA
 'sim_results_today$y <- sim_results_today$y[complete.cases(sim_results_today$x), ]
@@ -75,11 +78,11 @@ pls_result_585_yield <- plsr.mcSimulation(object = sim_results_585,
 
 
 #restructure PLS results
-pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_today_input, threshold = 0)
-pls_result_126_yield_table<-VIP_table(pls_result_126_yield, input_table = sim_126_input, threshold = 0)
-pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_245_input, threshold = 0)
-pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_370_input, threshold = 0)
-pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_585_input, threshold = 0)
+pls_result_today_yield_table<-VIP_table(pls_result_today_yield, input_table = sim_input, threshold = 0)
+pls_result_126_yield_table<-VIP_table(pls_result_126_yield, input_table = sim_input, threshold = 0)
+pls_result_245_yield_table<-VIP_table(pls_result_245_yield, input_table = sim_input, threshold = 0)
+pls_result_370_yield_table<-VIP_table(pls_result_370_yield, input_table = sim_input, threshold = 0)
+pls_result_585_yield_table<-VIP_table(pls_result_585_yield, input_table = sim_input, threshold = 0)
 
 
 

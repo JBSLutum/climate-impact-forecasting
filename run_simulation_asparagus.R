@@ -11,6 +11,9 @@ scenario_126<-read.csv("asparagus/asparagus_126.csv", colClasses = c("character"
 scenario_245<-read.csv("asparagus/asparagus_245.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 scenario_370<-read.csv("asparagus/asparagus_370.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 scenario_585<-read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+
+input<-read.csv("asparagus/asparagus_input.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+
 risk_df<-read.csv("weathergenerator/risk_df.csv")
 
 id_df<-read.csv("asparagus/scenarios.csv")
@@ -32,7 +35,7 @@ outputs<-c("water_stress_risk",
 
 id<-as.numeric(id_df$today)
 ####Simulation run: today####
-sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
+sim_today<-mcSimulation(estimate = as.estimate(input),
                         model_function = asparagus_sim,
                         numberOfModelRuns = 10000,
                         functionSyntax = "plainNames",
@@ -47,12 +50,14 @@ sim_today_output<-youtputs_to_xinputs(sim_today, outputs)
 saveRDS(sim_today_output, "asparagus/MC_results/MC_results_today.RDS")
 write.csv(sim_today_output, "asparagus/MC_results/MC_results_today.csv")
 
+id<-as.numeric(id_df$ssp1)
 ####Simulation run: ssp126####
-sim_126<-mcSimulation(estimate = as.estimate(scenario_126),
+sim_126<-mcSimulation(estimate = as.estimate(input),
                         model_function = asparagus_sim,
                         numberOfModelRuns = 10000,
                         functionSyntax = "plainNames",
-                        risk_df)
+                        risk_df,
+                        id)
 
 
 sim_126_output<-youtputs_to_xinputs(sim_126, outputs)
@@ -62,13 +67,14 @@ sim_126_output<-youtputs_to_xinputs(sim_126, outputs)
 saveRDS(sim_126_output, "asparagus/MC_results/MC_results_126.RDS")
 write.csv(sim_126_output, "asparagus/MC_results/MC_results_126.csv")
 
-
+id<-as.numeric(id_df$ssp2)
 ####Simulation run: ssp245####
-sim_245<-mcSimulation(estimate = as.estimate(scenario_245),
+sim_245<-mcSimulation(estimate = as.estimate(input),
                       model_function = asparagus_sim,
                       numberOfModelRuns = 10000,
                       functionSyntax = "plainNames",
-                      risk_df)
+                      risk_df,
+                      id)
 
 sim_245_output<-youtputs_to_xinputs(sim_245, outputs)
 #sim_245_output<-sim_245
@@ -76,12 +82,14 @@ sim_245_output<-youtputs_to_xinputs(sim_245, outputs)
 saveRDS(sim_245_output, "asparagus/MC_results/MC_results_245.RDS")
 write.csv(sim_245_output, "asparagus/MC_results/MC_results_245.csv")
 
+id<-as.numeric(id_df$ssp3)
 ####Simulation run: ssp370####
-sim_370<-mcSimulation(estimate = as.estimate(scenario_370),
+sim_370<-mcSimulation(estimate = as.estimate(input),
                       model_function = asparagus_sim,
                       numberOfModelRuns = 10000,
                       functionSyntax = "plainNames",
-                      risk_df)
+                      risk_df,
+                      id)
 
 sim_370_output<-youtputs_to_xinputs(sim_370, outputs)
 #sim_370_output<-sim_370
@@ -90,12 +98,14 @@ sim_370_output<-youtputs_to_xinputs(sim_370, outputs)
 saveRDS(sim_370_output, "asparagus/MC_results/MC_results_370.RDS")
 write.csv(sim_370_output, "asparagus/MC_results/MC_results_370.csv")
 
+id<-as.numeric(id_df$ssp5)
 ####Simulation run: ssp585####
-sim_585<-mcSimulation(estimate = as.estimate(scenario_585),
+sim_585<-mcSimulation(estimate = as.estimate(input),
                       model_function = asparagus_sim,
                       numberOfModelRuns = 10000,
                       functionSyntax = "plainNames",
-                      risk_df)
+                      risk_df,
+                      id)
 
 
 sim_585_output<-youtputs_to_xinputs(sim_585, outputs)
