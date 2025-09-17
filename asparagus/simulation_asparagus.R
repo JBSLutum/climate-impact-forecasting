@@ -3,7 +3,7 @@ source("asparagus/asparagus_model.R")
 ####
 
 #Simulation run####
-asparagus_sim<-function(risk_df=NULL){
+asparagus_sim<-function(risk_df=NULL,id){
   
     #variable initiation----
   
@@ -11,9 +11,11 @@ asparagus_sim<-function(risk_df=NULL){
   #calculated weather variables are drawn randomly from a dataframe with
   #weather seasons from a weather generator, each scenario has at least 1400
   #seasons [id]
-  id <- abs(floor(id))
-  if (id==0){id<-1}
-  if (id>6200){id<-6200}
+  # id <- abs(floor(id))
+  # if (id==0){id<-1}
+  # if (id>6200){id<-6200}
+  id=runif(n=1,min=id[1], max=id[2])
+  id=round(id)
   
   water_stress_risk <- risk_df$drought_stress[id]
   insect_risk <- risk_df$insect_risk[id]
@@ -135,7 +137,8 @@ asparagus_sim<-function(risk_df=NULL){
                   temp_fluctuation_risk=temp_fluctuation_risk,
                   extreme_rainfall_risk=extreme_rainfall_risk,
                   extreme_heat_risk=extreme_heat_risk,
-                  Tsoil_mean=Tsoil_mean
+                  Tsoil_mean=Tsoil_mean,
+                  id=id
                   ))
 }
 

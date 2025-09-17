@@ -13,6 +13,9 @@ scenario_370<-read.csv("asparagus/asparagus_370.csv", colClasses = c("character"
 scenario_585<-read.csv("asparagus/asparagus_585.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
 risk_df<-read.csv("weathergenerator/risk_df.csv")
 
+id_df<-read.csv("asparagus/scenarios.csv")
+
+
 outputs<-c("water_stress_risk",
            "insect_risk",
            "disease_risk",
@@ -27,13 +30,14 @@ outputs<-c("water_stress_risk",
            "extreme_heat_risk",
            "Tsoil_mean")
 
-
+id<-as.numeric(id_df$today)
 ####Simulation run: today####
 sim_today<-mcSimulation(estimate = as.estimate(scenario_today),
                         model_function = asparagus_sim,
                         numberOfModelRuns = 10000,
                         functionSyntax = "plainNames",
-                        risk_df)
+                        risk_df,
+                        id)
 
 
 sim_today_output<-youtputs_to_xinputs(sim_today, outputs)
