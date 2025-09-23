@@ -11,6 +11,8 @@ base_estimate <- as.estimate(
   variable = "id"
 )
 
+input<-read.csv("asparagus/asparagus_input.csv", colClasses = c("character", "character", "character", "character", "numeric", "character","numeric"), sep = ",", dec = ".")
+
 # 2) Szenarien einlesen (wichtig: als Zahlen, getrimmt)
 scenarios <- read_csv("asparagus/scenarios.csv", show_col_types = FALSE, trim_ws = TRUE)
 
@@ -22,8 +24,20 @@ asparagus_sim <- function(scenarios) {
     id_range <- as.numeric(c(scenarios[[scen]]))
     
     id_draw <- runif(n=1,min=id_range[1], max=id_range[2])
-    id_draw=round(id_draw)
-    output[[paste0("yield_",scen)]]<-id_draw
+    id=round(id_draw)
+    
+    out2 <- risk_df[id,1]
+    out3 <- risk_df[id,2]
+    
+    vars<-c("id",
+              "out2",
+               "out3")
+    
+    outs<-list(id,
+            out2,
+            out3)
+    
+    output[paste0(vars,"_",scen)]<-outs
   }
     
   return(output)
