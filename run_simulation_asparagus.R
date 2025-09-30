@@ -134,3 +134,14 @@ sim_scenarios_output<-youtputs_to_xinputs_scenarios(sim_scenarios, outputs)
 saveRDS(sim_scenarios_output, "asparagus/MC_results/MC_results_scenarios.RDS")
 write.csv(sim_scenarios_output, "asparagus/MC_results/MC_results_scenarios.csv")
 
+
+# #####plot trys####
+# plot_distributions(mcSimulation_object = sim_scenarios_output,
+#                                     vars = c("marketable_yield_today", "marketable_yield_ssp1", "marketable_yield_ssp2", "marketable_yield_ssp3", "marketable_yield_ssp5"),
+#                                     method = "boxplot",
+#                                     #method = "smooth_simple_overlay",
+#                                     #old_names = c("NPV_Treeless_System", "NPV_Agroforestry_System"),
+#                                     #new_names = c("Monoculture (baseline)", "Agroforestry with current funding"),
+#                                     x_axis_name = "Scenario",
+#                                     y_axis_name = "Yield")
+# sim_scenarios_output$y$marketable_yield_ssp1
