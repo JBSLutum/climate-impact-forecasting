@@ -1,0 +1,14 @@
+Description,label,variable,distribution,lower,median,upper
+Number of days in the crowd phase the plant needs with optimal conditions for photosynthesis ,PAD_need,photosynthetic_active_days_needed,posnorm,95,,105
+Possible damage done by drought,damage drought,water_stress_damage,tnorm_0_1,0.1,,0.3
+Possible damage done by diesease,damage disease,disease_damage,tnorm_0_1,0.1,,0.3
+Possible damage done by insects,damage insects,insect_damage,tnorm_0_1,0.1,,0.3
+Possible damage done by weather events,damage weather events,weather_damage,tnorm_0_1,0.1,,0.3
+Amount of chill needed by plant for optimal field emergence,chill need,chill_need,posnorm,40,,60
+optimal yield for area,standard yield,expected_yield,posnorm,8000,,12000
+optimal season length for area,standard season,expected_season_length,posnorm,60,,80
+"Day of the year for the 24th of june, traditonal season end",season end,season_end_doy,posnorm,175,,176
+possible damage done by late frost events during spear growth,frost damage,late_frost_damage,tnorm_0_1,0.1,,0.3
+possible damage done by rapid temp fluctuations,damage fluctuations,temp_fluctuation_damage,tnorm_0_1,0.1,,0.3
+Possible damage done by heavy rainfall events ,damage rain,extreme_rainfall_damage,tnorm_0_1,0.1,,0.3
+Possible damage of extreme heat events during harvest,damage heat,extreme_heat_damage,tnorm_0_1,0.1,,0.3
