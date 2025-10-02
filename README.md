@@ -5,7 +5,7 @@ The goal of this project is to simulate the impacts of climate change for three 
 
 This rep will consist of four main folders:
 * [weather generator](https://github.com/JBSLutum/climate-impact-forecasting/tree/main/weathergenerator)
-* [asparagus](https://github.com/JBSLutum/climate-impact-forecasting/tree/main/asparagus)
+* [asparagus](htmlpreview.github.io/?https://github.com/JBSLutum/climate-impact-forecasting/blob/main/Index_asparagus.html)
 * crop 2 (berries)
 * crop 3 (cabbage)
 
