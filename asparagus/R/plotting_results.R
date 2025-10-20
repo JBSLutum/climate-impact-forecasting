@@ -396,17 +396,25 @@ ggplot(VIP_and_Coef_qual_threshold_longer, aes(qualsim, forcats::fct_rev(variabl
 dev.off()
 
 ####yield graphs####
-sim_results_today<-readRDS("asparagus/MC_results/MC_results_today.RDS")
-sim_results_126<-readRDS("asparagus/MC_results/MC_results_126.RDS")
-sim_results_245<-readRDS("asparagus/MC_results/MC_results_245.RDS")
-sim_results_370<-readRDS("asparagus/MC_results/MC_results_370.RDS")
-sim_results_585<-readRDS("asparagus/MC_results/MC_results_585.RDS")
-#loading yield data
-results_marktyield_today<-sim_results_today$y[c(1,2)]
-results_marktyield_126<-sim_results_126$y[c(1,2)]
-results_marktyield_245<-sim_results_245$y[c(1,2)]
-results_marktyield_370<-sim_results_370$y[c(1,2)]
-results_marktyield_585<-sim_results_585$y[c(1,2)]
+# sim_results_today<-readRDS("asparagus/MC_results/MC_results_today.RDS")
+# sim_results_126<-readRDS("asparagus/MC_results/MC_results_126.RDS")
+# sim_results_245<-readRDS("asparagus/MC_results/MC_results_245.RDS")
+# sim_results_370<-readRDS("asparagus/MC_results/MC_results_370.RDS")
+# sim_results_585<-readRDS("asparagus/MC_results/MC_results_585.RDS")
+sim_results_scen<-readRDS("asparagus/MC_results/MC_results_scenarios.RDS")
+# #loading yield data old
+# results_marktyield_today<-sim_results_today$y[c(1,2)]
+# results_marktyield_126<-sim_results_126$y[c(1,2)]
+# results_marktyield_245<-sim_results_245$y[c(1,2)]
+# results_marktyield_370<-sim_results_370$y[c(1,2)]
+# results_marktyield_585<-sim_results_585$y[c(1,2)]
+
+results_marktyield_today<-sim_results_scen$y %>% select(ends_with("_today")) %>% rename_with(~ str_remove(.x, "_today"))  
+results_marktyield_126<-sim_results_scen$y %>% select(ends_with("_ssp1")) %>% rename_with(~ str_remove(.x, "_ssp1"))
+results_marktyield_245<-sim_results_scen$y %>% select(ends_with("_ssp2")) %>% rename_with(~ str_remove(.x, "_ssp2"))
+results_marktyield_370<-sim_results_scen$y %>% select(ends_with("_ssp3")) %>% rename_with(~ str_remove(.x, "_ssp3"))
+results_marktyield_585<-sim_results_scen$y %>% select(ends_with("_ssp5")) %>% rename_with(~ str_remove(.x, "_ssp5"))
+
 #adding row for scenario identification
 results_marktyield_today$scenario<-as.character("Year 2020")
 results_marktyield_126$scenario<-as.character("Year 2075\nSSP1 2.6")
@@ -416,13 +424,13 @@ results_marktyield_585$scenario<-as.character("Year 2075\nSSP5 8.5")
 #all together
 results_yield_all<-rbind(results_marktyield_today,results_marktyield_126,results_marktyield_245,results_marktyield_370,results_marktyield_585)
 #rename column
-names(results_yield_all)<-c("total_yield", "marketable_yield", "scenario")
+names(results_yield_all)<-c("total_yield", "marketable_yield", "id", "scenario")
 #easy ggplot
 'ggplot(results_yield_all, aes(x=scenario, y=total_yield, fill=scenario))+
   geom_boxplot()'
 #direktvergleich
 results_yield_all_longer<- pivot_longer(results_yield_all, cols = c(total_yield, marketable_yield))
-results_yield_all_longer$name<-factor(results_yield_all_longer$name, levels= c("total_yield","marketable_yield"))
+results_yield_all_longer$name<-factor(results_yield_all_longer$name, levels= c("1","2"))
 
 results_yield_all_longer <- results_yield_all_longer %>%
   mutate(period = ifelse(scenario == "Year 2020", "2020", "2075"))
