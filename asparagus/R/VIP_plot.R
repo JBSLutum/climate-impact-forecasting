@@ -1,7 +1,8 @@
 library(dplyr)
 library(ggplot2)
 library(patchwork)
-
+library(decisionSupport)
+library(stringr)
 # -----------------------------
 # Funktion: VIP_table
 # -----------------------------
@@ -56,7 +57,7 @@ labels <- c(
   "photosynthetic_active_days" = "gute Photosynthesetage",
   "weather_damage_risk" = "Risiko: Schäden durch Extremwetter",
   "growth_start_doy" = "Start des Stangenwuchs (Tag des Jahres)",
-  "speargrowth" = "Tage bis zur ersten Enrte",
+  "speargrowth" = "Tage bis zur ersten Ernte",
   "chill_portions" = "Kältebedarfsdeckung über den Winter",
   "late_frost_risk" = "Risiko: Schäden durch Spätfrost",
   "temp_fluctuation_risk" = "Risiko: Schäden durch Temperaturumschwünge",
@@ -163,7 +164,7 @@ names(results) <- scenarios
 # # -----------------------------
 # # Einzelplot (Beispiel ssp370)
 # # -----------------------------
-# results[["ssp3"]]$plot
+results[["ssp3"]]$plot
 # -----------------------------
 # Theme für plots
 # -----------------------------
