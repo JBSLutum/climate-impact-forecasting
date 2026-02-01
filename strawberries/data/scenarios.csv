@@ -1,0 +1,3 @@
+Variable,param,today,ssp1,ssp2,ssp3,ssp5
+id,lower,1,101,1601,3201,4601
+id,upper,100,1600,3200,4600,6200

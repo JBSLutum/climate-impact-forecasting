@@ -1,5 +1,6 @@
 #calculate stuff for jb
 library(chillR)
+library(tidyverse)
 c
 
 flist <- list.files('weathergenerator/weather/future_weather/', full.names = TRUE)
@@ -61,6 +62,7 @@ source('functions/weather_indices_function.R')
 
 weather_info <- read.csv('weathergenerator/weather/weather-station-info.csv')
 lat <- weather_info$lat[1]
+
 example_season <- read.csv('weathergenerator/example_season.csv')
 
 #test for one season
