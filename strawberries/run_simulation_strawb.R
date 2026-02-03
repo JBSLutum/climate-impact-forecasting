@@ -53,5 +53,9 @@ saveRDS(sim_scenarios_output, "strawberries/MC_results/MC_results_scenarios.RDS"
 write.csv(sim_scenarios_output, "strawberries/MC_results/MC_results_scenarios.csv")
 
 source("strawberries/R/plot_yield_asparagus.R")
-library(tidyverse)
+source("strawberries/R/VIP_plot.R")
 plot_yield_asparagus(sim_scenarios_output)
+VIP_plot(sim_scenarios_output)
+
+
+

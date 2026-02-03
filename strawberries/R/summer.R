@@ -14,18 +14,24 @@ summer<-function(
   } else {
     potential <- pad / 100  # Scale proportionally
   }
+  potential <- max(min(potential, 1.2), 0.1)
+  sigma<-5
+  # Apply damage reductions if they occurred
+  temp_factor<-exp(-((summer_mean_temp - 10)^2) / (2 * sigma^2))
+  potential <- 1 + temp_factor
   
   # Apply damage reductions if they occurred
   
-  potential <- potential *(1-summer_disease_occ)
+  potential <- potential -summer_disease_occ
   
-  potential <- potential  *(1-summer_insect_occ)
+  potential <- potential  -summer_insect_occ
   
-  potential <- potential  *(1-summer_drought_stress_occ)
+  potential <- potential  -summer_drought_stress_occ
+  
   
   
   # Ensure potential stays within [0, 1]
-  potential <- max(min(potential, 2), 0.1)
+  potential <- max(min(potential, 1.3), 0.1)
   
   return(potential)
 }

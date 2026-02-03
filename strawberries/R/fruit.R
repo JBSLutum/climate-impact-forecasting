@@ -30,7 +30,7 @@ fruit<-function(
   quality <- quality  * (1-fruit_frost_occ)
   
   # Ensure potential stays within [0, 1]
-  quality <- max(min(quality, 2), 0.1)
+  quality <- max(min(quality, 1.3), 0.01)
   
   return(quality)
 }

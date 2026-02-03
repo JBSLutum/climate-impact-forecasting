@@ -1,22 +1,22 @@
 Description,label,variable,distribution,lower,median,upper
-Number of days in the crowd phase the plant needs with optimal conditions for photosynthesis ,PAD_need,photosynthetic_active_days_needed,posnorm,25,,35
+Number of days in the crowd phase the plant needs with optimal conditions for photosynthesis ,PAD_need,photosynthetic_active_days_needed,posnorm,20,,30
 Amount of chill needed by plant for optimal field emergence,chill need,chill_need,posnorm,40,,60
-optimal yield for area,standard yield,expected_yield,posnorm,25000,,28000
-Mean Temp Optimum when fruits ripe,Toptimum fruit,T_opt_fruit,posnorm,14,,15
-summer_drought_stress_dmg,summer_drought_stress_dmg,summer_drought_stress_dmg,tnorm_0_1,0.1,,0.3
-summer_insect_dmg,summer_insect_dmg,summer_insect_dmg,tnorm_0_1,0.1,,0.3
-summer_disease_dmg,summer_disease_dmg,summer_disease_dmg,tnorm_0_1,0.1,,0.3
-spring_disease_dmg,spring_disease_dmg,spring_disease_dmg,tnorm_0_1,0.1,,0.3
-spring_frost_dmg,spring_frost_dmg,spring_frost_dmg,tnorm_0_1,0.1,,0.3
-fruit_frost_dmg,fruit_frost_dmg,fruit_frost_dmg,tnorm_0_1,0.1,,0.3
-fruit_drought_stress_dmg,fruit_drought_stress_dmg,fruit_drought_stress_dmg,tnorm_0_1,0.1,,0.3
-fruit_hail_dmg,fruit_hail_dmg,fruit_hail_dmg,tnorm_0_1,0.1,,0.3
-fruit_sunburn_dmg,fruit_sunburn_dmg,fruit_sunburn_dmg,tnorm_0_1,0.1,,0.3
-fruit_insect_dmg,fruit_insect_dmg,fruit_insect_dmg,tnorm_0_1,0.1,,0.3
-fruit_disease_dmg,fruit_disease_dmg,fruit_disease_dmg,tnorm_0_1,0.1,,0.3
-fruit_snail_dmg,fruit_snail_dmg,fruit_snail_dmg,tnorm_0_1,0.1,,0.3
-harvest_frost_dmg,harvest_frost_dmg,harvest_frost_dmg,tnorm_0_1,0.1,,0.3
-harvest_heat_dmg,harvest_heat_dmg,harvest_heat_dmg,tnorm_0_1,0.1,,0.3
-harvest_hail_dmg,harvest_hail_dmg,harvest_hail_dmg,tnorm_0_1,0.1,,0.3
-harvest_rain_dmg,harvest_rain_dmg,harvest_rain_dmg,tnorm_0_1,0.1,,0.3
-harvest_fly_dmg,harvest_fly_dmg,harvest_fly_dmg,tnorm_0_1,0.1,,0.3
+optimal yield for area,standard yield,expected_yield,posnorm,30000,,32000
+Mean Temp Optimum when fruits ripe,Toptimum fruit,T_opt_fruit,posnorm,13,,14
+summer_drought_stress_dmg,summer_drought_stress_dmg,summer_drought_stress_dmg,tnorm_0_1,0.1,,0.5
+summer_insect_dmg,summer_insect_dmg,summer_insect_dmg,tnorm_0_1,0.1,,0.5
+summer_disease_dmg,summer_disease_dmg,summer_disease_dmg,tnorm_0_1,0.1,,0.5
+spring_disease_dmg,spring_disease_dmg,spring_disease_dmg,tnorm_0_1,0.1,,0.5
+spring_frost_dmg,spring_frost_dmg,spring_frost_dmg,tnorm_0_1,0.1,,0.5
+fruit_frost_dmg,fruit_frost_dmg,fruit_frost_dmg,tnorm_0_1,0.1,,0.5
+fruit_drought_stress_dmg,fruit_drought_stress_dmg,fruit_drought_stress_dmg,tnorm_0_1,0.1,,0.5
+fruit_hail_dmg,fruit_hail_dmg,fruit_hail_dmg,tnorm_0_1,0.1,,0.5
+fruit_sunburn_dmg,fruit_sunburn_dmg,fruit_sunburn_dmg,tnorm_0_1,0.1,,0.5
+fruit_insect_dmg,fruit_insect_dmg,fruit_insect_dmg,tnorm_0_1,0.1,,0.5
+fruit_disease_dmg,fruit_disease_dmg,fruit_disease_dmg,tnorm_0_1,0.1,,0.5
+fruit_snail_dmg,fruit_snail_dmg,fruit_snail_dmg,tnorm_0_1,0.1,,0.5
+harvest_frost_dmg,harvest_frost_dmg,harvest_frost_dmg,tnorm_0_1,0.3,,0.5
+harvest_heat_dmg,harvest_heat_dmg,harvest_heat_dmg,tnorm_0_1,0.3,,0.5
+harvest_hail_dmg,harvest_hail_dmg,harvest_hail_dmg,tnorm_0_1,0.3,,0.5
+harvest_rain_dmg,harvest_rain_dmg,harvest_rain_dmg,tnorm_0_1,0.3,,0.5
+harvest_fly_dmg,harvest_fly_dmg,harvest_fly_dmg,tnorm_0_1,0.3,,0.5

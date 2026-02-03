@@ -12,8 +12,12 @@ harvest <- function(standard_yield,
                     harvest_fly_occ,
                     harvest_mean_temp)
 {
+  sigma<-5
+  # Apply damage reductions if they occurred
+  temp_factor<-exp(-((harvest_mean_temp - 18)^2) / (2 * sigma^2))
+  
   actual_yield <-
-    standard_yield * yield_potential * chill * bloom_potential * fruit_quality
+    standard_yield * yield_potential * chill * bloom_potential * fruit_quality * temp_factor
   
   
   
@@ -21,7 +25,7 @@ harvest <- function(standard_yield,
   # Quality risk evaluation
   total_quality_loss <- 1
   
-  total_quality_loss <- total_quality_loss * chill
+  #total_quality_loss <- total_quality_loss * chill
   
   total_quality_loss <- total_quality_loss - harvest_rain_occ
   
@@ -43,8 +47,8 @@ harvest <- function(standard_yield,
   # Return output
   return(
     list(
-      actual_yield = actual_yield,
-      marketable_yield = marketable_yield,
+      actual_yield = actual_yield/1000,
+      marketable_yield = marketable_yield/1000,
       quality_loss = total_quality_loss
     )
   )
