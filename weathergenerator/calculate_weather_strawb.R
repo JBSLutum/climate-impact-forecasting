@@ -19,7 +19,7 @@ future_weather <- purrr::map(1:length(flist), function(i){
            scenario_year = name_split[[1]][[5]],
            yday = lubridate::yday(DATE),
            #add season, new season starts june 24
-           season = ifelse(yday >= 175,
+           season = ifelse(yday >= 213,
                            yes = Year  +1,
                            no = Year)) %>% 
     return()

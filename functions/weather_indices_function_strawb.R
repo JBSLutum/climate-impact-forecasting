@@ -253,7 +253,7 @@ get_photosynthesis_days <- function(Tmean, Prec,
 
 get_weather_indices <- function(weather,
                                 latitude,
-                                photosynday_temp_lower = 14,
+                                photosynday_temp_lower = 15,
                                 photosynday_temp_upper = 30,
                                 photosynday_prec_max = 15,
                                 rain_cutoff=1,
@@ -263,13 +263,13 @@ get_weather_indices <- function(weather,
                                 diseaserisk_temp_lower = 15,
                                 diseaserisk_temp_upper = 25,
                                 diseaserisk_prec_min = 5,
-                                diseaserisk_day_consec = 3,
+                                diseaserisk_day_consec = 5,
                                 diseaserisk_risk_initial = 0.1,
                                 diseaserisk_risk_follow = 0.05,
                                 insectrisk_temp_lower = 20,
                                 insectrisk_temp_upper = 30,
                                 insectrisk_prec_max = 5,
-                                insectrisk_day_consec = 3,
+                                insectrisk_day_consec = 5,
                                 insectrisk_risk_initial = 0.1,
                                 insectrisk_risk_follow = 0.05,
                                 rainrisk_prec_strong = 30,
@@ -319,7 +319,7 @@ get_weather_indices <- function(weather,
            Tmean = (Tmin + Tmax) / 2)
   #summer parameters####
   weather_summer<-weather_adj %>% 
-    filter(yday_plot > -121 & yday_plot < 0) %>% 
+    filter(yday_plot > -151 & yday_plot < -59) %>% 
     mutate(
       summer_drought_stress_risk = get_drought_stress_factor(Prec,
                                                               day_consec_dry = droughtstress_consec_dry,

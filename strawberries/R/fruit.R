@@ -14,7 +14,7 @@ fruit<-function(
   sigma<-5
   # Apply damage reductions if they occurred
   temp_factor<-exp(-((fruit_mean_temp - T_opt_fruit)^2) / (2 * sigma^2))
-  quality <- 1 + temp_factor
+  quality <- 1 * temp_factor
   quality <- quality * (1-fruit_snail_occ)
   
   quality <- quality  * (1-fruit_disease_occ)

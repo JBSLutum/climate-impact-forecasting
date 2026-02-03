@@ -17,8 +17,8 @@ summer<-function(
   potential <- max(min(potential, 1.2), 0.1)
   sigma<-5
   # Apply damage reductions if they occurred
-  temp_factor<-exp(-((summer_mean_temp - 10)^2) / (2 * sigma^2))
-  potential <- 1 + temp_factor
+  temp_factor<-exp(-((summer_mean_temp - 15)^2) / (2 * sigma^2))
+  potential <- 1 * temp_factor
   
   # Apply damage reductions if they occurred
   
