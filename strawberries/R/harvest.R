@@ -25,7 +25,7 @@ harvest <- function(standard_yield,
   # Quality risk evaluation
   total_quality_loss <- 1
   
-  #total_quality_loss <- total_quality_loss * chill
+  total_quality_loss <- total_quality_loss * chill
   
   total_quality_loss <- total_quality_loss - harvest_rain_occ
   
@@ -39,7 +39,7 @@ harvest <- function(standard_yield,
   
   
   # Cap loss to max 100%
-  total_quality_loss <- max(min(total_quality_loss, 0.9), 0.1)
+  total_quality_loss <- max(min(total_quality_loss, 1), 0.1)
   
   # Marketable yield after quality loss
   marketable_yield <- actual_yield * total_quality_loss

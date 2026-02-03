@@ -18,5 +18,5 @@ fruit_snail_dmg,fruit_snail_dmg,fruit_snail_dmg,tnorm_0_1,0.1,,0.5
 harvest_frost_dmg,harvest_frost_dmg,harvest_frost_dmg,tnorm_0_1,0.3,,0.5
 harvest_heat_dmg,harvest_heat_dmg,harvest_heat_dmg,tnorm_0_1,0.3,,0.5
 harvest_hail_dmg,harvest_hail_dmg,harvest_hail_dmg,tnorm_0_1,0.3,,0.5
-harvest_rain_dmg,harvest_rain_dmg,harvest_rain_dmg,tnorm_0_1,0.3,,0.5
-harvest_fly_dmg,harvest_fly_dmg,harvest_fly_dmg,tnorm_0_1,0.3,,0.5
+harvest_rain_dmg,harvest_rain_dmg,harvest_rain_dmg,tnorm_0_1,0.1,,0.3
+harvest_fly_dmg,harvest_fly_dmg,harvest_fly_dmg,tnorm_0_1,0.4,,0.5

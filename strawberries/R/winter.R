@@ -16,8 +16,8 @@ winter <- function(required_chill, actual_chill, winter_mean_temp) {
   
   if (winter_mean_temp <= 4) {
     warm_penalty <- 1.1
-  } else if (winter_mean_temp <= 7) {
-    warm_penalty <- 1 - 0.3 * (winter_mean_temp - 4) / 3
+  } else if (winter_mean_temp <= 8) {
+    warm_penalty <- 1 - 0.2 * (winter_mean_temp - 4) / 3
     # linearer Abzug bis max -0.1
   } else {
     warm_penalty <- 0.7
