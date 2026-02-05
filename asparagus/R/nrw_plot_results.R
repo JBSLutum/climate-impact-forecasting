@@ -17,14 +17,15 @@ pixel_df <- read.csv('weathergenerator/pixel_id.csv')
 
 
 #
-mean_yield <- read.csv('asparagus/MC_results_NRW/means/sim_mean_compare_nrw.csv')
+mean_yield <- read.csv('asparagus/MC_results_NRW/means/sim_mean_market_nrw.csv')
 
 #merge with row id
+#merge with row id
 merge(mean_yield, pixel_df, by = 'id') %>% 
-  select(-X, -temperature) %>% 
-  pivot_longer(cols = ssp1:ssp5, names_to = 'scenario') %>% 
-  mutate(scen_pretty = factor(scenario, levels = c('ssp1', 'ssp2', 'ssp3', 'ssp5'),
-                              labels = c('SSP1', 'SSP2', 'SSP3', 'SSP5'))) %>% 
+  dplyr::select(-X, -temperature) %>% 
+  pivot_longer(cols = today, names_to = 'scenario') %>% 
+  mutate(scen_pretty = factor(scenario, levels = c('today', 'ssp1', 'ssp2', 'ssp3', 'ssp5'),
+                              labels = c('Mittlerer Spargelertrag 2020', 'SSP1', 'SSP2', 'SSP3', 'SSP5'))) %>% 
   #raster::rasterFromXYZ() %>% 
   ggplot() +
   geom_raster(aes(x = lon, y = lat, fill = value)) +
@@ -33,7 +34,7 @@ merge(mean_yield, pixel_df, by = 'id') %>%
   geom_sf(data = netherland, fill = NA)+
   geom_sf(data = belgium, fill = NA)+
   coord_sf(xlim = c(5.7, 9.5), ylim = c(50.3, 52.6)) +
-  scale_fill_viridis_c() +
+  scale_fill_viridis_c(name="Mittlerer\nErtrag [dt/ha]") +
   ylab('Latitude') +
   xlab('Longitude') +
   # north arrow
@@ -62,4 +63,57 @@ merge(mean_yield, pixel_df, by = 'id') %>%
   theme(
     legend.position = "bottom"
   )
-ggsave('plot_maps.jpeg', height = 20, width = 25, units = 'cm', device = 'jpeg')
+ggsave('asparagus/Figures/baseline_map.jpeg', height = 20, width = 25, units = 'cm', device = 'jpeg')
+
+
+library(colorRamps)
+
+diff_data <- merge(mean_yield, pixel_df, by = 'id') %>% 
+  dplyr::select(-X, -temperature) %>% 
+  pivot_longer(cols = ssp1:ssp5, names_to = 'scenario') %>% 
+  mutate(scen_pretty = factor(scenario, levels = c('ssp1', 'ssp2', 'ssp3', 'ssp5'),
+                              labels = c('SSP1', 'SSP2', 'SSP3', 'SSP5')),
+         diff = value - today)  
+#raster::rasterFromXYZ() %>% 
+
+rng <- range(diff_data$diff)
+
+diff_data %>% 
+  ggplot() +
+  geom_raster(aes(x = lon, y = lat, fill = diff)) +
+  geom_sf(data = germany_states, fill = NA) +
+  #geom_sf(data = germany, fill = NA, lwd = 1.2) +
+  geom_sf(data = netherland, fill = NA)+
+  geom_sf(data = belgium, fill = NA)+
+  coord_sf(xlim = c(5.7, 9.5), ylim = c(50.3, 52.6)) +
+  scale_fill_viridis_c(name = "Differenz im\nMittlerem Ertrag [dt/ha]") +
+  #scale_fill_gradientn(colours = matlab.like(15))
+  ylab('Latitude') +
+  xlab('Longitude') +
+  # north arrow
+  ggspatial::annotation_north_arrow(
+    location = "tr",      # top right
+    which_north = "true",
+    height = unit(1.2, "cm"),
+    width  = unit(1.2, "cm"),
+    pad_x = unit(1, "cm"),
+    pad_y = unit(5, "cm"),
+    style = ggspatial::north_arrow_fancy_orienteering
+  ) +
+  
+  # scale bar
+  ggspatial::annotation_scale(
+    location = "bl",      # bottom left
+    width_hint = 0.25,    # how wide the scale bar is relative to plot width
+    line_width = 0.7,
+    text_cex = 0.9,
+    pad_x = unit(4, "cm"),
+    pad_y = unit(0.2, "cm")
+  ) +
+  facet_wrap(~scen_pretty) +
+  #facet_grid(~scen_pretty) +
+  theme_bw() +
+  theme(
+    legend.position = "bottom"
+  )
+ggsave('asparagus/Figures/plot_diff_maps.jpeg', height = 20, width = 25, units = 'cm', device = 'jpeg')
