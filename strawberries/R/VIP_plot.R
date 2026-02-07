@@ -291,7 +291,8 @@ VIP_plot <- function(sim_results, scen_codes = scenario_order_codes, include_unl
   p <- ggplot(vip_combined, aes(x = "VIP", y = Variable_spaced)) +
     geom_point(
       aes(size = VIP),
-      shape = 21, fill="firebrick", colour = "white", stroke = 0.35
+      shape = 16,            # Solider Punkt statt 21
+      colour = "firebrick"   # Farbe direkt auf den Punkt (nicht fill)
     ) +
     facet_wrap(~ scenario_label, nrow = 1, scales = "fixed") +
     scale_size_continuous(
