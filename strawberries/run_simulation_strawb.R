@@ -2,6 +2,7 @@ source("strawberries/R/strawb_sim_scen.R")
 source("strawberries/R/youtputs_to_xinputs_scenarios.R")
 
 library(decisionSupport)
+library(tidyverse)
 
 set.seed(1847)
 
@@ -46,7 +47,24 @@ outputs<-c("summer_drought_stress_risk",
            "harvest_hail_risk",
            "harvest_rain_risk",
            "harvest_fly_risk",
-           "harvest_mean_temp")
+           "harvest_mean_temp",
+           "summer_drought_stress_occ",
+           "summer_insect_occ",
+           "summer_disease_occ",
+           "spring_disease_occ",
+           "spring_frost_occ",
+           "fruit_frost_occ",
+           "fruit_drought_stress_occ",
+           "fruit_hail_occ" ,
+           "fruit_sunburn_occ" ,
+           "fruit_insect_occ",
+           "fruit_disease_occ" ,
+           "fruit_snail_occ" ,
+           "harvest_frost_occ",
+           "harvest_heat_occ" ,
+           "harvest_hail_occ" ,
+           "harvest_rain_occ" ,
+           "harvest_fly_occ" )
 
 sim_scenarios_output<-youtputs_to_xinputs_scenarios(sim_scenarios, outputs)
 saveRDS(sim_scenarios_output, "strawberries/MC_results/MC_results_scenarios.RDS")
@@ -57,5 +75,5 @@ source("strawberries/R/VIP_plot.R")
 plot_yield_asparagus(sim_scenarios_output)
 VIP_plot(sim_scenarios_output)
 
-
-
+source("strawberries/R/yield_reduction_plot_strawb.R")
+yield_reduction_plot_strawb(sim_scenarios_output)

@@ -221,7 +221,24 @@ strawb_sim_scen<-function(...,risk_df=NULL,scenarios=NULL){
       harvest_rain_risk=harvest_rain_risk,
       harvest_fly_risk=harvest_fly_risk,
       harvest_mean_temp=harvest_mean_temp,
-      id=id
+      id=id,
+      summer_drought_stress_occ=summer_drought_stress_occ,
+      summer_insect_occ=summer_insect_occ,
+      summer_disease_occ=summer_disease_occ,
+      spring_disease_occ=spring_disease_occ,
+      spring_frost_occ=spring_frost_occ,
+      fruit_frost_occ=fruit_frost_occ,
+      fruit_drought_stress_occ=fruit_drought_stress_occ,
+      fruit_hail_occ =fruit_hail_occ,
+      fruit_sunburn_occ =fruit_sunburn_occ,
+      fruit_insect_occ=fruit_insect_occ,
+      fruit_disease_occ =fruit_disease_occ,
+      fruit_snail_occ =fruit_snail_occ,
+      harvest_frost_occ=harvest_frost_occ,
+      harvest_heat_occ =harvest_heat_occ,
+      harvest_hail_occ =harvest_hail_occ,
+      harvest_rain_occ =harvest_rain_occ,
+      harvest_fly_occ =harvest_fly_occ
     )
     vars <- c("actual_yield",
               "marketable_yield",
@@ -254,7 +271,24 @@ strawb_sim_scen<-function(...,risk_df=NULL,scenarios=NULL){
               "harvest_rain_risk",
               "harvest_fly_risk",
               "harvest_mean_temp",
-              "id")
+              "id",
+              "summer_drought_stress_occ",
+              "summer_insect_occ",
+              "summer_disease_occ",
+              "spring_disease_occ",
+              "spring_frost_occ",
+              "fruit_frost_occ",
+              "fruit_drought_stress_occ",
+              "fruit_hail_occ" ,
+              "fruit_sunburn_occ" ,
+              "fruit_insect_occ",
+              "fruit_disease_occ" ,
+              "fruit_snail_occ" ,
+              "harvest_frost_occ",
+              "harvest_heat_occ" ,
+              "harvest_hail_occ" ,
+              "harvest_rain_occ", 
+              "harvest_fly_occ" )
     
     output[paste0(vars,"_",scen)]<-outs
   }
