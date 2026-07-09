@@ -91,8 +91,15 @@ ggplot() +
   geom_sf(data = netherland, fill = NA)+
   geom_sf(data = belgium, fill = NA)+
   coord_sf(xlim = c(5.7, 9.5), ylim = c(50.3, 52.6)) +
-  scale_fill_viridis_c(name = "Differenz im\nMittlerem Ertrag [t/ha]") +
+  #scale_fill_viridis_c(name = "Differenz im\nMittlerem Ertrag [t/ha]") +
   #scale_fill_gradientn(colours = matlab.like(15))
+  scale_fill_gradient2(
+    name = "Differenz im\nMittleren Ertrag [t/ha]",
+    low  = "#3B4CC0" ,  # dunkles Blau
+    mid  = "white",
+    high = "#B40426"  , # dunkles Rot
+    midpoint = 0
+  )
   ylab('Latitude') +
   xlab('Longitude') +
   # north arrow

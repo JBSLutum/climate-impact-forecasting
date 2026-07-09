@@ -39,7 +39,7 @@ merge(mean_yield, pixel_df, by = 'id') %>%
   xlab('Longitude') +
   # north arrow
   ggspatial::annotation_north_arrow(
-    location = "tr",      # top right
+    location = "br",      # top right
     which_north = "true",
     height = unit(1.2, "cm"),
     width  = unit(1.2, "cm"),
@@ -61,7 +61,12 @@ merge(mean_yield, pixel_df, by = 'id') %>%
   #facet_grid(~scen_pretty) +
   theme_bw() +
   theme(
-    legend.position = "bottom"
+    legend.position = "bottom",
+    legend.title = element_text(size = 14),
+    legend.text  = element_text(size = 12),
+    strip.text   = element_text(size = 14),   # Facet-Titel
+    axis.title   = element_text(size = 14),
+    axis.text    = element_text(size = 12)
   )
 ggsave('asparagus/Figures/baseline_map.jpeg', height = 20, width = 25, units = 'cm', device = 'jpeg')
 
@@ -86,10 +91,18 @@ diff_data %>%
   geom_sf(data = netherland, fill = NA)+
   geom_sf(data = belgium, fill = NA)+
   coord_sf(xlim = c(5.7, 9.5), ylim = c(50.3, 52.6)) +
-  scale_fill_viridis_c(name = "Differenz im\nMittlerem Ertrag [dt/ha]") +
+  #scale_fill_viridis_c(name = "Differenz im\nMittlerem Ertrag [dt/ha]") +
   #scale_fill_gradientn(colours = matlab.like(15))
-  ylab('Latitude') +
-  xlab('Longitude') +
+  scale_fill_gradient2(
+    name = "Differenz im\nMittleren Ertrag [dt/ha]",
+    low  = "#3B4CC0" ,  # dunkles Blau
+    mid  = "white",
+    high = "#B40426"  , # dunkles Rot
+    midpoint = 0
+  )+
+  #ylab('Latitude') +
+  #xlab('Longitude') +
+  labs(x = NULL, y = NULL)+
   # north arrow
   ggspatial::annotation_north_arrow(
     location = "tr",      # top right
@@ -114,6 +127,12 @@ diff_data %>%
   #facet_grid(~scen_pretty) +
   theme_bw() +
   theme(
-    legend.position = "bottom"
+    legend.position = "bottom",
+    legend.title = element_text(size = 14),
+    legend.text  = element_text(size = 12),
+    strip.text   = element_text(size = 14),
+    axis.title = element_blank(),
+    axis.text  = element_blank(),
+    axis.ticks = element_blank()
   )
 ggsave('asparagus/Figures/plot_diff_maps.jpeg', height = 20, width = 25, units = 'cm', device = 'jpeg')

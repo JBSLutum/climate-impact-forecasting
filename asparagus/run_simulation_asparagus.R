@@ -69,3 +69,9 @@ sim_scenarios_output_voi <- data.frame(sim_scenarios_output$x %>% select(-matche
 evpi_today <- multi_EVPI(mc = sim_scenarios_output_voi, 
                         first_out_var = "npv")
 plot_evpi(evpi_today, decision_vars = "npv")
+
+source("asparagus/R/plot_yield_asparagus_app.R")
+plot_yield_asparagus(sim_scenarios_output)
+sim_scenarios_output<-readRDS("asparagus/MC_results/MC_results_scenarios.RDS")
+source("asparagus/R/VIP_plot_app.R")
+VIP_plot(sim_scenarios_output)
